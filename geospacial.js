@@ -1,3 +1,6 @@
+const https = require('https');
+require('./env.js');  // comment out for production
+
 // Source: https://gist.github.com/clauswitt/1604972
 const getDistance = function(start, end) {
   const earthRadius = 6371.008;
@@ -23,4 +26,24 @@ const getDistance = function(start, end) {
 
 // getDistance({latitude: 39.72122192, longitude: -80.51956177},{latitude: 40.02198029, longitude: -79.90330505}); // for testing
 
+const getCoords = (addressData) => {
+  let body = '';
+  let req = https.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + addressData + '&key=' + process.env.googleAPIKey, function(res) {
+    res.on('data', function(data) {
+      body += data;
+    });
+    res.on('end', function() {
+      let result = JSON.parse(body);
+      let coords = result.results[0].geometry.location;
+      return coords;
+    });
+  });
+
+  req.on('error', function(e) {
+    console.error(e);
+  });
+};
+// getCoords('15351');  // for testing
+
+module.exports.getCoords = getCoords;
 module.exports.getDistance = getDistance;

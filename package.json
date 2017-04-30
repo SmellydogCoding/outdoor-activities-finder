@@ -1,0 +1,24 @@
+{
+  "name": "outdoor-activities-finder",
+  "version": "1.0.0",
+  "description": "Locate outdoor activities in your area",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmellydogCoding/outdoor-activities-finder.git"
+  },
+  "author": "Smellydog Coding",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SmellydogCoding/outdoor-activities-finder/issues"
+  },
+  "homepage": "https://github.com/SmellydogCoding/outdoor-activities-finder#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "morgan": "^1.8.1"
+  }
+}
