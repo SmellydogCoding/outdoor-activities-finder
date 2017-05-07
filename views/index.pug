@@ -1,5 +1,14 @@
-form(action="/" method="post")
-  input(type="text" name="zip")
-  input(type="text" name="radius")
-  input(type="text" name="activity")
-  input(type="submit" value="submit")
+include ./partials/_head.pug
+body
+  form(action="/" method="post")
+    input(type="text" name="address" placeholder="address")
+    input(type="text" name="city" placeholder="city")
+    input(type="text" name="state" placeholder="state")
+    br
+    input(type="text" name="zip" placeholder="zip")
+    br
+    input(type="text" name="radius" placeholder="radius")
+    br
+    input(type="text" name="activity" placeholder="activity")
+    br
+    input(type="submit" value="submit")

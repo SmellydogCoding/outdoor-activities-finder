@@ -20,7 +20,6 @@ const getDistance = (start, end) => {
   let d = earthRadius * c;
   let kilometers = Math.round(d * Math.pow(10, 2)) / Math.pow(10, 2);
   let miles = Math.round(kilometers * .621371);
-  console.log(miles);
   return miles;
 };
 
