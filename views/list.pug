@@ -1,2 +1,6 @@
-each coord in result
-  p #{coord}
+include ./partials/_head.pug
+body
+  table
+    each item in places
+      tr
+        td #{item.name}

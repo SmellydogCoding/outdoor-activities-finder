@@ -12,21 +12,20 @@ router.post('/', (req, res, next) => {
   let radius = req.body.radius;
 
   let getUserCoords = geospacial.getCoords(req.body.zip);
-  getUserCoords.then((result) => {
-    res.status(200).render('list', {result});
+  getUserCoords.then((coords) => {
+    let startLat = coords.lat;
+    let startLon = coords.lng;
+    trailapi.getPlaces({lat: startLat, lon: startLon, activity: activity, radius: radius}).then((places) => {
+      // for (let p = 0; i < placeList.places.length; p++) {
+      //   placeList.places[p].distance = geospacial.getDistance({latitude: userCoords.latitude, longitude: userCoords.longitude},{latitude: placeList.places[p].lat, longitude: placeList.places[p].lat})
+      // }
+      res.status(200).render('list', {places: places.places, title: "Places"});
+      // res.status(200).json(places);
+    });
   });
 });
-    // userCoords.latitude = coords.lat;
-    // userCoords.longitude = coords.lng;
-    // console.log(coords);
-    // res.render('list', {places: coords});
-  // }, (reject) => {
-  //   console.log(reject);
-  // });
-//     trailapi.getPlaces({lat: coords.lat, lon: coords.lng, activity: activity, radius: radius}).then((placeList) => {
-//       for (let p = 0; i < placeList.places.length; p++) {
-//         placeList.places[p].distance = geospacial.getDistance({latitude: userCoords.latitude, longitude: userCoords.longitude},{latitude: placeList.places[p].lat, longitude: placeList.places[p].lat})
-//       }
+    
+    
 //       places = placelist.places.sort((a,b) => {
 //         return a.distance - b.distance;
 //       });
