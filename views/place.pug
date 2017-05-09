@@ -1,0 +1,8 @@
+include ./partials/_head.pug
+body
+  each item in place
+    p
+      span #{item.name} 
+      span #{item.distance} 
+      span #{item.lat} 
+      span #{item.lon}

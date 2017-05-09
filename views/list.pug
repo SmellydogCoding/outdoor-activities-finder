@@ -1,7 +1,9 @@
 include ./partials/_head.pug
 body
-  table
-    each item in places
-      tr
-        td #{item.name}
-        td #{item.distance}
+  each item in places
+    a(href="/place?lat=" + item.lat + "&lon=" + item.lon + "&name=" + item.name)
+      p
+        span #{item.name} 
+        span #{item.distance} 
+        span #{item.lat} 
+        span #{item.lon} 

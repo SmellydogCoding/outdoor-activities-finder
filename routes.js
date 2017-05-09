@@ -42,4 +42,11 @@ router.post('/', (req, res, next) => {
   });
 });
 
+router.get('/place', (req, res, next) => {
+  trailapi.getPlaces({lat: req.query.lat, lon: req.query.lon, radius: .01}).then((place) => {
+      res.status(200).render('place', {place: place.places, title: req.query.name});
+      // res.json(place);
+    });
+});
+
 module.exports = router;

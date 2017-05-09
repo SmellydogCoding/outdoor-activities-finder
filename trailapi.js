@@ -5,11 +5,17 @@ const getPlaces = (placeData) => {
   return new Promise((resolve,reject) => {
     let body = '';
 
-    const options = {
+    let options = {
       hostname: 'trailapi-trailapi.p.mashape.com',
-      path: '/?lat=' + placeData.lat + '&lon=' + placeData.lon + '&q[activities_activity_type_name_eq]=' + placeData.activity + '&q[country_cont]=United+States&radius=' + placeData.radius,
+      path: "",
       headers: {'X-Mashape-Key': process.env.trailAPIKey}
     };
+
+    if (placeData.radius === .01) {
+      options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lon + '&radius=' + placeData.radius;
+    } else {
+      options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lon + '&q[activities_activity_type_name_eq]=' + placeData.activity + '&q[country_cont]=United+States&radius=' + placeData.radius
+    }
 
     let req = https.get(options, function(res) {
       res.on('data', function(data) {
