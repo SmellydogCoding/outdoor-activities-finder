@@ -1,0 +1,53 @@
+include ./partials/_head.pug
+body
+  div.row
+    div.large-12.columns
+      div.panel
+        h1 The Header and Nav Bar
+  div.row
+    div.large-12.columns
+      each place in places
+        div.row
+          div.large-10.columns
+            div.large-6.columns
+              p
+                strong #{place.name}
+                br 
+                | #{place.city}, #{place.state}
+            div.large-6.columns
+              p Distance: #{place.distance} miles
+            div.row
+              div.large-12.columns
+                h5 Activities
+            each activity in place.activities
+              div.row
+                div.large-2.columns.small-3
+                  img(src="https:/placehold.it/50x50&text=[img]")
+                div.large-10.columns
+                  p #{activity.description}
+        hr
+  footer.row
+    div.large-12.columns
+      hr
+      div.row
+        div.large-5.columns
+          p &copy; Copyright no one at all. Go to town.
+        div.large-7.columns
+          ul.inline-list.right
+            li
+              a(href="#") Section 1
+            li
+              a(href="#") Section 2
+            li
+              a(href="#") Section 3
+            li
+              a(href="#") Section 4
+            li
+              a(href="#") Section 5
+            li
+              a(href="#") Section 6
+  //- script src="https://code.jquery.com/jquery-2.1.4.min.js"/script
+  //- script src="https://cdnjs.cloudflare.comjaxbs/foundation/5.5.3/js/foundation.min.js"/script
+  //- script
+  //-       $(document).foundation();
+  //-     /script
