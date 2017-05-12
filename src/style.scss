@@ -1,0 +1,84 @@
+.row {
+  max-width: 90%;
+}
+
+// Margin Adjustments
+
+.m-y-0 {
+ margin-top: 0 !important;
+ margin-bottom: 0 !important;
+}
+
+.m-t-0 {
+ margin-top: 0 !important;
+}
+
+.m-b-0 {
+ margin-bottom: 0 !important;
+}
+
+.m-t-05 {
+ margin-top: 0.5em !important;
+}
+
+.m-b-05 {
+ margin-bottom: 0.5em !important;
+}
+
+$white: #fff;
+$primary-color: #333;
+
+// Padding Adjustments
+
+.p-t-1 {
+ padding-top: 1.0em !important;
+}
+
+.p-b-1 {
+ padding-bottom: 1.0em !important;
+}
+
+.p-y-1 {
+ padding-top: 1.0em !important;
+ padding-bottom: 1.0em !important;
+}
+
+.p-y-05 {
+ padding-top: 0.5em !important;
+ padding-bottom: 0.5em !important;
+}
+
+/* Search Bar */
+
+.floated-label-wrapper {
+  position: relative;
+
+  label {
+    background: $white;
+    color: $primary-color;
+    font-size: 0.75rem;
+    font-weight: 600;
+    left: 0.75rem;
+    opacity: 0;
+    padding: 0 0.25rem;
+    position: absolute;
+    top: 2rem;
+    transition: all 0.15s ease-in;
+    z-index: -1;
+
+    input[type=text],
+    input[type=email],
+    input[type=password] {
+      border-radius: 4px;
+      font-size: 1.75em;
+      padding: 0.5em;
+    }
+
+    &.show {
+      opacity: 1;
+      top: -0.85rem;
+      z-index: 1;
+      transition: all 0.15s ease-in;
+    }
+  }
+}

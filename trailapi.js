@@ -13,8 +13,10 @@ const getPlaces = (placeData) => {
 
     if (placeData.radius === .01) {
       options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lon + '&radius=' + placeData.radius;
+    } else if (placeData.activity === "all") {
+      options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lon + '&q[country_cont]=United+States&radius=' + placeData.radius;
     } else {
-      options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lon + '&q[activities_activity_type_name_eq]=' + placeData.activity + '&q[country_cont]=United+States&radius=' + placeData.radius
+      options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lon + '&q[activities_activity_type_name_eq]=' + placeData.activity + '&q[country_cont]=United+States&radius=' + placeData.radius;
     }
 
     let req = https.get(options, function(res) {

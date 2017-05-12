@@ -4,7 +4,7 @@ const geospacial = require('./geospacial.js');
 const trailapi = require('./trailapi.js');
 
 router.get('/', (req, res, next) => {
-  res.render('index');
+  res.render('index', {title: 'Outdoor Activity Locator'});
 });
 
 router.post('/', (req, res, next) => {
@@ -37,7 +37,8 @@ router.post('/', (req, res, next) => {
         return a.distance - b.distance;
       });
 
-      res.status(200).render('places', {places: places, title: "Places"});
+      // res.status(200).render('places', {places: places, title: "Places"});
+      res.status(200).json(places);
     });
   });
 });
