@@ -49,8 +49,4 @@ router.get('/place', (req, res, next) => {
     });
 });
 
-router.get('/test', (req, res, next) => {
-    res.status(200).render('feed', {title: 'test'});
-});
-
 module.exports = router;

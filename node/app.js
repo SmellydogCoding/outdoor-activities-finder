@@ -30,7 +30,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(morgan('dev'));
 
 // setup our static route to serve files from the "public" folder
-app.use('/', express.static('public'));
+app.use('/', express.static('dist/public'));
 
 // pug template engine
 app.set('view engine','pug');

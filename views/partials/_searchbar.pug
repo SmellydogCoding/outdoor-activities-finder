@@ -1,6 +1,6 @@
 div.row
   div.large-12.columns
-    div.panel
+    div.callout.primary
       h5 Search for Places
       form.text-center(action="/" method="POST" @submit.prevent)
         div.row
@@ -83,4 +83,4 @@ div.row
               option(value="snow+sports") Snow Sports
               option(value="caving") Caving
           div.large-2.columns
-            button.button.postfix(@click="getPlaces") Search
+            button.button.expanded(@click="getPlaces") Search
