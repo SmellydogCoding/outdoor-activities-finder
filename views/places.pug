@@ -1,0 +1,32 @@
+include ./partials/_head.pug
+body
+  include ./partials/_nav.pug
+  div#places
+    include ./partials/_searchbar.pug
+    div.large-12.columns
+      div.row
+        h3.text-center Results
+        hr
+        each place in places
+          div.large-12.columns
+            a.places-results(href="/place?lat=" + place.lat + "&lon=" + place.lon)
+              div.row
+                div.large-10.columns
+                  div.large-6.columns
+                    p
+                      strong #{place.name}
+                      br 
+                      | #{place.city}, #{place.state}
+                  div.large-6.columns
+                    p Distance: #{place.distance} miles
+                  div.row
+                    div.large-12.columns
+                      h5 Activities
+                  each activity in place.activities
+                    div.row
+                      div.large-2.columns.small-3
+                        img(src="https:/placehold.it/50x50&text=[img]")
+                      div.large-10.columns
+                        p #{activity.description}
+              hr
+  include ./partials/_footer.pug

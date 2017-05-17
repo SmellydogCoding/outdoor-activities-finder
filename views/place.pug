@@ -1,8 +1,23 @@
 include ./partials/_head.pug
 body
-  each item in place
-    p
-      span #{item.name} 
-      span #{item.distance} 
-      span #{item.lat} 
-      span #{item.lon}
+  include ./partials/_nav.pug
+  div.large-12.columns
+    div.row
+      div.large-10.columns
+        div.large-6.columns
+          p
+            strong #{place.name}
+            br 
+            | #{place.city}, #{place.state}
+        div.large-6.columns
+          p Distance: #{place.distance} miles
+        div.row
+          div.large-12.columns
+            h5 Activities
+        div.row
+          each activity in place.activities
+            div.large-2.columns.small-3
+              img(src="https:/placehold.it/50x50&text=[img]")
+            div.large-10.columns
+              p #{activity.description}
+    include ./partials/_footer.pug

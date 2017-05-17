@@ -102,9 +102,9 @@ function server(done) {
 
 // Watch for changes to static assets, pages, Sass, and JavaScript
 function watch() {
-  gulp.watch(PATHS.assets, copyBackend);
+  gulp.watch(PATHS.nodejs, copyBackend);
   gulp.watch(PATHS.views, copyViews);
-  gulp.watch('scss/**/*.scss').on('all', sass);
+  gulp.watch('scss/**/*.scss').on('all', gulp.series(sass));
   gulp.watch('static/js/**/*.js').on('all', gulp.series(javascript));
   gulp.watch('static/img/**/*').on('all', gulp.series(images));
 }

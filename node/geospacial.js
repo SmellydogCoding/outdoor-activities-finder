@@ -39,7 +39,7 @@ const getCoords = (addressData) => {
       });
       req.on('error', (error) => {
         reject(error);
-        console.error(error);
+        console.error('getCoords: ' + error);
       });
     });
   });

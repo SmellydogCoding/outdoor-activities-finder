@@ -32,7 +32,7 @@ const getPlaces = (placeData) => {
 
     req.on('error', function(error) {
       reject(error);
-      console.error(error);
+      console.error('trailAPI: ' + error);
     });
   });
 };

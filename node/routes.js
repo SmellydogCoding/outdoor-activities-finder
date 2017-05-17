@@ -37,15 +37,15 @@ router.post('/', (req, res, next) => {
         return a.distance - b.distance;
       });
 
-      // res.status(200).render('places', {places: places, title: "Places"});
-      res.status(200).json(places);
+      res.status(200).render('places', {places: places, title: "Search Results"});
+      // res.status(200).json(places);
     });
   });
 });
 
 router.get('/place', (req, res, next) => {
   trailapi.getPlaces({lat: req.query.lat, lon: req.query.lon, radius: .01}).then((place) => {
-      res.status(200).render('place', {place: place.places, title: req.query.name});
+      res.status(200).render('place', {place: place.places[0], title: place.places[0].name});
     });
 });
 

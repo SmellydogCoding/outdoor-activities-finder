@@ -2,7 +2,7 @@ div.row
   div.large-12.columns
     div.callout.primary
       h5 Search for Places
-      form.text-center(action="/" method="POST" @submit.prevent)
+      form.text-center(action="/" method="POST")
         div.row
           div.large-3.columns
             input.m-b-0(type="text" id="address" name="address" placeholder="address" :value=address @keyup="getAddress")
@@ -83,4 +83,4 @@ div.row
               option(value="snow+sports") Snow Sports
               option(value="caving") Caving
           div.large-2.columns
-            button.button.expanded(@click="getPlaces") Search
+            input.button.expanded(type="submit" value="search")
