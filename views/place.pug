@@ -9,8 +9,6 @@ body
             strong #{place.name}
             br 
             | #{place.city}, #{place.state}
-        div.large-6.columns
-          p Distance: #{place.distance} miles
     div.row
       div.large-2.columns
         h5 Activities
@@ -19,14 +17,15 @@ body
     div.row
       each activity in place.activities
         div.large-2.columns.small-3
-          img(src="https:/placehold.it/50x50&text=[img]")
+          if activity.thumbnail
+            img(src=activity.thumbnail)
+          //- else
+          //-   img(src="https:/placehold.it/50x50&text=[img]")
         div.large-8.columns
           p #{activity.description}
-        div.large-2.columns
-          img(src="http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png")
-          span #{weather.weather[0].description}
-          p Temperature: #{weather.main.temp}&deg;F
-          p Humidity: #{weather.main.humidity}%
-          p Pressure: #{weather.main.pressure}
-          p wind: #{weather.wind.deg} #{weather.wind.speed}mph
+      div.large-2.columns.weather
+        include ./partials/_weather.pug
+    div.row
+      div.large-9.columns
+        include ./partials/_googlemap.pug
     include ./partials/_footer.pug

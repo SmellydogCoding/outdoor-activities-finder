@@ -39,7 +39,7 @@ const getPlaces = (placeData) => {
 // getPlaces({lat: '39.80001161', lon: '-80.22746854', activity: 'hiking', radius: '19'});  // for testing
 
 const cleanDescription = (text) => {
-  return text = text.replace(/&lt;br \/&gt;<br \/>/, '\xa0\xa0');
+  return text = text.replace(/&lt;br \/&gt;<br \/>/g, '\xa0\xa0');
 };
 
 module.exports = {

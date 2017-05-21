@@ -3,6 +3,7 @@ const router = express.Router();
 const geospacial = require('./geospacial.js');
 const trailapi = require('./trailapi.js');
 const weatherapi = require('./weather.js');
+require('./env.js');  // comment out for production
 
 router.get('/', (req, res, next) => {
   res.render('index', {title: 'Outdoor Activity Locator'});
@@ -53,7 +54,7 @@ router.get('/place', (req, res, next) => {
       weather.main.temp = weather.main.temp.toFixed();
       weather.wind.speed = weather.wind.speed.toFixed();
       weather.wind.deg = weatherapi.convertToDirection(weather.wind.deg);
-      res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name});
+      res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey});
     });
   });
 });
