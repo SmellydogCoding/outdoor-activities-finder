@@ -5,11 +5,11 @@ const trailapi = require('./trailapi.js');
 const weatherapi = require('./weather.js');
 require('./env.js');  // comment out for production
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   res.render('index', {title: 'Outdoor Activity Locator'});
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
   let address;
 
   if (req.body.address && req.body.city && req.body.state) {
@@ -45,7 +45,7 @@ router.post('/', (req, res, next) => {
   });
 });
 
-router.get('/place', (req, res, next) => {
+router.get('/place', (req, res) => {
   trailapi.getPlaces({lat: req.query.lat, lon: req.query.lon, radius: .01}).then((place) => {
     for (let a = 0; a < place.places[0].activities.length; a++) {
       place.places[0].activities[a].description = trailapi.cleanDescription(place.places[0].activities[a].description)

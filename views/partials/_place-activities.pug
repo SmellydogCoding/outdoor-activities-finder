@@ -1,0 +1,11 @@
+div.large-12.columns
+  div.large-2.columns
+    if place.activities[0].thumbnail
+      img(src=place.activities[0].thumbnail)
+    else
+      img(src="https:/placehold.it/50x50&text=[img]")
+  div.large-10.columns
+    each activity in place.activities
+        p #{activity.activity_type_name}:
+          br 
+          | #{activity.description}

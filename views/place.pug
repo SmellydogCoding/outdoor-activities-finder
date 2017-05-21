@@ -15,17 +15,11 @@ body
       div.large-2.columns.text-right
         h5 Current Conditions
     div.row
-      each activity in place.activities
-        div.large-2.columns.small-3
-          if activity.thumbnail
-            img(src=activity.thumbnail)
-          //- else
-          //-   img(src="https:/placehold.it/50x50&text=[img]")
-        div.large-8.columns
-          p #{activity.description}
+      div.large-10.columns
+        include ./partials/_place-activities.pug
       div.large-2.columns.weather
         include ./partials/_weather.pug
     div.row
-      div.large-9.columns
+      div.large-9.columns.large-offset-1
         include ./partials/_googlemap.pug
     include ./partials/_footer.pug
