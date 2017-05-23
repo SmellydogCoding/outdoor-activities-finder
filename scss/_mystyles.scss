@@ -1,3 +1,5 @@
+// Layout Helper Classes
+
 .m-y-05 {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -11,6 +13,14 @@
   margin-bottom: 0.5em;
 }
 
+// Typography Helper Classes
+
+.bold-text {
+  font-weight: 600;
+}
+
+// Places Page Classes
+
 .places-results {
   color: #333;
   div:hover {
@@ -19,6 +29,8 @@
   }
 }
 
+// Open Weather Widget Classes
+
 .weather {
   border: 1px solid #333;
   p {
@@ -26,6 +38,8 @@
     margin-bottom: 0.25em;
   }
 }
+
+// Google Maps Widget Classes
 
 #map {
   height: 30.0em;
