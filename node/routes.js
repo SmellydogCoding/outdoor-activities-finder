@@ -84,13 +84,15 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
         } else if (user[0] === undefined) {
           console.log('user not found');
         } else {
-          if (req.body.password === user[0].password) {
-            req.session.username = user[0].username;
-            req.session.usertype = user[0].type;
-            res.redirect('/');
-          } else {
-            console.log('incorrect password');
-          }
+          bcrypt.compare(req.body.password, user[0].password , function(error, result) {
+            if (result === false) {
+              console.log('incorrect password');
+            } else {
+              req.session.username = user[0].username;
+              req.session.usertype = user[0].type;
+              res.redirect('/');
+            }
+          });
         }
       });
     });
@@ -106,6 +108,47 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
           }
         });
       }
+    });
+
+    router.get('/signup', (req,res) => {
+      res.render('signup', {title: 'Sign Up'});
+    });
+
+    router.post('/signup', (req,res,next) => {
+      users.find({username: req.body.username}).toArray((error,user) => {
+        if (user[0] !== undefined) {
+          return console.log('username already exists'); // eventually res.send
+        } else {
+          users.find({email: req.body.email}).toArray((error,user) => {
+            if (user[0] !== undefined) {
+              return console.log('that email is already associated with an existing user'); // eventually res.send
+            } else {
+              if (req.body.password !== req.body.confirmPassword) {
+                return console.log('passwords do not match');
+              } else {
+                bcrypt.hash(req.body.password, 10, (error, hash) => {
+                  if (error) {
+                    return next(error);
+                  } else {
+                    req.body.password = hash;
+                    users.insert({username: req.body.username, password: req.body.password, type: 'user', email: req.body.email, joined_on: new Date()}, (error,result) => {
+                      if (error) {
+                        return next(error);
+                      } else {
+                        console.log(result);
+                        req.session.username = req.body.username;
+                        req.session.usertype = 'user';
+                        res.redirect('/')
+                      }
+                    });
+                  }
+                });
+              }
+            }
+          });
+        }
+      });
+      
     });
 
   }

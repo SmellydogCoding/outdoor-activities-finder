@@ -1,0 +1,16 @@
+div.translucent-form-overlay
+  form(action="/signup" method="post")
+    h3 Sign Up
+    div.row.columns
+      label Username
+        input(type="text" name="username")
+    div.row.columns
+      label Email
+        input(type="email" name="email")
+    div.row.columns
+      label Password
+        input(type="password" name="password")
+    div.row.columns
+      label Re-type Password
+        input(type="password" name="confirmPassword")
+    button.primary.button.expanded.search-button(type="submit") Sign Up
