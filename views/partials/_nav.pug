@@ -5,7 +5,12 @@ div.row.m-b-05
           h3 Outdoor Activities Locator
         div.top-bar-right
           ul.menu
-            li
-              a(href="#") Sign In
-            li
-              a(href="#") Sign Up
+            if user
+              li Hello #{user}
+              li
+                a(href="/logout") Log Out
+            else
+              li
+                a(href="/login") Sign In
+              li
+                a(href="#") Sign Up

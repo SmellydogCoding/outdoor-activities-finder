@@ -5,15 +5,22 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
-// const session = require('express-session');
-// const mongoStore = require('connect-mongo')(session);
+app.use(session({
+  secret: 'zero fox given',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({ url: 'mongodb://localhost:27017/outdoor-activity-finder' })
+}));
 
-// mongodb connection
-//
-// db.on('open', () => {console.log('Database connection successful');});
-// mongo error
-// db.on('error', console.error.bind(console, 'connection error:'));
+// make user ID available in templates
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.session.username;
+  res.locals.currentType = req.session.usertype;
+  next();
+});
 
 // Body Parser
 app.use(bodyParser.json());
@@ -44,7 +51,7 @@ app.use((req, res, next) => {
 // error handler
 // define as the last app.use callback
 app.use((error, req, res, next) => {
-    res.status(error.status || 500).send(error);
+    res.status(error.status || 500).send(error.message);
 });
 
 // start listening on our port
