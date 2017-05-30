@@ -1,8 +1,9 @@
-div.row
-  div.large-6.columns
-    h6 Reviews
-  div.large-6.columns
-    p Average Rating: #{average}
+if !reviews.reviews[0].message
+  div.row
+    div.large-6.columns
+      h6 Reviews
+    div.large-6.columns
+      p Average Rating: #{average}
 each review in reviews.reviews
   if review.message
     div.large-12.columns
