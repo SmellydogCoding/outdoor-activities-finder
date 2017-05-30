@@ -1,0 +1,20 @@
+div.status-update-input-box
+  form(action="/reviews" method="post")
+    div.row.input-box-container
+      div.columns
+        label Add a review
+          textarea(rows="5" name="description" placeholder="What's on your mind?")
+        input(type="hidden" name="placeName" value=place.name)
+        input(type="hidden" name="uniqueID" value=place.unique_id)
+        input(type="hidden" name="lat" value=place.lat)
+        input(type="hidden" name="lon" value=place.lon)
+        if reviews.reviews[0].message
+          input(type="hidden" name="noReviews" value="true")
+    div.row.medium-collapse.user-action-container
+      div.small-12.medium-4.columns
+        div.user-action-box
+          div.star-rating
+            include _star-rating.pug
+      div.small-12.medium-8.columns
+        div.user-submit-box
+          input.button.small(type="submit" value="POST REVIEW")

@@ -53,7 +53,7 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
             return a.distance - b.distance;
           });
 
-          res.status(200).render('places', {places: places, title: "Search Results"});
+          res.status(200).render('places', {places: places, title: "Search Results",user: res.locals.currentUser});
           // res.status(200).json(places);
         });
       });
@@ -68,9 +68,41 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
           weather.main.temp = weather.main.temp.toFixed();
           weather.wind.speed = weather.wind.speed.toFixed();
           weather.wind.deg = weatherapi.convertToDirection(weather.wind.deg);
-          res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey});
+          reviews.find({unique_id: place.places[0].unique_id}).toArray((error,reviews) => {
+            if (reviews[0] === undefined) {
+              reviews = [{reviews: [{message: 'No reviews for this place yet.  Be the first to write a review!'}]}];
+            }
+            res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: reviews[0],user: res.locals.currentUser});
+          });
         });
       });
+    });
+
+    router.post('/reviews', (req,res,next) => {
+      let uniqueID = parseInt(req.body.uniqueID);
+      let rating = parseInt(req.body.rating);
+      let referringUrl = '/place?lat=' + req.body.lat + '&lon=' + req.body.lon;
+      // reviews.find({unique_id:uniqueID}).toArray((error,review) => {
+        if (req.body.noReviews) {
+          reviews.insert({name:req.body.placeName,unique_id:uniqueID,reviews:[{username: res.locals.currentUser,rating: rating,description: req.body.description, date: new Date()}]},(error,result) => {
+            if (error) {
+              return next(error);
+            } else {
+              console.log(result);
+              res.redirect(referringUrl);
+            }
+          });
+        } else {
+          reviews.update({unique_id:uniqueID},{$push: {reviews: {username: res.locals.currentUser,rating: rating,description: req.body.description, date: new Date()}}},(error,result) => {
+            if (error) {
+              return next(error);
+            } else {
+              console.log(result);
+              res.redirect(referringUrl);
+            }
+          });
+        }
+      // });
     });
 
     router.get('/login', (req,res) => {
@@ -148,7 +180,6 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
           });
         }
       });
-      
     });
 
   }

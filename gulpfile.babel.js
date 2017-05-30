@@ -24,7 +24,7 @@ function loadConfig() {
 
 // Build the "dist" folder by running all of the below tasks
 gulp.task('build',
- gulp.series(clean, gulp.parallel(sass, javascript, images, copyBackend, copyViews))
+ gulp.series(clean, gulp.parallel(sass, javascript, images, copyBackend, copyViews,copyFonts))
 );
 
 // Build the site, run the server, and watch for file changes
@@ -37,7 +37,7 @@ function clean(done) {
   rimraf(PATHS.dist, done);
 }
 
-// Copy application .js files and copy views folder
+// Copy application .js files, views, and fonts folder
 // These tasks skip over the "static" and "scss" folders, which are parsed separately
 function copyBackend() {
   return gulp.src(PATHS.nodejs)
@@ -47,6 +47,11 @@ function copyBackend() {
 function copyViews() {
   return gulp.src(PATHS.views)
     .pipe(gulp.dest(PATHS.dist + '/views'));
+}
+
+function copyFonts() {
+  return gulp.src('static/fonts/**/*')
+    .pipe(gulp.dest(PATHS.dist + '/public/fonts'));
 }
 
 // Compile Sass into CSS
@@ -104,6 +109,7 @@ function server(done) {
 function watch() {
   gulp.watch(PATHS.nodejs, copyBackend);
   gulp.watch(PATHS.views, copyViews);
+  gulp.watch('static/fonts/**/*', copyFonts);
   gulp.watch('scss/**/*.scss').on('all', gulp.series(sass));
   gulp.watch('static/js/**/*.js').on('all', gulp.series(javascript));
   gulp.watch('static/img/**/*').on('all', gulp.series(images));

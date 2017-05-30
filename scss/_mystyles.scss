@@ -19,6 +19,11 @@
   font-weight: 600;
 }
 
+// Custom Color Classes
+
+$starColour: #009933;
+$starHoverColour: #006622;
+
 // Places Page Classes
 
 .places-results {
@@ -80,4 +85,157 @@ $translucent-form-overlay-max-width: 500px;
   min-height: 30.0em;
   background-image: url('../img/login-background.jpg');
   background-size: cover;
+}
+
+// add a review classes
+
+.status-update-input-box {
+  background-color: $white;
+  padding: 1rem;
+  width: 100%;
+  border: 1px solid $medium-gray;
+  box-shadow: 0 0.0625rem 0.1875rem rgba(0,0,0, 0.18), 0 0.125rem 2px rgba(0,0,0, 0.36);
+
+  .input-box-container {
+
+    textarea {
+      margin-bottom: 0;
+
+      &:focus {
+        border: 1px solid $medium-gray;
+        box-shadow: none;
+      }
+
+      &,
+      &:focus {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .user-action-container {
+    @include breakpoint(medium) {
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    .user-action-box {
+      padding: 0;
+      border: 1px solid $medium-gray;
+      display: flex;
+
+      .action-area {
+        // width: 20%;
+        border-right: 0.0625rem solid $medium-gray;
+        text-align: center;
+        padding: 0;
+        margin: 0 0.25em;
+
+        &:last-of-type {
+          border-right: none;
+        }
+
+        .action-anchor {
+          &.has-tip {
+            border-bottom: none;
+            cursor: pointer;
+          }
+
+          .fa {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+
+    .user-submit-box {
+      padding: 0.35rem 0.5rem;
+      border: 1px solid $medium-gray;
+      display: flex;
+      justify-content: flex-end;
+
+      @include breakpoint(small only) {
+        border-top: none;
+        justify-content: center;
+      }
+
+      @include breakpoint(medium) {
+        border-left: none;
+      }
+
+      .button {
+        margin-bottom: 0;
+        background-color: $starColour;
+        &:hover {
+          background-color: $starHoverColour
+        }
+
+        @include breakpoint(small only) {
+          @include button-expand;
+          margin-top: 0.25rem;
+          margin-bottom: 0.25rem;
+        }
+      }
+    }
+  }
+}
+
+// Star Rating Classes
+
+.star-rating { 
+  font-family: 'FontAwesome'; 
+  margin: auto;
+  
+  > fieldset {
+    border: none;
+    display: inline-block;
+    margin-top: 0.2em;
+    margin-bottom: -0.4em;
+    
+    &:not(:checked) {
+      > input {
+        position: absolute;
+        top: -9999px;
+        clip: rect(0,0,0,0);
+        visibility: hidden; // fix page jumping to top when clicking a star
+      }
+
+      > label {
+        float: right;
+        width: 1em;
+        padding: 0 .05em;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 150%;
+        color: $starColour;
+        
+        &:before {
+          content: '\f006  ';
+        }
+        
+        &:hover,
+        &:hover ~ label {
+          color: $starHoverColour;
+          text-shadow: 0 0 3px $starHoverColour;
+          &:before {
+            content: '\f005  ';
+          }
+        }
+      }
+    }
+    
+    > input:checked {
+      & ~ label {
+        &:before {
+          content: '\f005  ';
+        }
+      }    
+    }    
+
+    > label:active {
+      position: relative;
+      top: 2px;
+    }
+  }
 }

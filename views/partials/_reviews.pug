@@ -1,0 +1,14 @@
+each review in reviews.reviews
+  if review.message
+    div.large-12.columns
+      p #{review.message}
+  else
+    div.row
+      div.large-3.columns
+        p #{review.username}
+      div.large-3.columns
+        p #{review.rating}
+      div.large-3.columns
+        p #{review.description}
+      div.large-3.columns
+        p #{review.date}
