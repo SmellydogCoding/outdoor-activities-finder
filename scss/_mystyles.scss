@@ -87,6 +87,12 @@ $translucent-form-overlay-max-width: 500px;
   background-size: cover;
 }
 
+// reviews classes
+
+.review-stars i {
+  color: $starColour
+}
+
 // add a review classes
 
 .status-update-input-box {

@@ -1,3 +1,8 @@
+div.row
+  div.large-6.columns
+    h6 Reviews
+  div.large-6.columns
+    p Average Rating: #{average}
 each review in reviews.reviews
   if review.message
     div.large-12.columns
@@ -7,7 +12,9 @@ each review in reviews.reviews
       div.large-3.columns
         p #{review.username}
       div.large-3.columns
-        p #{review.rating}
+        p.review-stars 
+          - for (let s = 0; s < review.rating; s++)
+            i.fa.fa-star
       div.large-3.columns
         p #{review.description}
       div.large-3.columns

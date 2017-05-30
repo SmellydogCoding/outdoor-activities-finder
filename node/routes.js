@@ -60,6 +60,8 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
     });
 
     router.get('/place', (req, res) => {
+      let total;
+      let average;
       trailapi.getPlaces({lat: req.query.lat, lon: req.query.lon, radius: .01}).then((place) => {
         for (let a = 0; a < place.places[0].activities.length; a++) {
           place.places[0].activities[a].description = trailapi.cleanDescription(place.places[0].activities[a].description)
@@ -71,8 +73,14 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
           reviews.find({unique_id: place.places[0].unique_id}).toArray((error,reviews) => {
             if (reviews[0] === undefined) {
               reviews = [{reviews: [{message: 'No reviews for this place yet.  Be the first to write a review!'}]}];
+            } else {
+              total = 0;
+              for (let r = 0; r < reviews[0].reviews.length; r++) {
+                total += reviews[0].reviews[r].rating;
+              }
+              average = total / reviews[0].reviews.length
             }
-            res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: reviews[0],user: res.locals.currentUser});
+            res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: reviews[0],user: res.locals.currentUser, average: average});
           });
         });
       });
