@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient
+const ObjectID = require('mongodb').ObjectID;
 const geospacial = require('./geospacial.js');
 const trailapi = require('./trailapi.js');
 const weatherapi = require('./weather.js');
 const bcrypt = require('bcrypt');
+const mid = require('./middleware.js');
 
 require('./env.js');  // comment out for production
 
@@ -14,10 +16,10 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
   } else {
     console.log('Database Connection Successful');
     const users = db.collection('users');
-    const reviews = db.collection('reviews');
+    const places = db.collection('places');
 
     router.get('/', (req, res) => {
-      res.render('index', {title: 'Outdoor Activity Locator', user: res.locals.currentUser});
+      res.render('index', {title: 'Outdoor Activity Locator', currentUser: res.locals.currentUser});
     });
 
     router.post('/', (req, res) => {
@@ -53,8 +55,7 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
             return a.distance - b.distance;
           });
 
-          res.status(200).render('places', {places: places, title: "Search Results",user: res.locals.currentUser});
-          // res.status(200).json(places);
+          res.status(200).render('places', {places: places, title: "Search Results", currentUser: res.locals.currentUser});
         });
       });
     });
@@ -70,49 +71,73 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
           weather.main.temp = weather.main.temp.toFixed();
           weather.wind.speed = weather.wind.speed.toFixed();
           weather.wind.deg = weatherapi.convertToDirection(weather.wind.deg);
-          reviews.find({unique_id: place.places[0].unique_id}).toArray((error,reviews) => {
-            if (reviews[0] === undefined) {
-              reviews = [{reviews: [{message: 'No reviews for this place yet.  Be the first to write a review!'}]}];
+          places.find({_id: place.places[0].unique_id}).toArray((error,dbplace) => {
+            if (dbplace[0] === undefined) {
+              dbplace = [{reviews: [{message: 'No reviews for this place yet.  Be the first to write a review!'}]}];
             } else {
               total = 0;
-              for (let r = 0; r < reviews[0].reviews.length; r++) {
-                total += reviews[0].reviews[r].rating;
+              for (let r = 0; r < dbplace[0].reviews.length; r++) {
+                total += dbplace[0].reviews[r].rating;
               }
-              average = total / reviews[0].reviews.length
+              average = total / dbplace[0].reviews.length
             }
-            res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: reviews[0],user: res.locals.currentUser, average: average});
+            res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: dbplace[0], currentUser: res.locals.currentUser, average: average});
           });
         });
       });
     });
 
-    router.post('/reviews', (req,res,next) => {
+    router.post('/reviews', mid.loginRequired, (req,res,next) => {
       let uniqueID = parseInt(req.body.uniqueID);
+      let reviewID = new ObjectID(uniqueID);
       let rating = parseInt(req.body.rating);
       let referringUrl = '/place?lat=' + req.body.lat + '&lon=' + req.body.lon;
-      // reviews.find({unique_id:uniqueID}).toArray((error,review) => {
-        if (req.body.noReviews) {
-          reviews.insert({name:req.body.placeName,unique_id:uniqueID,reviews:[{username: res.locals.currentUser,rating: rating,description: req.body.description, date: new Date()}]},(error,result) => {
-            if (error) {
-              return next(error);
-            } else {
-              console.log(result);
-              res.redirect(referringUrl);
-            }
-          });
-        } else {
-          reviews.update({unique_id:uniqueID},{$push: {reviews: {username: res.locals.currentUser,rating: rating,description: req.body.description, date: new Date()}}},(error,result) => {
-            if (error) {
-              return next(error);
-            } else {
-              console.log(result);
-              res.redirect(referringUrl);
-            }
-          });
-        }
-      // });
+      if (req.body.noReviews) {
+        places.insert({_id:reviewID,name:req.body.placeName,link: referringUrl,reviews:[{username: res.locals.currentUser,rating: rating,description: req.body.description, date: new Date()}]},(error,result) => {
+          if (error) {
+            return next(error);
+          } else {
+            console.log(result);
+            users.update({username: res.locals.currentUser},{$push: {reviews: reviewID}},(error,result) => {
+              if (error) {
+                return next(error);
+              } else {
+                console.log(result);
+                res.redirect(referringUrl);
+              }
+            });
+          }
+        });
+      } else {
+        places.update({_id:reviewID},{$push: {reviews: {username: res.locals.currentUser,rating: rating,description: req.body.description, date: new Date()}}},(error,result) => {
+          if (error) {
+            return next(error);
+          } else {
+            users.update({username: res.locals.currentUser},{$push: {reviews: reviewID}},(error,result) => {
+              if (error) {
+                return next(error);
+              } else {
+                console.log(result);
+                res.redirect(referringUrl);
+              }
+            });
+          }
+        });
+      }
     });
 
+    router.get('/user', (req,res,next) => {
+      users.find({username: res.locals.currentUser}).toArray((error,user) => {
+        if (error) {
+          return next(error);
+        } else {
+          let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          user[0].joined_on = user[0].joined_on.toLocaleDateString('en-US',options);
+          res.render('user', {title: 'User Profile', user: user[0], currentUser: res.locals.currentUser});
+        }
+      });
+    });
+    
     router.get('/login', (req,res) => {
       res.render('login', {title: 'login'});
     });
@@ -190,6 +215,41 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
       });
     });
 
+    router.get('/changepassword', (req,res) => {
+      res.render('changepassword', {title: 'Change Your Password', currentUser: res.locals.currentUser});
+    });
+
+    router.post('/changepassword', (req,res,next) => {
+      users.find({username: res.locals.currentUser}).toArray((error,user) => {
+        bcrypt.compare(req.body.currentPass, user[0].password , function(error, result) {
+          if (error) {
+            return next(error)
+          } else if (result === false) {
+            error.message = "incorrect password";
+            return next(error);
+          } else if (req.body.password !== req.body.confirmPassword) {
+              error.message = 'passwords do not match';
+          } else {
+            bcrypt.hash(req.body.password, 10, (error, hash) => {
+              if (error) {
+                return next(error);
+              } else {
+                req.body.password = hash;
+                users.update({username: res.locals.currentUser},{$set: {password: req.body.password}},(error,result) => {
+                  if (error) {
+                    return next(error);
+                  } else if (result) {
+                    console.log(result);
+                    res.redirect('/');
+                  }
+                });
+              }
+            });
+          }
+        });
+      });
+    });
+    
   }
 });
 

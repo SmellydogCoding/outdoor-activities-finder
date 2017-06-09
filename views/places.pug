@@ -1,11 +1,10 @@
 include ./partials/_head.pug
 body
   include ./partials/_nav.pug
-  div#places
-    include ./partials/_searchbar.pug
+  include ./partials/_searchbar.pug
+  div.row
     div.large-12.columns
-      div.row
-        h3.text-center Results
-        hr
-        include ./partials/_places-list.pug
+      h3.text-center Results
+  hr
+  include ./partials/_places-list.pug
   include ./partials/_footer.pug

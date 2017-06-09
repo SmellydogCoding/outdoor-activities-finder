@@ -1,0 +1,22 @@
+include ./partials/_head.pug
+body
+  include ./partials/_nav.pug
+  div.row
+    div.large-12.columns
+      div.large-8.columns
+        h4 User Info
+      div.large-3.columns
+        h4 User Options
+  div.row
+    div.large-12.columns
+      div.large-8.columns.callout.text-center
+        include ./partials/_userinfo.pug
+      div.large-3.columns.callout.menu-centered
+        include ./partials/_useroptions.pug
+  div.row
+    div.large-12.columns.text-center
+      h4 User Favorites
+  div.row
+    div.large-12.columns.callout
+      include ./partials/_userfavorites.pug
+  include ./partials/_footer.pug

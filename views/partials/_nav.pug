@@ -5,8 +5,9 @@ div.row.m-b-05
           h3 Outdoor Activities Locator
         div.top-bar-right
           ul.menu
-            if user
-              li Hello #{user}
+            if currentUser
+              li 
+                span Hello #[a(href="/user") #{currentUser}]
               li
                 a(href="/logout") Log Out
             else

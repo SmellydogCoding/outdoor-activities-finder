@@ -5,7 +5,7 @@ if !reviews.reviews[0].message
     div.large-6.columns
       p Average Rating: #{average}
 each review in reviews.reviews
-  if review.message
+  if review.messge
     div.large-12.columns
       p #{review.message}
   else
@@ -17,6 +17,6 @@ each review in reviews.reviews
           - for (let s = 0; s < review.rating; s++)
             i.fa.fa-star
       div.large-3.columns
-        p #{review.description}
+        p #{review.comment}
       div.large-3.columns
         p #{review.date}

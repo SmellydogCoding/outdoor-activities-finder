@@ -1,15 +1,16 @@
 each place in places
-  div.large-12.columns
-    a.places-results(href="/place?lat=" + place.lat + "&lon=" + place.lon)
-      div.row
-        div.large-10.columns
-          div.large-6.columns
-            p
-              strong #{place.name}
-              br 
-              | #{place.city}, #{place.state}
-          div.large-6.columns
-            p Distance: #{place.distance} miles
+  div.row
+    div.large-12.columns
+      a.places-results(href="/place?lat=" + place.lat + "&lon=" + place.lon)
+        div.row
+          div.large-12.columns
+            div.large-6.columns
+              p
+                strong #{place.name}
+                br 
+                | #{place.city}, #{place.state}
+            div.large-6.columns
+              p Distance: #{place.distance} miles
           div.row
             div.large-12.columns
               h5 Activities
@@ -19,4 +20,4 @@ each place in places
                 h6.bold-text #{activity.activity_type_name}
               div.large-10.columns
                 p #{activity.description}
-      hr
+        hr

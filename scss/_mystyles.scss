@@ -23,14 +23,17 @@
 
 $starColour: #009933;
 $starHoverColour: #006622;
+$itemBackground: #ccc;
+$itemBackgroundHover: #333;
 
 // Places Page Classes
 
-.places-results {
-  color: #333;
+.places-results, .user-favorites {
+  color: $itemBackgroundHover;
+  background-color: $itemBackground;
   div:hover {
-    color: #333;
-    background-color: #eee;
+    color: $itemBackground;
+    background-color: $itemBackgroundHover;
   }
 }
 
