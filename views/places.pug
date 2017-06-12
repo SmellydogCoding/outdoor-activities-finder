@@ -3,8 +3,8 @@ body
   include ./partials/_nav.pug
   include ./partials/_searchbar.pug
   div.row
-    div.large-12.columns
-      h3.text-center Results
-  hr
-  include ./partials/_places-list.pug
+    div.large-5.columns.place-list
+      include ./partials/_places-list.pug
+    div.large-7.columns
+      include ./partials/_places-map.pug
   include ./partials/_footer.pug

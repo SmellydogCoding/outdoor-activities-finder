@@ -19,6 +19,16 @@
   font-weight: 600;
 }
 
+.inline-list li {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0 0.5em;
+}
+
+hr {
+  margin: 0 auto 0.5em;
+}
+
 // Custom Color Classes
 
 $starColour: #009933;
@@ -28,13 +38,44 @@ $itemBackgroundHover: #333;
 
 // Places Page Classes
 
-.places-results, .user-favorites {
+.user-favorites {
   color: $itemBackgroundHover;
   background-color: $itemBackground;
   div:hover {
     color: $itemBackground;
     background-color: $itemBackgroundHover;
   }
+}
+
+.place-list {
+  overflow: scroll;
+}
+
+.place {
+  p {
+    margin-bottom: 0.25em;
+  }
+  ul, ul li {
+    margin-left: 0;
+  }
+  ul {
+    margin-bottom: 0.5em;
+  }
+}
+
+.marker-container {
+  position: relative;
+}
+
+.marker-index {
+  position: absolute;
+  left: 36%;
+  top: 7%;
+  font-size: 1.5em;
+}
+
+.activity-icon {
+  height: 2.0em;
 }
 
 // Open Weather Widget Classes
@@ -49,11 +90,13 @@ $itemBackgroundHover: #333;
 
 // Google Maps Widget Classes
 
-#map {
+#map, .place-list {
   height: 30.0em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
+
+
 
 // Translucent Form Overlay
 

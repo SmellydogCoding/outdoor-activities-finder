@@ -1,23 +1,28 @@
-each place in places
-  div.row
-    div.large-12.columns
-      a.places-results(href="/place?lat=" + place.lat + "&lon=" + place.lon)
-        div.row
+each place,index in places
+  if place.activities != []
+    div.row
+      div.large-12.columns
+        div.row.place
           div.large-12.columns
-            div.large-6.columns
-              p
-                strong #{place.name}
-                br 
-                | #{place.city}, #{place.state}
-            div.large-6.columns
-              p Distance: #{place.distance} miles
-          div.row
-            div.large-12.columns
-              h5 Activities
-          each activity in place.activities
-            div.row
-              div.large-2.columns.small-3
-                h6.bold-text #{activity.activity_type_name}
-              div.large-10.columns
-                p #{activity.description}
+            div.large-2.columns
+              p.marker-container
+                img(src="img/map-marker.svg" alt="map marker")
+                - let number = index + 1
+                span.marker-index #{number}
+            div.large-10.columns
+              a(href="/place?lat=" + place.lat + "&lon=" + place.lon)
+                p
+                  strong #{place.name}
+                  span &nbsp;(#{place.distance} miles)
+                  br 
+                  | #{place.city}, #{place.state}
+              div.row
+                div.large-12.columns
+                  ul.inline-list
+                    each activity in place.activities
+                      li
+                        if activity.activity_type_name == "hiking"
+                          img.activity-icon(src="img/hiking.svg" alt="hiking")
+                        else
+                          h6.bold-text #{activity.activity_type_name}
         hr

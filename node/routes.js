@@ -19,7 +19,7 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
     const places = db.collection('places');
 
     router.get('/', (req, res) => {
-      res.render('index', {title: 'Outdoor Activity Locator', currentUser: res.locals.currentUser});
+      res.render('index', {title: 'Outdoor Activity Locator', currentUser: req.session.username});
     });
 
     router.post('/', (req, res) => {
@@ -55,7 +55,7 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
             return a.distance - b.distance;
           });
 
-          res.status(200).render('places', {places: places, title: "Search Results", currentUser: res.locals.currentUser});
+          res.status(200).render('places', {places: places, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: startLat, lon: startLon}, key: process.env.googleMapsAPIKey});
         });
       });
     });
