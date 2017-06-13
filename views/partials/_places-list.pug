@@ -6,9 +6,12 @@ each place,index in places
           div.large-12.columns
             div.large-2.columns
               p.marker-container
-                img(src="img/map-marker.svg" alt="map marker")
+                img.marker-icon(src="img/map-marker.svg" alt="map marker")
                 - let number = index + 1
-                span.marker-index #{number}
+                if number > 9
+                  span.marker-index.double-digit #{number}
+                else
+                  span.marker-index #{number}
             div.large-10.columns
               a(href="/place?lat=" + place.lat + "&lon=" + place.lon)
                 p

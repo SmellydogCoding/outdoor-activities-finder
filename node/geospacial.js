@@ -25,10 +25,10 @@ const getDistance = (start, end) => {
 
 // getDistance({latitude: 39.72122192, longitude: -80.51956177},{latitude: 40.02198029, longitude: -79.90330505}); // for testing
 
-const getCoords = (addressData) => {
+const getCoords = (zipcode) => {
   return new Promise((resolve,reject) => {
     let body = '';
-    let req = https.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + addressData + '&key=' + process.env.googleAPIKey, function(res) {
+    let req = https.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zipcode + '&key=' + process.env.googleAPIKey, function(res) {
       res.on('data', function(data) {
         body += data;
       });

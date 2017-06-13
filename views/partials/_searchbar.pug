@@ -4,64 +4,65 @@ div.row
       h5 Search for Places
       form.text-center(action="/" method="POST")
         div.row
-          div.large-3.columns
-            input.m-b-0(type="text" id="address" name="address" placeholder="address" :value=address @keyup="getAddress")
-            input.m-y-0(type="text" id="city" name="city" placeholder="city" :value=city @keyup="getCity")
-            select(name="state" v-model="state")
-              option(value="") Choose a State
-              option(value="AL") Alabama
-              option(value="AK") Alaska
-              option(value="AZ") Arizona
-              option(value="AR") Arkansas
-              option(value="CA") California
-              option(value="CO") Colorado
-              option(value="CT") Connecticut
-              option(value="DE") Delaware
-              option(value="DC") District Of Columbia
-              option(value="FL") Florida
-              option(value="GA") Georgia
-              option(value="HI") Hawaii
-              option(value="ID") Idaho
-              option(value="IL") Illinois
-              option(value="IN") Indiana
-              option(value="IA") Iowa
-              option(value="KS") Kansas
-              option(value="KY") Kentucky
-              option(value="LA") Louisiana
-              option(value="ME") Maine
-              option(value="MD") Maryland
-              option(value="MA") Massachusetts
-              option(value="MI") Michigan
-              option(value="MN") Minnesota
-              option(value="MS") Mississippi
-              option(value="MO") Missouri
-              option(value="MT") Montana
-              option(value="NE") Nebraska
-              option(value="NV") Nevada
-              option(value="NH") New Hampshire
-              option(value="NJ") New Jersey
-              option(value="NM") New Mexico
-              option(value="NY") New York
-              option(value="NC") North Carolina
-              option(value="ND") North Dakota
-              option(value="OH") Ohio
-              option(value="OK") Oklahoma
-              option(value="OR") Oregon
-              option(value="PA") Pennsylvania
-              option(value="RI") Rhode Island
-              option(value="SC") South Carolina
-              option(value="SD") South Dakota
-              option(value="TN") Tennessee
-              option(value="TX") Texas
-              option(value="UT") Utah
-              option(value="VT") Vermont
-              option(value="VA") Virginia
-              option(value="WA") Washington
-              option(value="WV") West Virginia
-              option(value="WI") Wisconsin
-              option(value="WY") Wyoming
-          div.large-1.columns
+          div.large-2.columns
             input(type="text" maxlength="5" name="zip" placeholder="Zip Code" :value=zip @keyup="getZip")
+            //- input.m-b-0(type="text" id="address" name="address" placeholder="address" :value=address @keyup="getAddress")
+            //- input.m-y-0(type="text" id="city" name="city" placeholder="city" :value=city @keyup="getCity")
+            //- select(name="state" v-model="state")
+            //-   option(value="") Choose a State
+            //-   option(value="AL") Alabama
+            //-   option(value="AK") Alaska
+            //-   option(value="AZ") Arizona
+            //-   option(value="AR") Arkansas
+            //-   option(value="CA") California
+            //-   option(value="CO") Colorado
+            //-   option(value="CT") Connecticut
+            //-   option(value="DE") Delaware
+            //-   option(value="DC") District Of Columbia
+            //-   option(value="FL") Florida
+            //-   option(value="GA") Georgia
+            //-   option(value="HI") Hawaii
+            //-   option(value="ID") Idaho
+            //-   option(value="IL") Illinois
+            //-   option(value="IN") Indiana
+            //-   option(value="IA") Iowa
+            //-   option(value="KS") Kansas
+            //-   option(value="KY") Kentucky
+            //-   option(value="LA") Louisiana
+            //-   option(value="ME") Maine
+            //-   option(value="MD") Maryland
+            //-   option(value="MA") Massachusetts
+            //-   option(value="MI") Michigan
+            //-   option(value="MN") Minnesota
+            //-   option(value="MS") Mississippi
+            //-   option(value="MO") Missouri
+            //-   option(value="MT") Montana
+            //-   option(value="NE") Nebraska
+            //-   option(value="NV") Nevada
+            //-   option(value="NH") New Hampshire
+            //-   option(value="NJ") New Jersey
+            //-   option(value="NM") New Mexico
+            //-   option(value="NY") New York
+            //-   option(value="NC") North Carolina
+            //-   option(value="ND") North Dakota
+            //-   option(value="OH") Ohio
+            //-   option(value="OK") Oklahoma
+            //-   option(value="OR") Oregon
+            //-   option(value="PA") Pennsylvania
+            //-   option(value="RI") Rhode Island
+            //-   option(value="SC") South Carolina
+            //-   option(value="SD") South Dakota
+            //-   option(value="TN") Tennessee
+            //-   option(value="TX") Texas
+            //-   option(value="UT") Utah
+            //-   option(value="VT") Vermont
+            //-   option(value="VA") Virginia
+            //-   option(value="WA") Washington
+            //-   option(value="WV") West Virginia
+            //-   option(value="WI") Wisconsin
+            //-   option(value="WY") Wyoming
+          div.large-2.columns
+            button.button Get My Location
           div.large-3.columns
             select(name="radius" v-model="radius")
               option(value="") Distance from your location

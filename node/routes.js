@@ -23,18 +23,18 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
     });
 
     router.post('/', (req, res) => {
-      let address;
+      // let address;
 
-      if (req.body.address && req.body.city && req.body.state) {
-        address = req.body.address + "+" + req.body.city + "+" + req.body.state;
-      } else {
-        address = req.body.zip;
-      }
+      // if (req.body.address && req.body.city && req.body.state) {
+      //   address = req.body.address + "+" + req.body.city + "+" + req.body.state;
+      // } else {
+      //   address = req.body.zip;
+      // }
 
       let activity = req.body.activity;
       let radius = req.body.radius;
       
-      let getUserCoords = geospacial.getCoords(address);
+      let getUserCoords = geospacial.getCoords(req.body.zip);
 
       getUserCoords.then((coords) => {
         let startLat = coords.lat;

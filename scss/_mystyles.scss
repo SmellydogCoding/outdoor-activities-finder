@@ -69,9 +69,17 @@ $itemBackgroundHover: #333;
 
 .marker-index {
   position: absolute;
-  left: 36%;
-  top: 7%;
-  font-size: 1.5em;
+  left: 20%;
+  // top: 7%;
+  font-size: 1.1em;
+}
+
+.double-digit {
+  left: 8%;
+}
+
+.marker-icon {
+  width: 60%;
 }
 
 .activity-icon {
