@@ -44,11 +44,16 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
           let origin = {latitude: startLat, longitude: startLon};
           
           for (let p = 0; p < places.places.length; p++) {
-            let destination = {latitude: places.places[p].lat, longitude: places.places[p].lon};
-            places.places[p].distance = geospacial.getDistance(origin,destination);
-            for (let a = 0; a < places.places[p].activities.length; a++) {
-              places.places[p].activities[a].description = trailapi.cleanDescription(places.places[p].activities[a].description)
+            if (places.places[p].activities.length === 0) {
+              places.places.splice(p,1);
+            } else {
+              let destination = {latitude: places.places[p].lat, longitude: places.places[p].lon};
+              places.places[p].distance = geospacial.getDistance(origin,destination);
             }
+            
+            // for (let a = 0; a < places.places[p].activities.length; a++) {
+            //   places.places[p].activities[a].description = trailapi.cleanDescription(places.places[p].activities[a].description)
+            // }
           }
 
           places = places.places.sort((a,b) => {
