@@ -23,44 +23,44 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
     });
 
     router.post('/', (req, res) => {
-      // let address;
-
-      // if (req.body.address && req.body.city && req.body.state) {
-      //   address = req.body.address + "+" + req.body.city + "+" + req.body.state;
-      // } else {
-      //   address = req.body.zip;
-      // }
 
       let activity = req.body.activity;
       let radius = req.body.radius;
-      
-      let getUserCoords = geospacial.getCoords(req.body.zip);
 
-      getUserCoords.then((coords) => {
-        let startLat = coords.lat;
-        let startLon = coords.lng;
-
-        trailapi.getPlaces({lat: startLat, lon: startLon, activity: activity, radius: radius}).then((places) => {
-          let origin = {latitude: startLat, longitude: startLon};
-          
-          for (let p = 0; p < places.places.length; p++) {
-            if (places.places[p].activities.length === 0) {
-              places.places.splice(p,1);
-            } else {
-              let destination = {latitude: places.places[p].lat, longitude: places.places[p].lon};
-              places.places[p].distance = geospacial.getDistance(origin,destination);
-            }
-            
-            // for (let a = 0; a < places.places[p].activities.length; a++) {
-            //   places.places[p].activities[a].description = trailapi.cleanDescription(places.places[p].activities[a].description)
-            // }
+      const GPSData = () => {
+        return new Promise((resolve,reject) => {
+          if (req.body.zip) {
+            let getUserCoords = geospacial.getCoords(req.body.zip);
+            getUserCoords.then((coords) => {
+              resolve(coords);
+            });
+          } else {
+            let coords = { lat: req.body.userLattitude, lng: req.body.userLongitude }
+            resolve(coords);
           }
+        });
+      }
 
-          places = places.places.sort((a,b) => {
+      GPSData().then((coords) => {
+
+        trailapi.getPlaces({lat: coords.lat, lng: coords.lng, activity: activity, radius: radius}).then((places) => {
+          let origin = {latitude: coords.lat, longitude: coords.lng};
+
+          let filterdPlaces = places.places.filter((item) => {
+            return item.activities.length > 0;
+          });
+
+          let distanceToPlaces = filterdPlaces.map((item) => {
+            let destination = {latitude: item.lat, longitude: item.lon};
+            item.distance = geospacial.getDistance(origin,destination);
+            return item;
+          });
+
+          let sortedPlaces = distanceToPlaces.sort((a,b) => {
             return a.distance - b.distance;
           });
 
-          res.status(200).render('places', {places: places, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: startLat, lon: startLon}, key: process.env.googleMapsAPIKey});
+          res.status(200).render('places', {places: sortedPlaces, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: coords.lat, lon: coords.lon}, key: process.env.googleMapsAPIKey});
         });
       });
     });

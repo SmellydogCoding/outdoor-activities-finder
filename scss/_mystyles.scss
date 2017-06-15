@@ -36,6 +36,47 @@ $starHoverColour: #006622;
 $itemBackground: #ccc;
 $itemBackgroundHover: #333;
 
+// Search Bar Classes
+
+#useZip,#useLocation {
+  // width: 8.0em;
+  // height: 1.5em;
+  background-color: lightgray;
+  color: #333;
+  // padding: 2px;
+  // display: inline-block;
+  // margin: 10px -2px 10px 0;
+  box-sizing: content-box;
+  cursor: pointer;
+  text-align: center;
+}
+
+#useZip:hover, #useZip.active {
+  background-color: #286090;
+  color: white;
+  outline: 0;
+}
+
+#useLocation:hover, #useLocation.active {
+  background-color: $starHoverColour;
+  color: white;
+  outline: 0;
+}
+
+.successMessage, .successMessage:hover, .successMessage:active, .successMessage:focus {
+  background-color: $starHoverColour;
+  border: 1px solid transparent;
+  outline: 0;
+  cursor: auto;
+}
+
+.errorMessage, .errorMessage:hover, .errorMessage:active, .errorMessage:focus {
+  background-color: #cc4b37;
+  border: 1px solid transparent;
+  outline: 0;
+  cursor: auto;
+}
+
 // Places Page Classes
 
 .user-favorites {
