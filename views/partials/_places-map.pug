@@ -3,7 +3,6 @@ div#map
     function initMap() {
       
       let map = new google.maps.Map(document.getElementById('map'), {
-        //- zoom: 9,
         center: {lat: parseFloat(#{home.lat}), lng: parseFloat(#{home.lon})}
       });
 
@@ -40,6 +39,14 @@ div#map
         bounds.extend({lat: lattitude, lng: longitude});
 
       };
+
+      let marker = new google.maps.Marker({
+        position: new google.maps.LatLng(parseFloat(#{home.lat}),parseFloat(#{home.lon})),
+        icon: {url: 'img/home-icon.png', scaledSize: new google.maps.Size(25,40)},
+        map: map
+      });
+
+      bounds.extend({lat: parseFloat(#{home.lat}), lng: parseFloat(#{home.lon})});
 
       map.fitBounds(bounds);
       

@@ -25,6 +25,22 @@ each place,index in places
                     li
                       if activity.activity_type_name == "hiking"
                         img.activity-icon(src="img/hiking.svg" alt="hiking")
+                      else if activity.activity_type_name == "mountain biking"
+                        img.activity-icon(src="img/mountain-biking.svg" alt="mountain biking")
+                      else if activity.activity_type_name == "camping"
+                        img.activity-icon(src="img/camping.svg" alt="camping")
+                      else if activity.activity_type_name == "snow sports"
+                        img.activity-icon(src="img/snow-sports.svg" alt="snow-sports")
+                      else if activity.activity_type_name == "caving"
+                        img.activity-icon(src="img/caving.svg" alt="caving")
+                      else if activity.activity_type_name == "trail running"
+                        img.activity-icon(src="img/trail-running.svg" alt="trail running")
+                      else if activity.activity_type_name == "horseback riding"
+                        img.activity-icon(src="img/horseback-riding.svg" alt="horseback riding")
+                      else if activity.activity_type_name == "atv"
+                        img.activity-icon(src="img/atv.svg" alt="atv")
+                      else if activity.activity_type_name == "water sports"
+                        img.activity-icon(src="img/water-sports.svg" alt="water-sports")
                       else
                         h6.bold-text #{activity.activity_type_name}
       hr

@@ -60,7 +60,7 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
             return a.distance - b.distance;
           });
 
-          res.status(200).render('places', {places: sortedPlaces, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: coords.lat, lon: coords.lon}, key: process.env.googleMapsAPIKey});
+          res.status(200).render('places', {places: sortedPlaces, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: coords.lat, lon: coords.lng}, key: process.env.googleMapsAPIKey});
         });
       });
     });
