@@ -2,9 +2,7 @@ div#map
   script.
     function initMap() {
       
-      let map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: parseFloat(#{home.lat}), lng: parseFloat(#{home.lon})}
-      });
+      let map = new google.maps.Map(document.getElementById('map'), {});
 
       const locations = !{JSON.stringify(places)};
       let bounds = new google.maps.LatLngBounds();
