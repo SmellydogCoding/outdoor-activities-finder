@@ -1,31 +1,16 @@
 include ./partials/_head.pug
 body
   include ./partials/_nav.pug
-  div.large-12.columns
-    div.row
-      div.large-12.columns
-        div.large-6.columns
-          p
-            strong #{place.name}
-            br 
-            | #{place.city}, #{place.state}
-    div.row
-      div.large-2.columns
-        h5 Activities
-      div.large-2.columns.text-right
-        h5 Current Conditions
-    div.row
-      div.large-10.columns
-        include ./partials/_place-activities.pug
-      div.large-2.columns.weather
-        include ./partials/_weather.pug
-    div.row
-      div.large-9.columns.large-offset-1
-        include ./partials/_googlemap.pug
-    div.row
-      div.large-9.columns.large-offset-1
-        include ./partials/_reviews.pug
-    div.row
-      div.large-9.columns.large-offset-1
-        include ./partials/_add-review.pug
-    include ./partials/_footer.pug
+  div.row
+    div.large-6.columns.m-t-05
+      include ./partials/_place-map.pug
+    div.large-6.columns
+      include ./partials/_place-activities.pug
+      include ./partials/_place-weather.pug
+  div.row
+    div.large-9.columns.large-offset-1
+      include ./partials/_reviews.pug
+  div.row
+    div.large-9.columns.large-offset-1
+      include ./partials/_add-review.pug
+  include ./partials/_footer.pug

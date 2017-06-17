@@ -30,9 +30,10 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
       const GPSData = () => {
         return new Promise((resolve,reject) => {
           if (req.body.zip) {
-            let getUserCoords = geospacial.getCoords(req.body.zip);
+            let GPSInput = 'address=' + req.body.zip;
+            let getUserCoords = geospacial.getGPSData(GPSInput);
             getUserCoords.then((coords) => {
-              resolve(coords);
+              resolve(coords.coords);
             });
           } else {
             let coords = { lat: req.body.userLattitude, lng: req.body.userLongitude }
@@ -68,25 +69,29 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
     router.get('/place', (req, res) => {
       let total;
       let average;
-      trailapi.getPlaces({lat: req.query.lat, lon: req.query.lon, radius: .01}).then((place) => {
+      trailapi.getPlaces({lat: req.query.lat, lng: req.query.lng, radius: .1}).then((place) => {
         for (let a = 0; a < place.places[0].activities.length; a++) {
           place.places[0].activities[a].description = trailapi.cleanDescription(place.places[0].activities[a].description)
         }
-        weatherapi.getWeather(req.query.lat,req.query.lon).then((weather) => {
-          weather.main.temp = weather.main.temp.toFixed();
-          weather.wind.speed = weather.wind.speed.toFixed();
-          weather.wind.deg = weatherapi.convertToDirection(weather.wind.deg);
-          places.find({_id: place.places[0].unique_id}).toArray((error,dbplace) => {
-            if (dbplace[0] === undefined) {
-              dbplace = [{reviews: [{message: 'No reviews for this place yet.  Be the first to write a review!'}]}];
-            } else {
-              total = 0;
-              for (let r = 0; r < dbplace[0].reviews.length; r++) {
-                total += dbplace[0].reviews[r].rating;
+        let GPSInput = 'latlng=' + req.query.lat + ',' + req.query.lng;
+        let getUserCoords = geospacial.getGPSData(GPSInput);
+        getUserCoords.then((coords) => {
+          weatherapi.getWeather(req.query.lat,req.query.lng).then((weather) => {
+            weather.main.temp = weather.main.temp.toFixed();
+            weather.wind.speed = weather.wind.speed.toFixed();
+            weather.wind.deg = weatherapi.convertToDirection(weather.wind.deg);
+            places.find({_id: place.places[0].unique_id}).toArray((error,dbplace) => {
+              if (dbplace[0] === undefined) {
+                dbplace = [{reviews: [{message: 'No reviews for this place yet.  Be the first to write a review!'}]}];
+              } else {
+                total = 0;
+                for (let r = 0; r < dbplace[0].reviews.length; r++) {
+                  total += dbplace[0].reviews[r].rating;
+                }
+                average = total / dbplace[0].reviews.length
               }
-              average = total / dbplace[0].reviews.length
-            }
-            res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: dbplace[0], currentUser: res.locals.currentUser, average: average});
+              res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: dbplace[0], currentUser: res.locals.currentUser, average: average, zipcode: coords.zipcode});
+            });
           });
         });
       });

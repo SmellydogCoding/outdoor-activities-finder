@@ -9,12 +9,24 @@
   margin-top: 0.5em;
 }
 
+.m-t-1 {
+  margin-top: 1.0em;
+}
+
 .m-b-05 {
   margin-bottom: 0.5em;
 }
 
+.m-b-0 {
+  margin-bottom: 0;
+}
+
 .p-b-0 {
   padding-bottom: 0;
+}
+
+.inline-item {
+  display: inline-block;
 }
 
 // Typography Helper Classes
@@ -133,11 +145,10 @@ $itemBackgroundHover: #333;
 
 // Open Weather Widget Classes
 
-.weather {
-  border: 1px solid #333;
-  p {
-    margin-top: 0.25em;
-    margin-bottom: 0.25em;
+.card-divider {
+  padding: 0.5em 0.5em 0.25em 0.5em;
+  img {
+    margin-left: 1.0em;
   }
 }
 

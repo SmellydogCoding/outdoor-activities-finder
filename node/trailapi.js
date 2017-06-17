@@ -11,7 +11,7 @@ const getPlaces = (placeData) => {
       headers: {'X-Mashape-Key': process.env.trailAPIKey}
     };
 
-    if (placeData.radius === .01) {
+    if (placeData.radius === .1) {
       options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lng + '&radius=' + placeData.radius;
     } else if (placeData.activity === "all") {
       options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lng + '&q[country_cont]=United+States&radius=' + placeData.radius;
@@ -39,7 +39,10 @@ const getPlaces = (placeData) => {
 // getPlaces({lat: '39.80001161', lon: '-80.22746854', activity: 'hiking', radius: '19'});  // for testing
 
 const cleanDescription = (text) => {
-  return text = text.replace(/&lt;br \/&gt;<br \/>/g, '\xa0\xa0');
+  text = text.replace(/&lt;br \/&gt;<br \/>/g, ''); // \xa0 === &nbsp;
+  text = text.replace(/\.\b|\.\s{1,2}\b/g, '.\xa0\xa0');
+  // text = text.replace(/\.\s{1}\b/g, '.\xa0\xa0');
+  return text;
 };
 
 module.exports = {

@@ -12,7 +12,7 @@ each place,index in places
               else
                 span.marker-index #{number}
           div.large-10.columns
-            a(href="/place?lat=" + place.lat + "&lon=" + place.lon)
+            a(href="/place?lat=" + place.lat + "&lng=" + place.lon)
               p
                 strong #{place.name}
                 span &nbsp;(#{place.distance} miles)

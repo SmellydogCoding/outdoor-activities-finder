@@ -25,17 +25,19 @@ const getDistance = (start, end) => {
 
 // getDistance({latitude: 39.72122192, longitude: -80.51956177},{latitude: 40.02198029, longitude: -79.90330505}); // for testing
 
-const getCoords = (zipcode) => {
+const getGPSData = (GPSInput) => {
   return new Promise((resolve,reject) => {
     let body = '';
-    let req = https.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zipcode + '&key=' + process.env.googleAPIKey, function(res) {
+    let req = https.get('https://maps.googleapis.com/maps/api/geocode/json?' + GPSInput + '&key=' + process.env.googleAPIKey, function(res) {
       res.on('data', function(data) {
         body += data;
       });
       res.on('end', () => {
         let result = JSON.parse(body);
         let coords = result.results[0].geometry.location;
-        resolve(coords);
+        let zipcodeIndex = result.results[0].address_components.findIndex(i => i.types[0] === "postal_code");
+        let zipcode = result.results[0].address_components[zipcodeIndex].short_name;
+        resolve({"coords": coords, "zipcode": zipcode});
       });
       req.on('error', (error) => {
         reject(error);
@@ -47,6 +49,6 @@ const getCoords = (zipcode) => {
 // getCoords('15351');  // for testing
 
 module.exports = { 
-  getCoords: getCoords,
+  getGPSData: getGPSData,
   getDistance: getDistance
 };

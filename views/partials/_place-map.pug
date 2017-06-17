@@ -13,6 +13,7 @@ div#map
       });
       let marker = new google.maps.Marker({
         position: {lat: lattitude, lng: longitude},
+        icon: {url: 'img/green-pin.png', scaledSize: new google.maps.Size(25,40)},
         map: map
       });
       let infowindow = new google.maps.InfoWindow({
