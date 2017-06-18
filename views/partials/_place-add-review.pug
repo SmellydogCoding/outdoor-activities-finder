@@ -2,8 +2,7 @@ div.status-update-input-box
   form(action="/reviews" method="post")
     div.row.input-box-container
       div.columns
-        label Add a review
-          textarea(rows="5" name="description" placeholder="What's on your mind?")
+        textarea(rows="5" name="description" placeholder="What's on your mind?")
         input(type="hidden" name="placeName" value=place.name)
         input(type="hidden" name="uniqueID" value=place.unique_id)
         input(type="hidden" name="lat" value=place.lat)

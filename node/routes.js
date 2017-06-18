@@ -26,6 +26,7 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
 
       let activity = req.body.activity;
       let radius = req.body.radius;
+      let sortedPlaces;
 
       const GPSData = () => {
         return new Promise((resolve,reject) => {
@@ -47,6 +48,8 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
         trailapi.getPlaces({lat: coords.lat, lng: coords.lng, activity: activity, radius: radius}).then((places) => {
           let origin = {latitude: coords.lat, longitude: coords.lng};
 
+          if (places.places.length > 0) {
+
           let filterdPlaces = places.places.filter((item) => {
             return item.activities.length > 0;
           });
@@ -57,9 +60,13 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
             return item;
           });
 
-          let sortedPlaces = distanceToPlaces.sort((a,b) => {
+          sortedPlaces = distanceToPlaces.sort((a,b) => {
             return a.distance - b.distance;
           });
+
+          } else {
+            sortedPlaces = "no results";
+          }
 
           res.status(200).render('places', {places: sortedPlaces, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: coords.lat, lon: coords.lng}, key: process.env.googleMapsAPIKey});
         });

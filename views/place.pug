@@ -7,10 +7,11 @@ body
     div.large-6.columns
       include ./partials/_place-activities.pug
       include ./partials/_place-weather.pug
+  hr
   div.row
-    div.large-9.columns.large-offset-1
-      include ./partials/_reviews.pug
-  div.row
-    div.large-9.columns.large-offset-1
-      include ./partials/_add-review.pug
+    div.large-12.columns
+      include ./partials/_place-reviews.pug
+  div.row.m-b-1
+    div.large-12.columns
+      include ./partials/_place-add-review.pug
   include ./partials/_footer.pug

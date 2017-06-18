@@ -1,0 +1,19 @@
+if reviews.reviews[0].message
+  div.row
+    div.large-12.columns
+      p #{reviews.reviews[0].message}
+else
+  div.row
+    div.large-12.columns
+      h5.m-b-0 Reviews
+      p Average Rating: #{average}
+  each review in reviews.reviews
+    div.row
+      div.large-12.columns
+        p.review-stars 
+          - for (let s = 0; s < review.rating; s++)
+            i.fa.fa-star
+          br
+          - review.posted_on = review.posted_on.toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'});
+          | by #{review.username} on #{review.posted_on}
+          p #{review.comment}

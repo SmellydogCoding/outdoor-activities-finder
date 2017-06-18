@@ -13,12 +13,16 @@
   margin-top: 1.0em;
 }
 
+.m-b-0 {
+  margin-bottom: 0;
+}
+
 .m-b-05 {
   margin-bottom: 0.5em;
 }
 
-.m-b-0 {
-  margin-bottom: 0;
+.m-b-1 {
+  margin-bottom: 1.0em;
 }
 
 .p-b-0 {
@@ -105,7 +109,7 @@ $itemBackgroundHover: #333;
 }
 
 .place-list {
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .place {

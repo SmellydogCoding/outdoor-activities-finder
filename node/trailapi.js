@@ -39,9 +39,8 @@ const getPlaces = (placeData) => {
 // getPlaces({lat: '39.80001161', lon: '-80.22746854', activity: 'hiking', radius: '19'});  // for testing
 
 const cleanDescription = (text) => {
-  text = text.replace(/&lt;br \/&gt;<br \/>/g, ''); // \xa0 === &nbsp;
+  text = text.replace(/<br \/>{1,2}/g, ''); // \xa0 === &nbsp;
   text = text.replace(/\.\b|\.\s{1,2}\b/g, '.\xa0\xa0');
-  // text = text.replace(/\.\s{1}\b/g, '.\xa0\xa0');
   return text;
 };
 
