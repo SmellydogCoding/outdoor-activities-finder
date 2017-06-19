@@ -35,12 +35,12 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
       }
     });
     
-    places.insert({_id: 3218,name: 'Seven Springs',link: '/place?lat=40.01509&lon=-79.30127',reviews:[{username: 'smellydog',rating: 5,comment: 'The zip lines are really fun!', posted_on: new Date()}]},(error,result) => {
+    places.insert({_id: 3218,name: 'Seven Springs',link: '/place?lat=40.01509&lng=-79.30127',reviews:[{username: 'smellydog',rating: 5,comment: 'The zip lines are really fun!', posted_on: new Date()}]},(error,result) => {
       if (error) {
         console.log(error);
       } else if (result) {
         console.log('reviews collection created');
-        places.createIndex({'reviews.username': 1},{unique: true},(error,result) => {
+        places.createIndex({'reviews.username': 1},{unique: false},(error,result) => {
            if (error) {
             console.log(error);
           } else if (result) {

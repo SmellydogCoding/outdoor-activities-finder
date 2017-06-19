@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient
-const ObjectID = require('mongodb').ObjectID;
+// const ObjectID = require('mongodb').ObjectID;
 const geospacial = require('./geospacial.js');
 const trailapi = require('./trailapi.js');
 const weatherapi = require('./weather.js');
@@ -106,16 +106,16 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
 
     router.post('/reviews', mid.loginRequired, (req,res,next) => {
       let uniqueID = parseInt(req.body.uniqueID);
-      let reviewID = new ObjectID(uniqueID);
+      // let reviewID = new ObjectID(uniqueID);
       let rating = parseInt(req.body.rating);
-      let referringUrl = '/place?lat=' + req.body.lat + '&lon=' + req.body.lon;
+      let referringUrl = '/place?lat=' + req.body.lat + '&lng=' + req.body.lon;
       if (req.body.noReviews) {
-        places.insert({_id:reviewID,name:req.body.placeName,link: referringUrl,reviews:[{username: res.locals.currentUser,rating: rating,description: req.body.description, date: new Date()}]},(error,result) => {
+        places.insert({_id:uniqueID,name:req.body.placeName,link: referringUrl,reviews:[{username: res.locals.currentUser,rating: rating,comment: req.body.description, posted_on: new Date()}]},(error,result) => {
           if (error) {
             return next(error);
           } else {
             console.log(result);
-            users.update({username: res.locals.currentUser},{$push: {reviews: reviewID}},(error,result) => {
+            users.update({username: res.locals.currentUser},{$push: {reviews: uniqueID}},(error,result) => {
               if (error) {
                 return next(error);
               } else {
@@ -126,11 +126,11 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
           }
         });
       } else {
-        places.update({_id:reviewID},{$push: {reviews: {username: res.locals.currentUser,rating: rating,description: req.body.description, date: new Date()}}},(error,result) => {
+        places.update({_id:uniqueID},{$push: {reviews: {username: res.locals.currentUser,rating: rating,comment: req.body.description, posted_on: new Date()}}},(error,result) => {
           if (error) {
             return next(error);
           } else {
-            users.update({username: res.locals.currentUser},{$push: {reviews: reviewID}},(error,result) => {
+            users.update({username: res.locals.currentUser},{$push: {reviews: uniqueID}},(error,result) => {
               if (error) {
                 return next(error);
               } else {
@@ -144,13 +144,19 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
     });
 
     router.get('/user', (req,res,next) => {
-      users.find({username: res.locals.currentUser}).toArray((error,user) => {
+      users.find({username: req.session.username}).toArray((error,user) => {
         if (error) {
           return next(error);
         } else {
-          let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-          user[0].joined_on = user[0].joined_on.toLocaleDateString('en-US',options);
-          res.render('user', {title: 'User Profile', user: user[0], currentUser: res.locals.currentUser});
+          // let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          // user[0].joined_on = user[0].joined_on.toLocaleDateString('en-US',options);
+          let userReviews = [];
+          for (let review in user[0].reviews) {
+            userReviews.push({_id: user[0].reviews[review]});
+          }
+          places.find({$or: userReviews}).toArray((error,places) => {
+            res.render('user', {title: 'User Profile', user: user[0], places, currentUser: req.session.username});
+          });
         }
       });
     });

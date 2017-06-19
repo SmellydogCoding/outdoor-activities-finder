@@ -5,6 +5,11 @@
   margin-bottom: 0.5em;
 }
 
+.m-y-1 {
+  margin-top: 1.0em;
+  margin-bottom: 1.0em;
+}
+
 .m-t-05 {
   margin-top: 0.5em;
 }
@@ -23,6 +28,10 @@
 
 .m-b-1 {
   margin-bottom: 1.0em;
+}
+
+.m-l-1 {
+  margin-left: 1.0em;
 }
 
 .p-b-0 {
@@ -59,13 +68,8 @@ $itemBackgroundHover: #333;
 // Search Bar Classes
 
 #useZip,#useLocation {
-  // width: 8.0em;
-  // height: 1.5em;
   background-color: lightgray;
   color: #333;
-  // padding: 2px;
-  // display: inline-block;
-  // margin: 10px -2px 10px 0;
   box-sizing: content-box;
   cursor: pointer;
   text-align: center;
@@ -131,7 +135,6 @@ $itemBackgroundHover: #333;
 .marker-index {
   position: absolute;
   left: 20%;
-  // top: 7%;
   font-size: 1.1em;
 }
 
@@ -164,8 +167,6 @@ $itemBackgroundHover: #333;
   margin-bottom: 0.5em;
 }
 
-
-
 // Translucent Form Overlay
 
 $translucent-form-overlay-max-width: 500px;
@@ -176,11 +177,6 @@ $translucent-form-overlay-max-width: 500px;
   background-color: rgba(54, 54, 54, 0.8);
   padding: 20px;
   color: $white;
-
-  // workaround 6.3.0 bug
-  // .columns.row {
-  //   display: block;
-  // }
 
   h3, label {
     color: $white;
@@ -213,16 +209,18 @@ $translucent-form-overlay-max-width: 500px;
   background-color: $white;
   padding: 1rem;
   width: 100%;
-  border: 1px solid $medium-gray;
+  border: 1px solid $dark-gray;
   box-shadow: 0 0.0625rem 0.1875rem rgba(0,0,0, 0.18), 0 0.125rem 2px rgba(0,0,0, 0.36);
 
   .input-box-container {
 
     textarea {
       margin-bottom: 0;
+      color: #333;
+      border: 1px solid $dark-gray;
 
       &:focus {
-        border: 1px solid $medium-gray;
+        border: 1px solid $dark-gray;
         box-shadow: none;
       }
 
@@ -241,12 +239,11 @@ $translucent-form-overlay-max-width: 500px;
 
     .user-action-box {
       padding: 0;
-      border: 1px solid $medium-gray;
+      border: 1px solid $dark-gray;
       display: flex;
 
       .action-area {
-        // width: 20%;
-        border-right: 0.0625rem solid $medium-gray;
+        border-right: 0.0625rem solid $dark-gray;
         text-align: center;
         padding: 0;
         margin: 0 0.25em;
@@ -270,7 +267,7 @@ $translucent-form-overlay-max-width: 500px;
 
     .user-submit-box {
       padding: 0.35rem 0.5rem;
-      border: 1px solid $medium-gray;
+      border: 1px solid $dark-gray;
       display: flex;
       justify-content: flex-end;
 

@@ -1,0 +1,5 @@
+h5 #{user.username}
+div.row
+  div.large-6 #{user.email}
+  - user.joined_on = user.joined_on.toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'});
+  div.large-6 Member since: #{user.joined_on}
