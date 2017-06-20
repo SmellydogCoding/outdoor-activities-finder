@@ -45,7 +45,7 @@ app.set('views', __dirname + '/views');
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  res.status(404).send('not found');
+  res.status(404).render('fourohfour', {title: "404: Page Not Found"});
 });
 
 // error handler
