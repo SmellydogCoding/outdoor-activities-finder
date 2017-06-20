@@ -4,11 +4,13 @@ div.row.m-t-1
       img(src=place.activities[0].thumbnail)
     else
       img(src="https:/placehold.it/50x50&text=[img]")
-  div.large-10.columns
+  div.large-6.columns
     p
       strong #{place.name}
       br 
       | #{place.city}, #{place.state}
+  div.large-4.columns
+    include ./_place-favorites-ui.pug
 div.row
   div.large-12.columns
     each activity in place.activities

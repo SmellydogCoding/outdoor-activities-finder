@@ -58,6 +58,10 @@ hr {
   margin: 0 auto 0.5em;
 }
 
+.rounded {
+  border-radius: 5px;
+}
+
 // Custom Color Classes
 
 $starColour: #009933;
@@ -354,5 +358,70 @@ $translucent-form-overlay-max-width: 500px;
       position: relative;
       top: 2px;
     }
+  }
+}
+
+// Fancy Alert
+
+$alert-box-opacity: 0.2;
+$alert-color: rgb(204,75,55);
+$warning-color: rgb(255,174,0);
+$success-color: rgb(58,219,118);
+$info-color: rgb(23,121,186);
+
+.alert-box {
+  padding-right: 3.25rem;
+  width: 100%;
+
+  &.alert-button {
+    padding-right: 1.0em;
+    p {
+      display: inline-block;
+    }
+  }
+
+  &.callout {
+    font-weight: bold;
+    padding: 0.4em;
+  }
+
+  &.alert {
+    border: 3px solid $alert-color;
+    border-radius: 5px;
+    background-color:rgba($alert-color, $alert-box-opacity);
+  }
+
+  &.warning {
+    border: 3px solid $warning-color;
+    border-radius: 5px;
+    background-color:rgba($warning-color, $alert-box-opacity);
+  }
+
+  &.success {
+    border: 3px solid $success-color;
+    color: $success-color;
+    border-radius: 5px;
+    background-color:rgba($success-color, $alert-box-opacity);
+  }
+
+  &.info {
+    border: 3px solid $primary-color;
+    border-radius: 5px;
+    background-color:rgba($info-color, $alert-box-opacity);
+  }
+
+  i {
+    border: 2px solid $white;
+    border-radius: 50%;
+    padding: .3em .325em;
+    margin-right: 0.5rem;
+  }
+
+  .close-button {
+    color: rgba($white, 0.5);
+    font-size: 2rem;
+    @include vertical-center;
+    right: 1rem;
+    font-weight: bold;
   }
 }

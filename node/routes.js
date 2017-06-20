@@ -73,7 +73,7 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
       });
     });
 
-    router.get('/place', (req, res) => {
+    router.get('/place', (req, res, next) => {
       let total;
       let average;
       trailapi.getPlaces({lat: req.query.lat, lng: req.query.lng, radius: .1}).then((place) => {
@@ -97,7 +97,13 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
                 }
                 average = total / dbplace[0].reviews.length
               }
-              res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: dbplace[0], currentUser: res.locals.currentUser, average: average, zipcode: coords.zipcode});
+              let link = `/place?lat=${req.query.lat}&lng=${req.query.lng}`;
+              users.find({username: req.session.username, "favorites.id": parseInt(place.places[0].unique_id)}).toArray((error,user) => {
+                if (error) { return next(error) }
+                let favorited = false;
+                if (user[0] !== undefined) { favorited = true; }
+                res.status(200).render('place', {place: place.places[0], weather: weather, title: place.places[0].name, key: process.env.googleMapsAPIKey, reviews: dbplace[0], currentUser: req.session.username, average, zipcode: coords.zipcode, link, favorited});
+              });
             });
           });
         });
@@ -271,6 +277,38 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
           }
         });
       });
+    });
+
+    router.post('/addfavorite', (req,res,next) => {
+      users.find({username: req.session.username, "favorites.id": parseInt(req.body.uniqueID)}).toArray((error,user) => {
+        if (error) { return next(error); }
+        if (user[0] !== undefined) {
+          let error = new Error("You have already added this place to your favorites")
+          // error.message = "You have already added this place to your favorites"
+          return next(error);
+        }
+        users.update({username: req.session.username}, {$push: {favorites: {id: parseInt(req.body.uniqueID), name: req.body.name, city: req.body.city, state: req.body.state, link: req.body.link}}},(error,result) => {
+          if (error) { return next(error); }
+          console.log(result);
+          res.redirect(req.body.link);
+        });
+      });
+    });
+
+    router.post('/removefavorite', (req,res,next) => {
+      // users.find({username: req.session.username, "favorites.id": parseInt(req.body.uniqueID)}).toArray((error,user) => {
+      //   if (error) { return next(error); }
+      //   if (user[0] !== undefined) {
+      //     let error = new Error("You have already added this place to your favorites")
+      //     // error.message = "You have already added this place to your favorites"
+      //     return next(error);
+      //   }
+        users.update({username: req.session.username}, {$pull: {favorites: {id: parseInt(req.body.uniqueID)}}},(error,result) => {
+          if (error) { return next(error); }
+          console.log(result);
+          res.redirect('/user');
+        });
+      // });
     });
     
   }
