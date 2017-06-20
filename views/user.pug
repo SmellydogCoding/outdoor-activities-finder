@@ -1,26 +1,27 @@
 include ./partials/_head.pug
 body
-  include ./partials/_nav.pug
-  div.row.m-y-1
-    div.large-12.columns.text-center
-      div.large-8.columns
-        h4 User Info
-      div.large-3.columns
-        h4 User Options
-  div.row
-    div.large-12.columns
-      div.large-8.columns.callout.text-center
-        include ./partials/_user-info.pug
-      div.large-3.columns.callout.menu-centered
-        include ./partials/_user-options.pug
-  div.row.m-y-1
-    div.large-6.columns.text-center
-      h4 User Favorites
-    div.large-6.columns.text-center
-      h4 User Reviews
-  div.row
-    div.large-6.columns.callout
-      include ./partials/_user-favorites.pug
-    div.large-6.columns.callout
-      include ./partials/_user-reviews.pug
+  div#app
+    include ./partials/_nav.pug
+    div.row.m-y-1
+      div.large-12.columns.text-center
+        div.large-8.columns
+          h4 User Info
+        div.large-3.columns
+          h4 User Options
+    div.row
+      div.large-12.columns
+        div.large-8.columns.callout.text-center
+          include ./partials/_user-info.pug
+        div.large-3.columns.callout.menu-centered
+          include ./partials/_user-options.pug
+    div.row.m-y-1
+      div.large-6.columns.text-center
+        h4 User Favorites
+      div.large-6.columns.text-center
+        h4 User Reviews
+    div.row
+      div.large-6.columns.callout
+        include ./partials/_user-favorites.pug
+      div.large-6.columns.callout
+        include ./partials/_user-reviews.pug
   include ./partials/_footer.pug
