@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient
-// const ObjectID = require('mongodb').ObjectID;
 const geospacial = require('./geospacial.js');
 const trailapi = require('./trailapi.js');
 const weatherapi = require('./weather.js');
@@ -112,7 +111,6 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
 
     router.post('/reviews', mid.loginRequired, (req,res,next) => {
       let uniqueID = parseInt(req.body.uniqueID);
-      // let reviewID = new ObjectID(uniqueID);
       let rating = parseInt(req.body.rating);
       let referringUrl = '/place?lat=' + req.body.lat + '&lng=' + req.body.lon;
       if (req.body.noReviews) {
@@ -149,13 +147,29 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
       }
     });
 
-    router.get('/user', (req,res,next) => {
+    router.post('/removereview', mid.loginRequired, (req,res,next) => {
+      places.update({_id: parseInt(req.body.ID)}, {$pull: {reviews: {username: req.session.username}}},(error,result) => {
+        if (error) { return next(error); }
+        console.log(result);
+        places.find({_id: parseInt(req.body.ID)}).toArray((error,place) => {
+          if (place[0].reviews.length === 0) {
+            places.deleteOne({_id: parseInt(req.body.ID)},(error,result) => {
+              if (error) {return next(error); }
+              console.log(result);
+              res.redirect(req.body.link);
+            });
+          } else {
+            res.redirect(req.body.link);
+          }
+        });
+      });
+    });
+
+    router.get('/user', mid.loginRequired, (req,res,next) => {
       users.find({username: req.session.username}).toArray((error,user) => {
         if (error) {
           return next(error);
         } else {
-          // let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-          // user[0].joined_on = user[0].joined_on.toLocaleDateString('en-US',options);
           let userReviews = [];
           for (let review in user[0].reviews) {
             userReviews.push({_id: user[0].reviews[review]});
@@ -168,7 +182,7 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
     });
     
     router.get('/login', (req,res) => {
-      res.render('login', {title: 'login'});
+      res.render('login', {title: 'login', referer: req.headers.referer});
     });
 
     router.post('/login', (req,res,next) => {
@@ -184,14 +198,14 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
             } else {
               req.session.username = user[0].username;
               req.session.usertype = user[0].type;
-              res.redirect('/');
+              res.redirect(req.body.referer);
             }
           });
         }
       });
     });
 
-    router.get('/logout', (req, res, next) => {
+    router.get('/logout', mid.loginRequired, (req, res, next) => {
       if (req.session) {
         // delete session object
         req.session.destroy((error) => {
@@ -244,11 +258,11 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
       });
     });
 
-    router.get('/changepassword', (req,res) => {
+    router.get('/changepassword', mid.loginRequired, (req,res) => {
       res.render('changepassword', {title: 'Change Your Password', currentUser: res.locals.currentUser});
     });
 
-    router.post('/changepassword', (req,res,next) => {
+    router.post('/changepassword', mid.loginRequired, (req,res,next) => {
       users.find({username: res.locals.currentUser}).toArray((error,user) => {
         bcrypt.compare(req.body.currentPass, user[0].password , function(error, result) {
           if (error) {
@@ -279,12 +293,11 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
       });
     });
 
-    router.post('/addfavorite', (req,res,next) => {
+    router.post('/addfavorite', mid.loginRequired, (req,res,next) => {
       users.find({username: req.session.username, "favorites.id": parseInt(req.body.uniqueID)}).toArray((error,user) => {
         if (error) { return next(error); }
         if (user[0] !== undefined) {
           let error = new Error("You have already added this place to your favorites")
-          // error.message = "You have already added this place to your favorites"
           return next(error);
         }
         users.update({username: req.session.username}, {$push: {favorites: {id: parseInt(req.body.uniqueID), name: req.body.name, city: req.body.city, state: req.body.state, link: req.body.link}}},(error,result) => {
@@ -295,20 +308,12 @@ MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,
       });
     });
 
-    router.post('/removefavorite', (req,res,next) => {
-      // users.find({username: req.session.username, "favorites.id": parseInt(req.body.uniqueID)}).toArray((error,user) => {
-      //   if (error) { return next(error); }
-      //   if (user[0] !== undefined) {
-      //     let error = new Error("You have already added this place to your favorites")
-      //     // error.message = "You have already added this place to your favorites"
-      //     return next(error);
-      //   }
-        users.update({username: req.session.username}, {$pull: {favorites: {id: parseInt(req.body.uniqueID)}}},(error,result) => {
-          if (error) { return next(error); }
-          console.log(result);
-          res.redirect('/user');
-        });
-      // });
+    router.post('/removefavorite', mid.loginRequired, (req,res,next) => {
+      users.update({username: req.session.username}, {$pull: {favorites: {id: parseInt(req.body.uniqueID)}}},(error,result) => {
+        if (error) { return next(error); }
+        console.log(result);
+        res.redirect('/user');
+      });
     });
     
   }

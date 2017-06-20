@@ -18,6 +18,10 @@
   margin-top: 1.0em;
 }
 
+.m-t-32 {
+  margin-top: 3.2em;
+}
+
 .m-b-0 {
   margin-bottom: 0;
 }
@@ -64,35 +68,37 @@ hr {
 
 // Custom Color Classes
 
-$starColour: #009933;
-$starHoverColour: #006622;
-$itemBackground: #ccc;
-$itemBackgroundHover: #333;
+$light-green: #009933;
+$dark-green: #006622;
+$lighter-gray: #ccc;
+$really-lighter-gray: #eee;
+$darker-gray: #333;
+$primary-blue: #286090;
 
 // Search Bar Classes
 
 #useZip,#useLocation {
-  background-color: lightgray;
-  color: #333;
+  background-color: $lighter-gray;
+  color: $darker-gray;
   box-sizing: content-box;
   cursor: pointer;
   text-align: center;
 }
 
 #useZip:hover, #useZip.active {
-  background-color: #286090;
+  background-color: $primary-blue;
   color: white;
   outline: 0;
 }
 
 #useLocation:hover, #useLocation.active {
-  background-color: $starHoverColour;
+  background-color: $dark-green;
   color: white;
   outline: 0;
 }
 
 .successMessage, .successMessage:hover, .successMessage:active, .successMessage:focus {
-  background-color: $starHoverColour;
+  background-color: $dark-green;
   border: 1px solid transparent;
   outline: 0;
   cursor: auto;
@@ -108,11 +114,11 @@ $itemBackgroundHover: #333;
 // Places Page Classes
 
 .user-favorites {
-  color: $itemBackgroundHover;
-  background-color: $itemBackground;
+  color: $darker-gray;
+  background-color: $lighter-gray;
   div:hover {
-    color: $itemBackground;
-    background-color: $itemBackgroundHover;
+    color: $lighter-gray;
+    background-color: $darker-gray;
   }
 }
 
@@ -204,7 +210,7 @@ $translucent-form-overlay-max-width: 500px;
 // reviews classes
 
 .review-stars i {
-  color: $starColour
+  color: $light-green
 }
 
 // add a review classes
@@ -286,9 +292,9 @@ $translucent-form-overlay-max-width: 500px;
 
       .button {
         margin-bottom: 0;
-        background-color: $starColour;
+        background-color: $light-green;
         &:hover {
-          background-color: $starHoverColour
+          background-color: $dark-green
         }
 
         @include breakpoint(small only) {
@@ -299,6 +305,10 @@ $translucent-form-overlay-max-width: 500px;
       }
     }
   }
+}
+
+.light-background {
+  background-color: $really-lighter-gray;
 }
 
 // Star Rating Classes
@@ -329,7 +339,7 @@ $translucent-form-overlay-max-width: 500px;
         white-space: nowrap;
         cursor: pointer;
         font-size: 150%;
-        color: $starColour;
+        color: $light-green;
         
         &:before {
           content: '\f006  ';
@@ -337,8 +347,8 @@ $translucent-form-overlay-max-width: 500px;
         
         &:hover,
         &:hover ~ label {
-          color: $starHoverColour;
-          text-shadow: 0 0 3px $starHoverColour;
+          color: $dark-green;
+          text-shadow: 0 0 3px $dark-green;
           &:before {
             content: '\f005  ';
           }

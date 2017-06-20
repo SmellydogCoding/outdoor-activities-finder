@@ -8,8 +8,8 @@ else
       h5.m-b-0 Reviews
       p Average Rating: #{average}
   each review in reviews.reviews
-    div.row
-      div.large-12.columns
+    div.row.light-background.m-b-1
+      div.large-10.columns
         p.review-stars 
           - for (let s = 0; s < review.rating; s++)
             i.fa.fa-star
@@ -17,3 +17,8 @@ else
           - review.posted_on = review.posted_on.toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'});
           | by #{review.username} on #{review.posted_on}
           p #{review.comment}
+      div.large-2.columns
+        form(action="/removereview" method="post")
+          input(type="hidden" name="ID" value=reviews._id)
+          input(type="hidden" name="link" value=reviews.link)
+          button.button.small.warning.rounded.m-t-32 Remove
