@@ -14,6 +14,10 @@
   margin-top: 0.5em;
 }
 
+.m-t-065 {
+  margin-top: 0.65em;
+}
+
 .m-t-1 {
   margin-top: 1.0em;
 }
@@ -66,6 +70,32 @@ hr {
   border-radius: 5px;
 }
 
+.top-bar-right ul {
+  line-height: 2.6;
+}
+
+// Move footer to bottom on small pages classes
+
+#app {
+  min-height: 100%;
+  margin-bottom: -60px;
+  &:after {
+    content: "";
+    display: block;
+  }
+}
+
+.bottom-body {
+  padding-bottom: 60px;
+}
+
+.bottom-footer, #app:after {
+  height: 60px;
+  // position: absolute;
+  // width: 100%;
+  // bottom: 0;
+}
+
 // Custom Color Classes
 
 $light-green: #009933;
@@ -109,6 +139,13 @@ $primary-blue: #286090;
   border: 1px solid transparent;
   outline: 0;
   cursor: auto;
+}
+
+// Index Page Classes
+
+.index-gallery {
+  width: 20%;
+  border-radius: 100%;
 }
 
 // Places Page Classes
