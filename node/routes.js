@@ -9,7 +9,8 @@ const mid = require('./middleware.js');
 
 require('./env.js');  // comment out for production
 
-MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,db) => {
+// MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,db) => {
+MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword + '@cluster0-shard-00-00-l7zef.mongodb.net:27017,cluster0-shard-00-01-l7zef.mongodb.net:27017,cluster0-shard-00-02-l7zef.mongodb.net:27017/outdoor-activity-finder?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin', (error,db) => {
   if (error) {
     console.log(error)
   } else {
