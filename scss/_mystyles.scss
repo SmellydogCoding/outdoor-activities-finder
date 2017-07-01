@@ -145,6 +145,25 @@ $primary-blue: #286090;
   border-radius: 100%;
 }
 
+// Validation Error Classes
+
+.validation-error-message {
+  margin-top: 1.0em;
+  & ul {
+    margin-bottom: 0;
+  }
+  & li {
+    list-style-type: disc;
+    display: inline-block;
+    padding: 0.5em 1.0em;
+    color: white;
+  }
+}
+
+.validation-error-field {
+  border: 1px solid #cc4b37;
+}
+
 // Places Page Classes
 
 .user-favorites {

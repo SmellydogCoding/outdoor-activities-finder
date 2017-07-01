@@ -1,0 +1,21 @@
+div.large-3.columns
+  button#useZip.button(@click="switchState('zip')" :class="{active: state == 'zip'}" type="button") Use Zip Code
+  button#useLocation.button(@click="switchState('location')" :class="{active: state == 'location'}" type="button") Use My Location
+  input(type="hidden" name="userLattitude" :value="userCoords.lattitude")
+  input(type="hidden" name="userLongitude" :value="userCoords.longitude")
+div.large-2.columns(v-if="state == 'zip'")
+  if errorFields
+    -if (errorFields.indexOf("zipcode") !== -1 && zipcode =="")
+      input.validation-error-field(type="text" maxlength="5" name="zip" placeholder="Zip Code")
+    -else if (errorFields.indexOf("zipcode") !== -1)
+      input.validation-error-field(type="text" maxlength="5" name="zip" value=zipcode)
+    -else if (errorFields.indexOf("zipcode") == -1)
+      input(type="text" maxlength="5" name="zip" value=zipcode)
+  else if zipcode
+    input(type="text" maxlength="5" name="zip" value=zipcode)
+  else
+    input(type="text" maxlength="5" name="zip" placeholder="zipcode")
+div.large-2.columns(v-if="state == 'location' && !userCoordsObtained")
+  button.button.expanded(@click="getLocation()" type="button") Get My Location
+div.large-2.columns(v-if="state == 'location' && userCoordsObtained")
+  button.button.successMessage.expanded(type="button") Success!

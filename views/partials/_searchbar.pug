@@ -1,3 +1,9 @@
+if errorMessages
+  div.row
+    div.large-12.columns.text-center.validation-error-message
+      ul
+        each error in errorMessages
+          li.errorMessage &bull; #{error}
 div.row.m-t-1
   div.large-12.columns
     div.callout.primary.p-b-0
@@ -5,41 +11,9 @@ div.row.m-t-1
         div.large-7.columns
           button.button.errorMessage.expanded(type="button" v-if="noGeolocation || geoLocationError") Bummer! &nbsp;&nbsp; I couldn't get your loction. &nbsp;&nbsp; Please check your browser settings and try again.
       form.text-center(action="/" method="POST")
-        input(type="hidden" name="userLattitude" :value="userCoords.lattitude")
-        input(type="hidden" name="userLongitude" :value="userCoords.longitude")
         div.row
-          div.large-3.columns
-            button#useZip.button(@click="switchState('zip')" :class="{active: state == 'zip'}" type="button") Use Zip Code
-            button#useLocation.button(@click="switchState('location')" :class="{active: state == 'location'}" type="button") Use My Location
-          div.large-2.columns(v-if="state == 'zip'")
-            input(type="text" maxlength="5" name="zip" placeholder="Zip Code")
-          div.large-2.columns(v-if="state == 'location' && !userCoordsObtained")
-            button.button.expanded(@click="getLocation()" type="button") Get My Location
-          div.large-2.columns(v-if="state == 'location' && userCoordsObtained")
-            button.button.successMessage.expanded(type="button") Success!
-          div.large-2.columns
-            select(name="radius")
-              option(value="") Distance
-              option(value="5") 5 Miles
-              option(value="10") 10 Miles
-              option(value="15") 15 Miles
-              option(value="20") 20 Miles
-              option(value="25") 25 Miles
-              option(value="30") 30 Miles
-              option(value="40") 40 Miles
-              option(value="50") 50 Miles
-          div.large-3.columns
-            select(name="activity")
-              option(value="") Choose an Activity
-              option(value="all") All
-              option(value="hiking") Hiking
-              option(value="mountain+biking") Mountain Biking
-              option(value="camping") Camping
-              option(value="snow+sports") Snow Sports
-              option(value="caving") Caving
-              option(value="trail+running") Trail Running
-              option(value="horseback+riding") Horseback Riding
-              option(value="atv") ATV
-              option(value="water+sports") Water Sports
+          include ./_searchbar-zipcode.pug
+          include ./_searchbar-distance.pug
+          include ./_searchbar-activity.pug
           div.large-2.columns
             input.button.expanded(type="submit" value="search")

@@ -23,53 +23,87 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
     });
 
     router.post('/', (req, res) => {
-
+      let zipcodeRegex = /^\d{5}$/;
       let activity = req.body.activity;
       let radius = req.body.radius;
+      let zipcode = req.body.zip;
       let sortedPlaces;
+      let errorFields = [];
+      let errorMessages = [];
 
       const GPSData = () => {
         return new Promise((resolve,reject) => {
-          if (req.body.zip) {
-            let GPSInput = 'address=' + req.body.zip;
-            let getUserCoords = geospacial.getGPSData(GPSInput);
-            getUserCoords.then((coords) => {
-              resolve(coords.coords);
-            });
+          if (zipcode || zipcode === "") {
+            switch(true) {
+
+              case (zipcode === ""):
+                errorFields.push("zipcode")
+                errorMessages.push("Zip Code is required.");
+                resolve();
+                break;
+
+              case (zipcodeRegex.test(zipcode)):
+                let GPSInput = 'address=' + zipcode;
+                let getUserCoords = geospacial.getGPSData(GPSInput);
+                getUserCoords.then((coords) => {
+                  resolve(coords.coords);
+                });
+                break;
+
+              default:
+                errorFields.push("zipcode")
+                errorMessages.push("Zip Code must be a 5 digit number.");
+                resolve();
+                break;
+            }
           } else {
             let coords = { lat: req.body.userLattitude, lng: req.body.userLongitude }
             resolve(coords);
           }
+          // reject();
         });
       }
 
       GPSData().then((coords) => {
 
-        trailapi.getPlaces({lat: coords.lat, lng: coords.lng, activity: activity, radius: radius}).then((places) => {
-          let origin = {latitude: coords.lat, longitude: coords.lng};
+        if (radius === "") { 
+          errorFields.push("radius");
+          errorMessages.push("You must choose a Distance.");
+        }
+        if (activity === "") { 
+          errorFields.push("activity");
+          errorMessages.push("You must choose an Activity.");
+        }
 
-          if (places.places.length > 0) {
+        if (errorFields[0] === undefined) {
+          trailapi.getPlaces({lat: coords.lat, lng: coords.lng, activity: activity, radius: radius}).then((places) => {
+            let origin = {latitude: coords.lat, longitude: coords.lng};
 
-          let filterdPlaces = places.places.filter((item) => {
-            return item.activities.length > 0;
+            if (places.places.length > 0) {
+
+            let filterdPlaces = places.places.filter((item) => {
+              return item.activities.length > 0;
+            });
+
+            let distanceToPlaces = filterdPlaces.map((item) => {
+              let destination = {latitude: item.lat, longitude: item.lon};
+              item.distance = geospacial.getDistance(origin,destination);
+              return item;
+            });
+
+            sortedPlaces = distanceToPlaces.sort((a,b) => {
+              return a.distance - b.distance;
+            });
+
+            } else {
+              sortedPlaces = "no results";
+            }
+
+            res.status(200).render('places', {places: sortedPlaces, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: coords.lat, lon: coords.lng}, key: process.env.googleMapsAPIKey, zipcode, radius, activity});
           });
-
-          let distanceToPlaces = filterdPlaces.map((item) => {
-            let destination = {latitude: item.lat, longitude: item.lon};
-            item.distance = geospacial.getDistance(origin,destination);
-            return item;
-          });
-
-          sortedPlaces = distanceToPlaces.sort((a,b) => {
-            return a.distance - b.distance;
-          });
-
-          } else {
-            sortedPlaces = "no results";
+        } else {
+          res.status(400).render('places', {places: [], title: "Search Results", currentUser: req.session.username, errorFields, errorMessages, zipcode, radius, activity});
           }
-
-          res.status(200).render('places', {places: sortedPlaces, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: coords.lat, lon: coords.lng}, key: process.env.googleMapsAPIKey});
-        });
       });
     });
 
