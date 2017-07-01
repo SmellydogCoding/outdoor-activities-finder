@@ -6,15 +6,15 @@ div.large-3.columns
 div.large-2.columns(v-if="state == 'zip'")
   if errorFields
     -if (errorFields.indexOf("zipcode") !== -1 && zipcode =="")
-      input.validation-error-field(type="text" maxlength="5" name="zip" placeholder="Zip Code")
+      input.validation-error-field(type="text" minlength="5" maxlength="5" name="zip" placeholder="Zip Code" pattern="[0-9]{5}" title="A valid 5 digit Zip Code is required." required)
     -else if (errorFields.indexOf("zipcode") !== -1)
-      input.validation-error-field(type="text" maxlength="5" name="zip" value=zipcode)
+      input.validation-error-field(type="text" minlength="5" maxlength="5" name="zip" value=zipcode pattern="[0-9]{5}" title="A valid 5 digit Zip Code is required." required)
     -else if (errorFields.indexOf("zipcode") == -1)
-      input(type="text" maxlength="5" name="zip" value=zipcode)
+      input(type="text" minlength="5" maxlength="5" name="zip" value=zipcode pattern="[0-9]{5}" title="A valid 5 digit Zip Code is required." required)
   else if zipcode
-    input(type="text" maxlength="5" name="zip" value=zipcode)
+    input(type="text" minlength="5" maxlength="5" name="zip" value=zipcode pattern="[0-9]{5}" title="A valid 5 digit Zip Code is required." required)
   else
-    input(type="text" maxlength="5" name="zip" placeholder="zipcode")
+    input(type="text" minlength="5" maxlength="5" name="zip" placeholder="Zip Code" pattern="[0-9]{5}" title="A valid 5 digit Zip Code is required." required)
 div.large-2.columns(v-if="state == 'location' && !userCoordsObtained")
   button.button.expanded(@click="getLocation()" type="button") Get My Location
 div.large-2.columns(v-if="state == 'location' && userCoordsObtained")

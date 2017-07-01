@@ -1,7 +1,7 @@
 div.large-3.columns
   if errorFields
     -if (errorFields.indexOf("activity") !== -1)
-      select.validation-error-field(name="activity")
+      select.validation-error-field(name="activity" required)
         option(value="") Choose an Activity
         option(value="all") All
         option(value="hiking") Hiking
@@ -14,7 +14,7 @@ div.large-3.columns
         option(value="atv") ATV
         option(value="water+sports") Water Sports
     -else if (errorFields.indexOf("activity") == -1)
-      select(name="activity")
+      select(name="activity" required)
         option(value="") Choose an Activity
         if activity == "all"
           option(value="all" selected) All
@@ -57,7 +57,7 @@ div.large-3.columns
         else
           option(value="water+sports") Water Sports
   else if activity
-    select(name="activity")
+    select(name="activity" required)
       option(value="") Choose an Activity
       if activity == "all"
         option(value="all" selected) All
@@ -100,7 +100,7 @@ div.large-3.columns
       else
         option(value="water+sports") Water Sports
   else
-    select(name="activity")
+    select(name="activity" required)
       option(value="") Choose an Activity
       option(value="all") All
       option(value="hiking") Hiking

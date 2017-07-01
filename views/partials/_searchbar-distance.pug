@@ -1,7 +1,7 @@
 div.large-2.columns
   if errorFields
     -if (errorFields.indexOf("radius") !== -1)
-      select.validation-error-field(name="radius")
+      select.validation-error-field(name="radius" required)
         option(value="") Distance
         option(value="5") 5 Miles
         option(value="10") 10 Miles
@@ -12,7 +12,7 @@ div.large-2.columns
         option(value="40") 40 Miles
         option(value="50") 50 Miles
     -else if (errorFields.indexOf("radius") == -1)
-      select(name="radius")
+      select(name="radius" required)
         option(value="") Distance
         if radius == "5"
           option(value="5" selected) 5 Miles
@@ -47,7 +47,7 @@ div.large-2.columns
         else
           option(value="50") 50 Miles
   else if radius
-    select(name="radius")
+    select(name="radius" required)
       option(value="") Distance
       if radius == "5"
         option(value="5" selected) 5 Miles
@@ -82,7 +82,7 @@ div.large-2.columns
       else
         option(value="50") 50 Miles
   else
-    select(name="radius")
+    select(name="radius" required)
       option(value="") Distance
       option(value="5") 5 Miles
       option(value="10") 10 Miles
