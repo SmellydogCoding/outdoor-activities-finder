@@ -221,19 +221,25 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
     });
 
     router.post('/login', (req,res,next) => {
+      let invalidUser = false;
+      let invalidPass = false;
+      let referer = req.body.referer;
+      if (referer.includes('/login') || referer.includes('/signup')) { referer = '/'; }
       users.find({username: req.body.username}).toArray((error,user) => {
         if (error) {
           return next(error);
         } else if (user[0] === undefined) {
-          console.log('user not found');
+          invalidUser = true;
+          res.render('login', {title: 'login', referer, invalidUser});
         } else {
           bcrypt.compare(req.body.password, user[0].password , function(error, result) {
             if (result === false) {
-              console.log('incorrect password');
+              invalidPass = true;
+              res.render('login', {title: 'login', referer, invalidPass, user: user[0].username});
             } else {
               req.session.username = user[0].username;
               req.session.usertype = user[0].type;
-              res.redirect(req.body.referer);
+              res.redirect(referer);
             }
           });
         }

@@ -149,10 +149,10 @@ $primary-blue: #286090;
 
 .validation-error-message {
   margin-top: 1.0em;
-  & ul {
+  & ul, p {
     margin-bottom: 0;
   }
-  & li {
+  & li, p {
     list-style-type: disc;
     display: inline-block;
     padding: 0.5em 1.0em;

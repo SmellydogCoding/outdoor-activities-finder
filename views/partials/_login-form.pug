@@ -3,9 +3,18 @@ div.translucent-form-overlay
     h3 Login
     div.row.columns
       label Username
-        input(type="text" name="username")
+        if invalidPass
+          input(type="text" name="username" value=user required)
+        else
+          input(type="text" name="username" required)
     div.row.columns
       label Password
-        input(type="password" name="password")
+        input(type="password" name="password" required)
       input(type="hidden" name="referer" value=referer)
     button.primary.button.expanded.search-button(type="submit") Login
+  if invalidUser || invalidPass
+    div.validation-error-message.text-center.errorMessage
+      if invalidUser
+        p That is not a valid user name.
+      if invalidPass
+        p That is not a valid password.
