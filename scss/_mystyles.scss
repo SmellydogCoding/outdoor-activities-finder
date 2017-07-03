@@ -150,7 +150,7 @@ $primary-blue: #286090;
 .validation-error-message {
   margin-top: 1.0em;
   & ul, p {
-    margin-bottom: 0;
+    margin: 0;
   }
   & li, p {
     list-style-type: disc;
@@ -235,8 +235,8 @@ $primary-blue: #286090;
 $translucent-form-overlay-max-width: 500px;
 
 .translucent-form-overlay {
-  max-width: $translucent-form-overlay-max-width;
-  width: 100%;
+  width: 90%;
+  margin: auto;
   background-color: rgba(54, 54, 54, 0.8);
   padding: 20px;
   color: $white;

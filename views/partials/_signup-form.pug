@@ -3,14 +3,42 @@ div.translucent-form-overlay
     h3 Sign Up
     div.row.columns
       label Username
-        input(type="text" name="username")
+        if errorFields
+          -if (errorFields.indexOf("username") !== -1 && username == "")
+            input.validation-error-field(type="text" name="username" placeholder="username")
+          -else if (errorFields.indexOf("username") !== -1)
+            input.validation-error-field(type="text" name="username" value=username)
+          -else if (errorFields.indexOf("username") == -1)
+            input(type="text" name="username" value=username)
+        else
+          input(type="text" name="username" placeholder="username")
     div.row.columns
       label Email
-        input(type="email" name="email")
+        if errorFields
+          -if (errorFields.indexOf("email") !== -1 && email == "")
+            input.validation-error-field(type="text" name="email" placeholder="email")
+          -else if (errorFields.indexOf("email") !== -1)
+            input.validation-error-field(type="text" name="email" value=email)
+          -else if (errorFields.indexOf("email") == -1)
+            input(type="text" name="email" value=email)
+        else
+          input(type="text" name="email" placeholder="email")
     div.row.columns
       label Password
-        input(type="password" name="password")
+        if errorFields
+          -if (errorFields.indexOf("password") !== -1)
+            input.validation-error-field(type="password" name="password" placeholder="password")
+          -else if (errorFields.indexOf("password") == -1)
+            input(type="password" name="password" placeholder="password")
+        else
+          input(type="password" name="password" placeholder="password")
     div.row.columns
-      label Re-type Password
-        input(type="password" name="confirmPassword")
-    button.primary.button.expanded.search-button(type="submit") Sign Up
+      label Re-enter Password
+        if errorFields
+          -if (errorFields.indexOf("confirmPassword") !== -1)
+            input.validation-error-field(type="password" name="confirmPassword" placeholder="re-enter password")
+          -else if (errorFields.indexOf("confirmPassword") == -1)
+            input(type="password" name="confirmPassword" placeholder="re-enter password")
+        else
+          input(type="password" name="confirmPassword" placeholder="re-enter password")
+    button.primary.button.expanded(type="submit") Sign Up

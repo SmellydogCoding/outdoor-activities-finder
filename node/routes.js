@@ -70,6 +70,7 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
           errorFields.push("radius");
           errorMessages.push("You must choose a Distance.");
         }
+
         if (activity === "") { 
           errorFields.push("activity");
           errorMessages.push("You must choose an Activity.");
@@ -264,16 +265,59 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
     });
 
     router.post('/signup', (req,res,next) => {
-      users.find({username: req.body.username}).toArray((error,user) => {
-        if (user[0] !== undefined) {
-          return console.log('username already exists'); // eventually res.send
-        } else {
-          users.find({email: req.body.email}).toArray((error,user) => {
-            if (user[0] !== undefined) {
-              return console.log('that email is already associated with an existing user'); // eventually res.send
-            } else {
-              if (req.body.password !== req.body.confirmPassword) {
-                return console.log('passwords do not match');
+      let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+      let username = req.body.username;
+      let email = req.body.email;
+      let password = req.body.password;
+      let confirmPassword = req.body.confirmPassword;
+      
+      let errorFields = [];
+      let errorMessages = [];
+
+      if (username === "") { 
+        errorFields.push("username");
+        errorMessages.push("You must enter a User Name.");
+      }
+
+      if (email === "") { 
+        errorFields.push("email");
+        errorMessages.push("You must enter an Email Address.");
+      } else if (email !== "" && !emailRegex.test(email)) { 
+        errorFields.push("email");
+        errorMessages.push("That is not a valid Email Address.");
+      }
+
+      if (password === "") { 
+        errorFields.push("password");
+        errorMessages.push("You must enter a password.");
+      } else if (password !== "" && !passwordRegex.test(password)) { 
+        errorFields.push("password");
+        errorMessages.push("Your password must be at least 8 characters with at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
+      }
+
+      if (confirmPassword === "") { 
+        errorFields.push("confirmPassword");
+        errorMessages.push("You must re-enter your password.");
+      } else if (confirmPassword !== password) { 
+        errorFields.push("confirmPassword");
+        errorMessages.push("Passwords must match.");
+      }
+
+      if (errorFields[0] !== undefined) {
+        res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages});
+      } else {
+        users.find({username: req.body.username}).toArray((error,user) => {
+          if (user[0] !== undefined) {
+            errorFields.push("username");
+            errorMessages.push("That username is already in use");
+            res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages});
+          } else {
+            users.find({email: req.body.email}).toArray((error,user) => {
+              if (user[0] !== undefined) {
+                errorFields.push("email");
+                errorMessages.push("That email address is already in use");
+                res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages});
               } else {
                 bcrypt.hash(req.body.password, 10, (error, hash) => {
                   if (error) {
@@ -293,10 +337,10 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
                   }
                 });
               }
-            }
-          });
-        }
-      });
+            });
+          }
+        });
+      }
     });
 
     router.get('/changepassword', mid.loginRequired, (req,res) => {
@@ -356,6 +400,13 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
         res.redirect('/user');
       });
     });
+
+    router.get('/admin', (req,res,next) => {
+      users.find({}).toArray((error,users) => {
+        if (error) { return next(error); }
+        res.render('admin', {title: "Admin Console", users});
+      });
+    }); 
     
   }
 });

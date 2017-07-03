@@ -1,0 +1,18 @@
+table
+  thead
+    tr
+      td username
+      td email
+      td type
+      td joined on
+  tbody
+    each user in users
+      tr
+        td #{user.username}
+        td #{user.email}
+        td #{user.type}
+        td #{user.joined_on}
+        td
+          input.button(type="button" value="edit")
+        td
+          input.button(type="button" value="delete")
