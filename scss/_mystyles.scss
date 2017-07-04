@@ -75,11 +75,11 @@ hr {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .show {
-  display: inline;
+  display: inline !important;
 }
 
 // Move footer to bottom on small pages classes

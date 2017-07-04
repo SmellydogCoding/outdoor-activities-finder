@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient
+const ObjectID = require('mongodb').ObjectID;
 const geospacial = require('./geospacial.js');
 const trailapi = require('./trailapi.js');
 const weatherapi = require('./weather.js');
@@ -148,9 +149,21 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
     router.post('/reviews', mid.loginRequired, (req,res,next) => {
       let uniqueID = parseInt(req.body.uniqueID);
       let rating = parseInt(req.body.rating);
+      let comment = req.body.description;
       let referringUrl = '/place?lat=' + req.body.lat + '&lng=' + req.body.lon;
+
+      if (comment === "") {
+        let error = new Error('Reviews can not be blank.');
+        return next(error);
+      }
+
+      if (req.body.rating === undefined) {
+        let error = new Error('You must choose a rating.');
+        return next(error);
+      }
+
       if (req.body.noReviews) {
-        places.insert({_id:uniqueID,name:req.body.placeName,link: referringUrl,reviews:[{username: res.locals.currentUser,rating: rating,comment: req.body.description, posted_on: new Date()}]},(error,result) => {
+        places.insert({_id:uniqueID,name:req.body.placeName,link: referringUrl,reviews:[{id: new ObjectID(), username: res.locals.currentUser,rating: rating,comment: comment, posted_on: new Date()}]},(error,result) => {
           if (error) {
             return next(error);
           } else {
@@ -166,7 +179,7 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
           }
         });
       } else {
-        places.update({_id:uniqueID},{$push: {reviews: {username: res.locals.currentUser,rating: rating,comment: req.body.description, posted_on: new Date()}}},(error,result) => {
+        places.update({_id:uniqueID},{$push: {reviews: {id: new ObjectID(), username: res.locals.currentUser,rating: rating,comment: comment, posted_on: new Date()}}},(error,result) => {
           if (error) {
             return next(error);
           } else {
@@ -184,12 +197,16 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
     });
 
     router.post('/removereview', mid.loginRequired, (req,res,next) => {
-      places.update({_id: parseInt(req.body.ID)}, {$pull: {reviews: {username: req.session.username}}},(error,result) => {
+      if (req.session.username !== req.body.reviewPoster && req.session.usertype !== "admin") {
+        let error = new Error('You can only delete a review if you are the one that created it.');
+        return next(error);
+      }
+      places.update({_id: parseInt(req.body.placeID)}, {$pull: {reviews: {id: ObjectID(req.body.reviewID), username: req.body.reviewPoster}}},(error,result) => {
         if (error) { return next(error); }
         console.log(result);
-        places.find({_id: parseInt(req.body.ID)}).toArray((error,place) => {
+        places.find({_id: parseInt(req.body.placeID)}).toArray((error,place) => {
           if (place[0].reviews.length === 0) {
-            places.deleteOne({_id: parseInt(req.body.ID)},(error,result) => {
+            places.deleteOne({_id: parseInt(req.body.placeID)},(error,result) => {
               if (error) {return next(error); }
               console.log(result);
               res.redirect(req.body.link);
@@ -382,7 +399,7 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
       users.find({username: req.session.username, "favorites.id": parseInt(req.body.uniqueID)}).toArray((error,user) => {
         if (error) { return next(error); }
         if (user[0] !== undefined) {
-          let error = new Error("You have already added this place to your favorites")
+          let error = new Error('You have already added this place to your favorites.  Go to your <a href="/user">user profile page</a> to remove it from your favorites.')
           return next(error);
         }
         users.update({username: req.session.username}, {$push: {favorites: {id: parseInt(req.body.uniqueID), name: req.body.name, city: req.body.city, state: req.body.state, link: req.body.link}}},(error,result) => {
@@ -404,7 +421,10 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
     router.get('/admin', (req,res,next) => {
       users.find({}).toArray((error,users) => {
         if (error) { return next(error); }
-        res.render('admin', {title: "Admin Console", users});
+        places.find({}).toArray((error,places) => {
+          if (error) { return next(error); }
+          res.render('admin', {title: "Admin Console", users, places});
+        });
       });
     }); 
     

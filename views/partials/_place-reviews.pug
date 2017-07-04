@@ -18,7 +18,10 @@ else
           | by #{review.username} on #{review.posted_on}
           p #{review.comment}
       div.large-2.columns
-        form(action="/removereview" method="post")
-          input(type="hidden" name="ID" value=reviews._id)
-          input(type="hidden" name="link" value=reviews.link)
-          button.button.small.warning.rounded.m-t-32 Remove
+          //- if currentUser == review.username
+          form(action="/removereview" method="post")
+            input(type="hidden" name="reviewPoster" value=review.username)
+            input(type="hidden" name="placeID" value=reviews._id)
+            input(type="hidden" name="reviewID" value=review.id)
+            input(type="hidden" name="link" value=reviews.link)
+            button.button.small.warning.rounded.m-t-32 Remove

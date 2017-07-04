@@ -1,0 +1,26 @@
+each place in places
+  table
+    tr
+      td #{place.name}
+      td #{place._id}
+      td #{place.link}
+    table
+      thead
+        tr
+          td id
+          td username
+          td posted on
+          td rating
+          td comment
+      tbody
+        each review in place.reviews
+          tr
+            td #{review.id}
+            td #{review.username}
+            td #{review.posted_on}
+            td #{review.rating}
+            td #{review.comment}
+            td
+              input.button(type="button" value="edit")
+            td
+              input.button(type="button" value="delete")
