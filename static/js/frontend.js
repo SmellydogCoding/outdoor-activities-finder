@@ -5,7 +5,10 @@ new Vue({
     noGeolocation: false,
     geoLocationError: false,
     userCoordsObtained: false,
-    userCoords: {}
+    userCoords: {},
+    password: '',
+    confirmPassword: '',
+    passwordsMatch: true
   },
   methods: {
     switchState(item) {
@@ -31,27 +34,12 @@ new Vue({
 
         navigator.geolocation.getCurrentPosition(success,error);
       }
+    },
+    passwordMatch(event) {
+      if (this.password !== this.confirmPassword) {
+        event.preventDefault();
+        this.passwordsMatch = false;
+      }
     }
-    // getPlaces: function() {
-    //   this.places = [];
-    //   let vm = this;
-    //   let formData = {address: this.address, city: this.city, state: this.state, zip: this.zip, radius: this.radius, activity: this.activity};
-    //   this.$http.post('/', formData).then(function (response) {
-    //       for (let p = 0; p < response.data.length; p++) {
-    //         vm.places.push(response.data[p]);
-    //         console.log(response.data[p]);
-    //       }
-    //       vm.results = true;
-    //   });
-    // },
-    // getAddress(event) {
-    //   this.address = event.target.value
-    // },
-    // getCity(event) {
-    //   this.city = event.target.value
-    // },
-    // getZip(event) {
-    //   this.zip = event.target.value
-    // }
   }
 })

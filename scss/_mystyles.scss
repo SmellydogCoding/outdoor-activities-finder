@@ -74,6 +74,14 @@ hr {
   line-height: 2.6;
 }
 
+.hidden {
+  display: none;
+}
+
+.show {
+  display: inline;
+}
+
 // Move footer to bottom on small pages classes
 
 html, body {
@@ -162,6 +170,11 @@ $primary-blue: #286090;
 
 .validation-error-field {
   border: 1px solid #cc4b37;
+}
+
+.password-match-error {
+  float: right;
+  color: #cc4b37;
 }
 
 // Places Page Classes
