@@ -162,38 +162,47 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
         return next(error);
       }
 
-      if (req.body.noReviews) {
-        places.insert({_id:uniqueID,name:req.body.placeName,link: referringUrl,reviews:[{id: new ObjectID(), username: res.locals.currentUser,rating: rating,comment: comment, posted_on: new Date()}]},(error,result) => {
-          if (error) {
-            return next(error);
-          } else {
-            console.log(result);
-            users.update({username: res.locals.currentUser},{$push: {reviews: uniqueID}},(error,result) => {
+      places.find({_id:uniqueID, reviews: {$elemMatch: {username: req.session.username} } }).toArray((error,place) => {
+        if (error) { return next(error); }
+        if (place[0] !== undefined) {
+          let error = new Error('You can only write 1 review per place.');
+          return next(error);
+        } else {
+          if (req.body.noReviews) {
+            places.insert({_id:uniqueID,name:req.body.placeName,link: referringUrl,reviews:[{id: new ObjectID(), username: res.locals.currentUser,rating: rating,comment: comment, posted_on: new Date()}]},(error,result) => {
               if (error) {
                 return next(error);
               } else {
                 console.log(result);
-                res.redirect(referringUrl);
+                users.update({username: res.locals.currentUser},{$push: {reviews: uniqueID}},(error,result) => {
+                  if (error) {
+                    return next(error);
+                  } else {
+                    console.log(result);
+                    res.redirect(referringUrl);
+                  }
+                });
               }
             });
-          }
-        });
-      } else {
-        places.update({_id:uniqueID},{$push: {reviews: {id: new ObjectID(), username: res.locals.currentUser,rating: rating,comment: comment, posted_on: new Date()}}},(error,result) => {
-          if (error) {
-            return next(error);
           } else {
-            users.update({username: res.locals.currentUser},{$push: {reviews: uniqueID}},(error,result) => {
+            places.update({_id:uniqueID},{$push: {reviews: {id: new ObjectID(), username: res.locals.currentUser,rating: rating,comment: comment, posted_on: new Date()}}},(error,result) => {
               if (error) {
                 return next(error);
               } else {
-                console.log(result);
-                res.redirect(referringUrl);
+                users.update({username: res.locals.currentUser},{$push: {reviews: uniqueID}},(error,result) => {
+                  if (error) {
+                    return next(error);
+                  } else {
+                    console.log(result);
+                    res.redirect(referringUrl);
+                  }
+                });
               }
             });
           }
-        });
-      }
+        }
+      });
+
     });
 
     router.post('/removereview', mid.loginRequired, (req,res,next) => {
