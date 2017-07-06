@@ -20,8 +20,14 @@ body
       div.large-6.columns.text-center
         h4 User Reviews
     div.row
-      div.large-6.columns.callout
-        include ./partials/_user-favorites.pug
-      div.large-6.columns.callout
-        include ./partials/_user-reviews.pug
+        div.large-6.columns.callout
+          if user.favorites
+            include ./partials/_user-favorites.pug
+          else
+            p No favorites yet
+        div.large-6.columns.callout
+          if places
+            include ./partials/_user-reviews.pug
+          else
+            p No reviews yet
   include ./partials/_footer.pug

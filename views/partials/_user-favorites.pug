@@ -7,8 +7,4 @@ each favorite in user.favorites
     div.large-2.columns
       form(action="/removefavorite" method="post")
         input(type="hidden" name="uniqueID" value=favorite.id)
-        //- input(type="hidden" name="name" value=favorite.name)
-        //- input(type="hidden" name="city" value=favorite.city)
-        //- input(type="hidden" name="state" value=favorite.state)
-        //- input(type="hidden" name="link" value=favorite.link)
         button.button.small.warning.rounded Remove

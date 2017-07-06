@@ -237,7 +237,7 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
             userReviews.push({_id: user[0].reviews[review]});
           }
           places.find({$or: userReviews}).toArray((error,places) => {
-            res.render('user', {title: 'User Profile', user: user[0], places, currentUser: req.session.username});
+            res.render('user', {title: 'User Profile', user: user[0], places, currentUser: req.session.username, currentType: req.session.usertype});
           });
         }
       });
