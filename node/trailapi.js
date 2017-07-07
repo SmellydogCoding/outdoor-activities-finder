@@ -25,8 +25,16 @@ const getPlaces = (placeData) => {
       });
 
       res.on('end', function() {
-        let result = JSON.parse(body);
-        resolve(result);
+        if (body.message) {
+          let error = new Error(body.message);
+          console.log('reject')
+          reject(error);
+        } else {
+          let result = JSON.parse(body);
+          console.log('resolve')
+          console.log(body)
+          resolve(result);
+        }
       });
     });
 

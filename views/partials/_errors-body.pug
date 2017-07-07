@@ -1,0 +1,18 @@
+h3.text-center.m-y-1 #{status}
+div.row
+  div.large-5.columns
+    img(src="img/errordog2.jpg" alt="500 dog")
+  div.large-7.columns
+    h4.text-center Dude, you broke it!
+    p Just kidding! (or am I?) &nbsp; Either way, you ended up here because something went wrong.
+      br
+      | This is what went wrong:
+    p.bold-text #{message}
+    p If the error message is asking you to do something (such as log in) then go ahead and do that. &nbsp; If it's something else then wait a couple minutes and try whatever you were doing again.
+    p If you keep ending up back here, and you're pretty sure that it's a "It's not me it's you" type of situation, there is an illegible mass of geek speak below called a Stack Trace. &nbsp;
+      a(href="mailto:smellydogcoding@gmail.com") Please email it the website owner 
+      | and tell him about it.
+div.row
+  div.large-12.columns
+    h5.m-t-1.text-center Stack Trace
+    p #{stack}

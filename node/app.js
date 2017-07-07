@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 // error handler
 // define as the last app.use callback
 app.use((error, req, res, next) => {
-    res.status(error.status || 500).send(error.message);
+    res.status(error.status || 500).render('errors', {title: error.status, status: error.status, message: error.message, stack: error.stack});
 });
 
 // start listening on our port
