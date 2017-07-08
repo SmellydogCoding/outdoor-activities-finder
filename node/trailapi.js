@@ -25,14 +25,11 @@ const getPlaces = (placeData) => {
       });
 
       res.on('end', function() {
-        if (body.message) {
-          let error = new Error(body.message);
-          console.log('reject')
+        let result = JSON.parse(body);
+        if (result.message) {
+          let error = new Error(result.message);
           reject(error);
         } else {
-          let result = JSON.parse(body);
-          console.log('resolve')
-          console.log(body)
           resolve(result);
         }
       });

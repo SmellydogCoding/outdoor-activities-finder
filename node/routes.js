@@ -23,7 +23,7 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
       res.render('index', {title: 'Outdoor Activity Locator', currentUser: req.session.username});
     });
 
-    router.post('/', (req, res) => {
+    router.post('/', (req, res, next) => {
       let zipcodeRegex = /^\d{5}$/;
       let activity = req.body.activity;
       let radius = req.body.radius;
@@ -48,7 +48,7 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
                 let getUserCoords = geospacial.getGPSData(GPSInput);
                 getUserCoords.then((coords) => {
                   resolve(coords.coords);
-                });
+                }).catch((error) => { return next(error); });
                 break;
 
               default:
@@ -61,7 +61,6 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
             let coords = { lat: req.body.userLattitude, lng: req.body.userLongitude }
             resolve(coords);
           }
-          // reject();
         });
       }
 
@@ -102,11 +101,11 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
             }
 
             res.status(200).render('places', {places: sortedPlaces, title: "Search Results", currentUser: res.locals.currentUser, home: {lat: coords.lat, lon: coords.lng}, key: process.env.googleMapsAPIKey, zipcode, radius, activity});
-          });
+          }).catch((error) => { return next(error); });
         } else {
           res.status(400).render('places', {places: [], title: "Search Results", currentUser: req.session.username, errorFields, errorMessages, zipcode, radius, activity});
           }
-      });
+      }).catch((error) => { return next(error); });
     });
 
     router.get('/place', (req, res, next) => {

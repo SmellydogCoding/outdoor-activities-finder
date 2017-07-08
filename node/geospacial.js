@@ -28,22 +28,42 @@ const getDistance = (start, end) => {
 const getGPSData = (GPSInput) => {
   return new Promise((resolve,reject) => {
     let body = '';
+    let GoogleErrorMessage = "Google Geocoding API Error: ";
     let req = https.get('https://maps.googleapis.com/maps/api/geocode/json?' + GPSInput + '&key=' + process.env.googleAPIKey, function(res) {
-      res.on('data', function(data) {
+      
+      res.on('data', (data) => {
         body += data;
       });
+      
       res.on('end', () => {
+        if (body.indexOf("<title>") !== -1) {
+          let errorStart = body.indexOf("<title>") + 7;
+          let errorEnd = body.indexOf("</title>");
+          GoogleErrorMessage += body.slice(errorStart,errorEnd);
+          let error = new Error(GoogleErrorMessage);
+          return reject(error);
+        }
         let result = JSON.parse(body);
-        let coords = result.results[0].geometry.location;
-        let zipcodeIndex = result.results[0].address_components.findIndex(i => i.types[0] === "postal_code");
-        let zipcode = result.results[0].address_components[zipcodeIndex].short_name;
-        resolve({"coords": coords, "zipcode": zipcode});
-      });
-      req.on('error', (error) => {
-        reject(error);
-        console.error('getCoords: ' + error);
+        if (result.error_message) {
+          GoogleErrorMessage += result.error_message
+          let error = new Error(GoogleErrorMessage);
+          reject(error);
+        } else {
+          let coords = result.results[0].geometry.location;
+          let zipcodeIndex = result.results[0].address_components.findIndex(i => i.types[0] === "postal_code");
+          let zipcode = result.results[0].address_components[zipcodeIndex].short_name;
+          resolve({"coords": coords, "zipcode": zipcode});
+        }
       });
     });
+      
+    req.on('error', (err) => {
+      GoogleErrorMessage += err;
+      let error = new Error(GoogleErrorMessage)
+      reject(error);
+      console.error('trailAPI: ' + error);
+    });
+    
   });
 };
 // getCoords('15351');  // for testing
