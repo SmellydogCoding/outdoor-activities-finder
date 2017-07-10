@@ -10,10 +10,10 @@ div.row.m-t-1
       div.row
         div.large-7.columns
           button.button.errorMessage.hidden.expanded(type="button" :class="{show: noGeolocation || geoLocationError}") Bummer! &nbsp;&nbsp; I couldn't get your loction. &nbsp;&nbsp; Please check your browser settings and try again.
-      form.text-center(action="/" method="POST")
-        div.row
-          include ./_searchbar-zipcode.pug
-          include ./_searchbar-distance.pug
-          include ./_searchbar-activity.pug
-          div.large-2.columns
-            input.button.expanded(type="submit" value="search")
+      div.row
+        form.text-center.expanded(action="/" method="POST")
+            include ./_searchbar-zipcode.pug
+            include ./_searchbar-distance.pug
+            include ./_searchbar-activity.pug
+            div.large-2.columns
+              input.button.expanded(type="submit" value="search")

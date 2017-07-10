@@ -82,6 +82,10 @@ hr {
   display: inline !important;
 }
 
+form.expanded {
+  width: 100%;
+}
+
 // Move footer to bottom on small pages classes
 
 html, body {
@@ -499,5 +503,18 @@ $info-color: rgb(23,121,186);
     @include vertical-center;
     right: 1rem;
     font-weight: bold;
+  }
+}
+
+// Media Queries
+
+@media screen and (max-width: 1024px) {
+  p,a {
+    font-size: 0.9em;
+  }
+
+  h5 {
+    font-weight: 600;
+    font-size: 1.0em;
   }
 }
