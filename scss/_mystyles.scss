@@ -218,7 +218,8 @@ $primary-blue: #286090;
 
 .marker-index {
   position: absolute;
-  left: 20%;
+  left: 19%;
+  top: 3%;
   font-size: 1.1em;
 }
 
@@ -523,9 +524,10 @@ $info-color: rgb(23,121,186);
 // small
 
 @media screen and (max-width: 640px) {
-  p {
+  .paragraph {
     margin-left: 1.0em;
   }
+
   .centered-text-at-small {
     text-align: center;
   }
@@ -545,10 +547,19 @@ $info-color: rgb(23,121,186);
 
   #searchbar-fields input, #searchbar-fields select {
     font-size: 0.8em;
-  } 
+  }
+
+  .marker-icon {
+    width: 100%;
+  }
+
+  .marker-index {
+    left: 35%;
+    top: 5%;
+  }
 }
 
-// small-medium
+// small and medium
 @media screen and (max-width: 1024px) {
   p,a {
     font-size: 0.9em;
@@ -558,7 +569,34 @@ $info-color: rgb(23,121,186);
     font-weight: 600;
     font-size: 1.0em;
   }
+
+  .marker-icon {
+    width: 100%
+  }
+
+.medium-gutter-reducer {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
+
+  .marker-index {
+    left: 30%;
+    top: 2%;
+  }
+}
+
+// between small and medium
+
+// @media screen and (min-width: 640px) and (max-width: 832px) {
+//   .marker-icon {
+//     width: 9%
+//   }
+
+//   .marker-index {
+//     left: 3.1%;
+//     top: 5%;
+//   }
+// }
 
 // location buttons tweak
 
