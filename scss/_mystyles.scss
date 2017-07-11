@@ -86,6 +86,10 @@ form.expanded {
   width: 100%;
 }
 
+.black-text {
+  color: black;
+}
+
 // Move footer to bottom on small pages classes
 
 html, body {
@@ -508,6 +512,43 @@ $info-color: rgb(23,121,186);
 
 // Media Queries
 
+// really small
+
+@media screen and (max-width: 555px) {
+  .hide-for-really-small {
+    display: none;
+  }
+}
+
+// small
+
+@media screen and (max-width: 640px) {
+  p {
+    margin-left: 1.0em;
+  }
+  .centered-text-at-small {
+    text-align: center;
+  }
+
+  .centered-list-at-small {
+    display: inline-block !important;
+  }
+
+  .small-m-t-0 {
+    margin-top: 0;
+  }
+
+  #useZip, #useLocation {
+    font-size: 0.8em;
+    margin-bottom: 0.5em;
+  }
+
+  #searchbar-fields input, #searchbar-fields select {
+    font-size: 0.8em;
+  } 
+}
+
+// small-medium
 @media screen and (max-width: 1024px) {
   p,a {
     font-size: 0.9em;
@@ -516,5 +557,14 @@ $info-color: rgb(23,121,186);
   h5 {
     font-weight: 600;
     font-size: 1.0em;
+  }
+}
+
+// location buttons tweak
+
+@media screen and (min-width: 1024px) and (max-width: 1185px) {
+  #useZip, #useLocation {
+    padding: 0.85em 0.5em;
+    font-size: 0.85em;
   }
 }
