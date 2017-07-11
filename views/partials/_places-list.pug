@@ -11,7 +11,7 @@ each place,index in places
                 span.marker-index.double-digit #{number}
               else
                 span.marker-index #{number}
-          div.small-6.medium-10.columns
+          div.small-6.medium-10.small-offset-1.medium-offset-2.columns
             a(href="/place?lat=" + place.lat + "&lng=" + place.lon)
               p
                 strong #{place.name}

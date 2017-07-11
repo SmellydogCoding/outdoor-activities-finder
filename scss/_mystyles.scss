@@ -214,21 +214,20 @@ $primary-blue: #286090;
 
 .marker-container {
   position: relative;
+  font-size: 80%;
+}
+
+.marker-icon, .marker-index {
+  position: absolute;
 }
 
 .marker-index {
-  position: absolute;
-  left: 19%;
-  top: 3%;
-  font-size: 1.1em;
+  left: 32%;
+  font-size: 1.0em;
 }
 
 .double-digit {
   left: 8%;
-}
-
-.marker-icon {
-  width: 60%;
 }
 
 .activity-icon {
@@ -247,9 +246,14 @@ $primary-blue: #286090;
 // Google Maps Widget Classes
 
 #map, .place-list {
-  height: 30.0em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+}
+
+#map {
+  height: 20.0em;
+  margin-left: 0.25em;
+  margin-right: 0.75em;
 }
 
 // Translucent Form Overlay
@@ -549,14 +553,6 @@ $info-color: rgb(23,121,186);
     font-size: 0.8em;
   }
 
-  .marker-icon {
-    width: 100%;
-  }
-
-  .marker-index {
-    left: 35%;
-    top: 5%;
-  }
 }
 
 // small and medium
@@ -570,39 +566,95 @@ $info-color: rgb(23,121,186);
     font-size: 1.0em;
   }
 
-  .marker-icon {
-    width: 100%
+  .medium-gutter-reducer {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+// large
+
+@media screen and (min-width: 1024px) {
+  .marker-container {
+    font-size: 100%;
   }
 
-.medium-gutter-reducer {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
+  .marker-icon {
+    width: 60%;
+  }
 
   .marker-index {
-    left: 30%;
-    top: 2%;
+    font-size: 1.0em;
+    left: 20%;
+  }
+
+  #map {
+    height: 30.0em;
   }
 }
 
-// between small and medium
+// custom marker breakpoints
 
-// @media screen and (min-width: 640px) and (max-width: 832px) {
-//   .marker-icon {
-//     width: 9%
-//   }
+@media screen and (min-width: 520px) and (max-width: 1023px) {
+  .marker-container {
+    font-size: 90%;
+  }
 
-//   .marker-index {
-//     left: 3.1%;
-//     top: 5%;
-//   }
-// }
+  .marker-index {
+    left: 32%;
+    font-size: 1.0em;
+    margin-top: 5%;
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 640px) {
+  .marker-icon {
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 775px) and (max-width: 830px) {
+  .marker-container {
+    font-size: 100%;
+  }
+  .marker-icon {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 830px) and (max-width: 1024px) {
+  .marker-container {
+    font-size: 100%;
+  }
+  .marker-icon {
+    width: 70%;
+  }
+  .marker-index {
+    left: 25%;
+    font-size: 1.0em;
+    margin-top: 5%;
+  }
+}
+
+@media screen and (min-width: 925px) and (max-width: 1024px) {
+  .marker-container {
+    font-size: 100%;
+  }
+  .marker-icon {
+    width: 60%;
+  }
+  .marker-index {
+    left: 20%;
+    font-size: 1.0em;
+    margin-top: 5%;
+  }
+}
 
 // location buttons tweak
 
 @media screen and (min-width: 1024px) and (max-width: 1185px) {
   #useZip, #useLocation {
-    padding: 0.85em 0.5em;
+    padding: 0.85em 0.45em;
     font-size: 0.85em;
   }
 }
