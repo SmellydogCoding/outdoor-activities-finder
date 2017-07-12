@@ -227,7 +227,7 @@ $primary-blue: #286090;
 }
 
 .double-digit {
-  left: 8%;
+  left: 18%;
 }
 
 .activity-icon {
@@ -248,12 +248,16 @@ $primary-blue: #286090;
 #map, .place-list {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+  height: 20.0em;
 }
 
 #map {
-  height: 20.0em;
   margin-left: 0.25em;
   margin-right: 0.75em;
+}
+
+.place-list {
+  overflow-y: scroll;
 }
 
 // Translucent Form Overlay
@@ -588,12 +592,26 @@ $info-color: rgb(23,121,186);
     left: 20%;
   }
 
-  #map {
-    height: 30.0em;
+  #map,.place-list {
+    height: 35.0em;
+  }
+
+  .place-list {
+    overflow-y: scroll;
+  }
+
+  .double-digit {
+    left: 10%;
   }
 }
 
 // custom marker breakpoints
+
+@media screen and (min-width: 1024px) {
+  .double-digit {
+    left: 8%;
+  }
+}
 
 @media screen and (min-width: 520px) and (max-width: 1023px) {
   .marker-container {
@@ -611,6 +629,10 @@ $info-color: rgb(23,121,186);
   .marker-icon {
     width: 90%;
   }
+
+  .double-digit {
+    left: 20%;
+  }
 }
 
 @media screen and (min-width: 775px) and (max-width: 830px) {
@@ -619,6 +641,9 @@ $info-color: rgb(23,121,186);
   }
   .marker-icon {
     width: 80%;
+  }
+  .double-digit {
+    left: 14%;
   }
 }
 
@@ -634,6 +659,15 @@ $info-color: rgb(23,121,186);
     font-size: 1.0em;
     margin-top: 5%;
   }
+  .double-digit {
+    left: 10%;
+  }
+}
+
+@media screen and (min-width: 641px) and (max-width: 774px) {
+  .double-digit {
+    left: 18%;
+  }
 }
 
 @media screen and (min-width: 925px) and (max-width: 1024px) {
@@ -647,6 +681,9 @@ $info-color: rgb(23,121,186);
     left: 20%;
     font-size: 1.0em;
     margin-top: 5%;
+  }
+  .double-digit {
+    left: 10%;
   }
 }
 
