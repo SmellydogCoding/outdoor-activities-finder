@@ -1,10 +1,10 @@
 each favorite in user.favorites
   div.row
-    div.large-10.columns
+    div.small-12.large-10.columns
       a(href=favorite.link)
         h6.inline-item #{favorite.name}
       span.m-l-1 #{favorite.city}, #{favorite.state}
-    div.large-2.columns
+    div.small-12.large-2.columns
       form(action="/removefavorite" method="post")
         input(type="hidden" name="uniqueID" value=favorite.id)
         button.button.small.warning.rounded Remove

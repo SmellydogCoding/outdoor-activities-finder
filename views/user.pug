@@ -4,28 +4,32 @@ body
     include ./partials/_nav.pug
     div.row.m-y-1
       div.large-12.columns.text-center
-        div.large-8.columns
+        div.small-12.large-8.columns
           h4 User Info
-        div.large-3.columns
+        div.small-12.large-3.show-for-large.columns
           h4 User Options
     div.row
       div.large-12.columns
-        div.large-8.columns.callout.text-center
+        div.small-12.large-8.columns.callout.text-center
           include ./partials/_user-info.pug
-        div.large-3.columns.callout.menu-centered
+        div.small-12.large-3.hide-for-large.columns.text-center
+          h4 User Options
+        div.small-12.large-3.columns.callout.menu-centered
           include ./partials/_user-options.pug
     div.row.m-y-1
-      div.large-6.columns.text-center
+      div.small-12.large-6.columns.text-center
         h4 User Favorites
-      div.large-6.columns.text-center
+      div.small-12.large-6.columns.show-for-large.text-center
         h4 User Reviews
     div.row
-        div.large-6.columns.callout
+        div.small-12.large-6.columns.callout
           if user.favorites
             include ./partials/_user-favorites.pug
           else
             p No favorites yet
-        div.large-6.columns.callout
+        div.small-12.large-6.columns.hide-for-large.text-center
+          h4 User Reviews
+        div.small-12.large-6.columns.callout
           if places
             include ./partials/_user-reviews.pug
           else
