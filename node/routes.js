@@ -447,7 +447,7 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
     }
 
     if (errorFields[0] !== undefined) {
-      res.status(400).render('changepassword', {title: "Change Your Password", currentPassword, password, confirmPassword, errorFields, errorMessages});
+      res.status(400).render('changepassword', {title: "Change Your Password", errorFields, errorMessages});
     } else {
       users.find({username: res.locals.currentUser}).toArray((error,user) => {
         if (error) {
@@ -460,8 +460,8 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
             return next(bcryptError)
           } else if (result === false) {
             errorFields.push("currentPassword");
-            errorMessages.push("The password that you entered for your current password is not correct.");
-            return res.status(400).render('changepassword', {title: "Change Your Password", currentPassword, password, confirmPassword, errorFields, errorMessages});
+            errorMessages.push("The password that you entered for your Current Password is not correct.");
+            return res.status(400).render('changepassword', {title: "Change Your Password", errorFields, errorMessages});
           } else {
             bcrypt.hash(req.body.password, 10, (error, hash) => {
               if (error) {

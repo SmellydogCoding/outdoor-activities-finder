@@ -27,9 +27,9 @@ div.translucent-form-overlay
       label Password
         if errorFields
           -if (errorFields.indexOf("password") !== -1)
-            input.validation-error-field(type="password" name="password" placeholder="password" pattern="(?=^.{8,}$)((?=.*\u005cd)(?=.*\u005cW+))(?![.\u005cn])(?=.*[A-Z])(?=.*[a-z]).*$" title="Password must be at least 8 characters long and have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character." required)
+            input.validation-error-field(type="password" name="password" v-model="password" :class="{'validation-error-field': !passwordsMatch}" placeholder="password" pattern="(?=^.{8,}$)((?=.*\u005cd)(?=.*\u005cW+))(?![.\u005cn])(?=.*[A-Z])(?=.*[a-z]).*$" title="Password must be at least 8 characters long and have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character." required)
           -else if (errorFields.indexOf("password") == -1)
-            input(type="password" name="password" placeholder="password" pattern="(?=^.{8,}$)((?=.*\u005cd)(?=.*\u005cW+))(?![.\u005cn])(?=.*[A-Z])(?=.*[a-z]).*$" title="Password must be at least 8 characters long and have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character." required)
+            input(type="password" name="password" v-model="password" :class="{'validation-error-field': !passwordsMatch}" placeholder="password" pattern="(?=^.{8,}$)((?=.*\u005cd)(?=.*\u005cW+))(?![.\u005cn])(?=.*[A-Z])(?=.*[a-z]).*$" title="Password must be at least 8 characters long and have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character." required)
         else
           input(type="password" name="password" v-model="password" :class="{'validation-error-field': !passwordsMatch}" placeholder="password" pattern="(?=^.{8,}$)((?=.*\u005cd)(?=.*\u005cW+))(?![.\u005cn])(?=.*[A-Z])(?=.*[a-z]).*$" title="Password must be at least 8 characters long and have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character." required)
     div.row.columns
@@ -37,9 +37,9 @@ div.translucent-form-overlay
         span.password-match-error.hidden(:class="{show: !passwordsMatch}") Passwords do not match
         if errorFields
           -if (errorFields.indexOf("confirmPassword") !== -1)
-            input.validation-error-field(type="password" name="confirmPassword" placeholder="re-enter password" required)
+            input.validation-error-field(type="password" name="confirmPassword" v-model="confirmPassword" :class="{'validation-error-field': !passwordsMatch}" placeholder="re-enter password" required)
           -else if (errorFields.indexOf("confirmPassword") == -1)
-            input(type="password" name="confirmPassword" placeholder="re-enter password" required)
+            input(type="password" name="confirmPassword" v-model="confirmPassword" :class="{'validation-error-field': !passwordsMatch}" placeholder="re-enter password" required)
         else
           input(type="password" name="confirmPassword" v-model="confirmPassword" :class="{'validation-error-field': !passwordsMatch}" placeholder="re-enter password" required)
     button.primary.button.expanded(type="submit" @click="passwordMatch($event)") Sign Up
