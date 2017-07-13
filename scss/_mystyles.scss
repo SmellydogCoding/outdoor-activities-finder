@@ -46,6 +46,10 @@
   padding-bottom: 0;
 }
 
+.p-b-1 {
+  padding-bottom: 1.0em;
+}
+
 .inline-item {
   display: inline-block;
 }
@@ -516,6 +520,17 @@ $info-color: rgb(23,121,186);
     @include vertical-center;
     right: 1rem;
     font-weight: bold;
+  }
+}
+
+// Success Message
+
+.success-message {
+  background-color: $success-color;
+  color: white;
+  margin: 1.0em auto 0;
+  p {
+    margin-top: 1.0em;
   }
 }
 

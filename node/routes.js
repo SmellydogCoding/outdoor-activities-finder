@@ -417,43 +417,73 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
   });
 
   router.post('/changepassword', mid.loginRequired, (req,res,next) => {
-    users.find({username: res.locals.currentUser}).toArray((error,user) => {
-      if (error) {
-        let mongoError = new Error('MongoDB Error: ',error);
-        return next(mongoError)
-      }
-      bcrypt.compare(req.body.currentPass, user[0].password , function(error, result) {
+    let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+    let currentPassword = req.body.currentPassword;
+    let password = req.body.password;
+    let confirmPassword = req.body.confirmPassword;
+
+    let errorFields = [];
+    let errorMessages = [];
+    
+    if (currentPassword === "") { 
+      errorFields.push("currentPassword");
+      errorMessages.push("You must enter your current password.");
+    }
+
+    if (password === "") { 
+      errorFields.push("password");
+      errorMessages.push("You must enter a new password.");
+    } else if (password !== "" && !passwordRegex.test(password)) { 
+      errorFields.push("password");
+      errorMessages.push("Your password must be at least 8 characters with at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
+    }
+
+    if (confirmPassword === "") { 
+      errorFields.push("confirmPassword");
+      errorMessages.push("You must re-enter your new password.");
+    } else if (confirmPassword !== password) { 
+      errorFields.push("confirmPassword");
+      errorMessages.push("Passwords must match.");
+    }
+
+    if (errorFields[0] !== undefined) {
+      res.status(400).render('changepassword', {title: "Change Your Password", currentPassword, password, confirmPassword, errorFields, errorMessages});
+    } else {
+      users.find({username: res.locals.currentUser}).toArray((error,user) => {
         if (error) {
-          let bcryptError = new Error('Bcrypt Error: ',error);
-          return next(bcryptError)
-        } else if (result === false) {
-          error.status = 400;
-          error.message = "incorrect password";
-          return next(error);
-        } else if (req.body.password !== req.body.confirmPassword) {
-            error.status = 400;
-            error.message = 'passwords do not match';
-        } else {
-          bcrypt.hash(req.body.password, 10, (error, hash) => {
-            if (error) {
-              let bcryptError = new Error('Bcrypt Error: ',error);
-              return next(bcryptError)
-            } else {
-              req.body.password = hash;
-              users.update({username: res.locals.currentUser},{$set: {password: req.body.password}},(error,result) => {
-                if (error) {
-                  let mongoError = new Error('MongoDB Error: ',error);
-                  return next(mongoError)
-                } else if (result) {
-                  console.log(result);
-                  res.redirect('/');
-                }
-              });
-            }
-          });
+          let mongoError = new Error('MongoDB Error: ' + error);
+          return next(mongoError)
         }
+        bcrypt.compare(req.body.currentPassword, user[0].password , function(error, result) {
+          if (error) {
+            let bcryptError = new Error('Bcrypt Error: ' + error);
+            return next(bcryptError)
+          } else if (result === false) {
+            errorFields.push("currentPassword");
+            errorMessages.push("The password that you entered for your current password is not correct.");
+            return res.status(400).render('changepassword', {title: "Change Your Password", currentPassword, password, confirmPassword, errorFields, errorMessages});
+          } else {
+            bcrypt.hash(req.body.password, 10, (error, hash) => {
+              if (error) {
+                let bcryptError = new Error('Bcrypt Error: ' + error);
+                return next(bcryptError)
+              } else {
+                req.body.password = hash;
+                users.update({username: res.locals.currentUser},{$set: {password: req.body.password}},(error,result) => {
+                  if (error) {
+                    let mongoError = new Error('MongoDB Error: ' + error);
+                    return next(mongoError)
+                  } else if (result) {
+                    console.log(result);
+                    res.status(200).render('changepassword', {title: "Change Your Password", successMessage: "Password successfully changed"});
+                  }
+                });
+              }
+            });
+          }
+        });
       });
-    });
+    }
   });
 
   router.post('/addfavorite', mid.loginRequired, (req,res,next) => {
