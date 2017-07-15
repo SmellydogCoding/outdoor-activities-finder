@@ -574,6 +574,15 @@ $info-color: rgb(23,121,186);
 
 }
 
+// small
+
+@media screen and (max-width: 640px) {
+  .small-m-x-1, .small-m-x-1 li {
+    margin-left: 1.0em;
+    margin-right: 1.0em;
+  }
+}
+
 // small and medium
 @media screen and (max-width: 1024px) {
   p,a {
