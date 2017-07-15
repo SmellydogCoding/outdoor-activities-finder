@@ -518,6 +518,10 @@ MongoClient.connect('mongodb://smellydogcoding:' + process.env.databasePassword 
     });
   });
 
+  router.get('/about', (req,res) => {
+    res.render('about',{title: "About This Project"});
+  });
+
   router.get('/admin', (req,res,next) => {
     users.find({}).toArray((error,users) => {
       if (error) {
