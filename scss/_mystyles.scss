@@ -252,16 +252,17 @@ $primary-blue: #286090;
 #map, .place-list {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  height: 20.0em;
 }
 
 #map {
   margin-left: 0.25em;
   margin-right: 0.75em;
+  height: 20.0em;
 }
 
 .place-list {
   overflow-y: scroll;
+  max-height: 20.0em;
 }
 
 // Translucent Form Overlay
@@ -616,12 +617,13 @@ $info-color: rgb(23,121,186);
     left: 20%;
   }
 
-  #map,.place-list {
+  #map {
     height: 35.0em;
   }
 
   .place-list {
     overflow-y: scroll;
+    max-height: 35.0em;
   }
 
   .double-digit {

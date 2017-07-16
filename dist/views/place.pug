@@ -1,19 +1,21 @@
 include ./partials/_head.pug
 body
-  include ./partials/_nav.pug
-  div.row
-    div.small-12.large-6.columns
-      include ./partials/_place-activities.pug
-      include ./partials/_place-weather.pug
-    div.small-12.large-6.columns.m-t-05
-      include ./partials/_place-map.pug
-  div.row
-    div.large-12.columns
-      hr.m-y-1
-  div.row
-    div.large-12.columns
-      include ./partials/_place-reviews.pug
-  div.row.m-b-1
-    div.large-12.columns
-      include ./partials/_place-add-review.pug
+  div#app
+    include ./partials/_nav.pug
+    div.row
+      div.small-12.large-6.columns
+        include ./partials/_place-activities.pug
+        include ./partials/_place-weather.pug
+      div.small-12.large-6.columns.m-t-05
+        include ./partials/_place-map.pug
+    div.row
+      div.large-12.columns
+        hr.m-y-1
+    div.row
+      div.large-12.columns
+        include ./partials/_place-reviews.pug
+    div.row.m-b-1
+      div.large-12.columns
+        include ./partials/_place-add-review.pug
   include ./partials/_footer.pug
+script(src="js/app.js")

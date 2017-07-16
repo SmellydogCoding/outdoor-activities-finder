@@ -7,8 +7,9 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const favicon = require('express-favicon');
 
-require('./env.js');  // comment out for production
+// require('./env.js');  // comment out for production
 
 app.use(session({
   secret: 'zero fox given',
@@ -41,6 +42,8 @@ app.use(morgan('dev'));
 
 // setup our static route to serve files from the "public" folder
 app.use('/', express.static('dist/public'));
+
+app.use(favicon(__dirname + '/public/img/favicon.png'));
 
 // pug template engine
 app.set('view engine','pug');

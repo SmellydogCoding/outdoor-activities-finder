@@ -1,3 +1,8 @@
+// Uncomment for production
+Vue.config.devtools = false;
+Vue.config.debug = false;
+Vue.config.silent = true;
+
 new Vue({
   el: '#app',
   data: {
