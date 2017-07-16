@@ -1,5 +1,5 @@
 const http = require('http');
-require('./env.js');  // comment out for production
+// require('./env.js');  // comment out for production
 
 const getWeather = (lat,lon) => {
   let openWeatherErrorMessage = 'Open Weather API Error: ';

@@ -1,5 +1,5 @@
 const https = require('https');
-require('./env.js');  // comment out for production
+// require('./env.js');  // comment out for production
 
 // Source: https://gist.github.com/clauswitt/1604972
 const getDistance = (start, end) => {

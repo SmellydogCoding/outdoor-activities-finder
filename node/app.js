@@ -9,6 +9,8 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const favicon = require('express-favicon');
 
+// require('./env.js');  // comment out for production
+
 app.use(session({
   secret: 'zero fox given',
   resave: true,

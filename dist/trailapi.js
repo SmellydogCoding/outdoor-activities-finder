@@ -1,5 +1,5 @@
 const https = require('https');
-require('./env.js');  // comment out for production
+// require('./env.js');  // comment out for production
 
 const getPlaces = (placeData) => {
   return new Promise((resolve,reject) => {
