@@ -9,13 +9,12 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const favicon = require('express-favicon');
 
-// require('./env.js');  // comment out for production
+try { require('./env.js'); } catch(e) { console.log('no env file in production') }
 
 app.use(session({
   secret: 'zero fox given',
   resave: true,
   saveUninitialized: false,
-  // store: new MongoStore({ url: 'mongodb://localhost:27017/outdoor-activity-finder' })
   store: new MongoStore({ url: 'mongodb://smellydogcoding:' + process.env.databasePassword + '@cluster0-shard-00-00-l7zef.mongodb.net:27017,cluster0-shard-00-01-l7zef.mongodb.net:27017,cluster0-shard-00-02-l7zef.mongodb.net:27017/outdoor-activity-finder?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin' })
 }));
 
@@ -50,13 +49,13 @@ app.set('view engine','pug');
 app.set('views', __dirname + '/views');
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).render('fourohfour', {title: "404: Page Not Found"});
 });
 
 // error handler
 // define as the last app.use callback
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
     res.status(error.status || 500).render('errors', {title: error.status, status: error.status, message: error.message, stack: error.stack});
 });
 
