@@ -1,0 +1,27 @@
+div#map
+  script.
+    function initMap() {
+      let lattitude = parseFloat(#{place.lat});
+      let longitude = parseFloat(#{place.lon});
+      let name = "#{place.name}";
+      name = name.replace(/ /g, '+');
+      name += ',+' + "#{place.state}";
+      let info = '<h6>#{place.name}</h6><a href="https://www.google.com/maps/place/' + name + '" target="new">Open in Google Maps</a>';
+      let map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 11,
+        center: {lat: lattitude, lng: longitude}
+      });
+      let marker = new google.maps.Marker({
+        position: {lat: lattitude, lng: longitude},
+        icon: {url: 'img/green-pin.png', scaledSize: new google.maps.Size(25,40)},
+        map: map
+      });
+      let infowindow = new google.maps.InfoWindow({
+        content: info
+      });
+      infowindow.open(map, marker);
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+    }
+  script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=initMap")

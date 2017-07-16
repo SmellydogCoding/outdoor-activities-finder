@@ -1,0 +1,45 @@
+div.translucent-form-overlay
+  form(action="/signup" method="post")
+    h3 Sign Up
+    div.row.columns
+      label Username
+        if errorFields
+          -if (errorFields.indexOf("username") !== -1 && username == "")
+            input.validation-error-field(type="text" name="username" placeholder="username" required)
+          -else if (errorFields.indexOf("username") !== -1)
+            input.validation-error-field(type="text" name="username" value=username required)
+          -else if (errorFields.indexOf("username") == -1)
+            input(type="text" name="username" value=username required)
+        else
+          input(type="text" name="username" placeholder="username" required)
+    div.row.columns
+      label Email
+        if errorFields
+          -if (errorFields.indexOf("email") !== -1 && email == "")
+            input.validation-error-field(type="email" name="email" placeholder="email" pattern=emailRegex title="That is not a valid email address.  Example: name@domain.com" required)
+          -else if (errorFields.indexOf("email") !== -1)
+            input.validation-error-field(type="email" name="email" value=email pattern=emailRegex title="That is not a valid email address.  Example: name@domain.com" required)
+          -else if (errorFields.indexOf("email") == -1)
+            input(type="email" name="email" value=email pattern=emailRegex title="That is not a valid email address.  Example: name@domain.com" required)
+        else
+          input(type="email" name="email" placeholder="email" pattern=emailRegex title="That is not a valid email address.  Example: name@domain.com" required)
+    div.row.columns
+      label Password
+        if errorFields
+          -if (errorFields.indexOf("password") !== -1)
+            input.validation-error-field(type="password" name="password" v-model="password" :class="{'validation-error-field': !passwordsMatch}" placeholder="password" pattern="(?=^.{8,}$)((?=.*\u005cd)(?=.*\u005cW+))(?![.\u005cn])(?=.*[A-Z])(?=.*[a-z]).*$" title="Password must be at least 8 characters long and have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character." required)
+          -else if (errorFields.indexOf("password") == -1)
+            input(type="password" name="password" v-model="password" :class="{'validation-error-field': !passwordsMatch}" placeholder="password" pattern="(?=^.{8,}$)((?=.*\u005cd)(?=.*\u005cW+))(?![.\u005cn])(?=.*[A-Z])(?=.*[a-z]).*$" title="Password must be at least 8 characters long and have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character." required)
+        else
+          input(type="password" name="password" v-model="password" :class="{'validation-error-field': !passwordsMatch}" placeholder="password" pattern="(?=^.{8,}$)((?=.*\u005cd)(?=.*\u005cW+))(?![.\u005cn])(?=.*[A-Z])(?=.*[a-z]).*$" title="Password must be at least 8 characters long and have at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character." required)
+    div.row.columns
+      label Re-enter Password
+        span.password-match-error.hidden(:class="{show: !passwordsMatch}") Passwords do not match
+        if errorFields
+          -if (errorFields.indexOf("confirmPassword") !== -1)
+            input.validation-error-field(type="password" name="confirmPassword" v-model="confirmPassword" :class="{'validation-error-field': !passwordsMatch}" placeholder="re-enter password" required)
+          -else if (errorFields.indexOf("confirmPassword") == -1)
+            input(type="password" name="confirmPassword" v-model="confirmPassword" :class="{'validation-error-field': !passwordsMatch}" placeholder="re-enter password" required)
+        else
+          input(type="password" name="confirmPassword" v-model="confirmPassword" :class="{'validation-error-field': !passwordsMatch}" placeholder="re-enter password" required)
+    button.primary.button.expanded(type="submit" @click="passwordMatch($event)") Sign Up

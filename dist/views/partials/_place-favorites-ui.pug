@@ -1,0 +1,13 @@
+if currentUser
+  if favorited == true
+    div.alert-box.alert-button.callout.success.text-center
+      i.fa.fa-check 
+      p Favorited!
+  else
+    form(action="/addfavorite" method="post")
+      input(type="hidden" name="uniqueID" value=place.unique_id)
+      input(type="hidden" name="name" value=place.name)
+      input(type="hidden" name="city" value=place.city)
+      input(type="hidden" name="state" value=place.state)
+      input(type="hidden" name="link" value=link)
+      button.button.rounded Add to Favorites

@@ -1,0 +1,114 @@
+div.large-3.columns
+  if errorFields
+    -if (errorFields.indexOf("activity") !== -1)
+      select.validation-error-field(name="activity" required)
+        option(value="") Choose an Activity
+        option(value="all") All
+        option(value="hiking") Hiking
+        option(value="mountain+biking") Mountain Biking
+        option(value="camping") Camping
+        option(value="snow+sports") Snow Sports
+        option(value="caving") Caving
+        option(value="trail+running") Trail Running
+        option(value="horseback+riding") Horseback Riding
+        option(value="atv") ATV
+        option(value="water+sports") Water Sports
+    -else if (errorFields.indexOf("activity") == -1)
+      select(name="activity" required)
+        option(value="") Choose an Activity
+        if activity == "all"
+          option(value="all" selected) All
+        else
+          option(value="all") All
+        if activity == "hiking"
+          option(value="hiking" selected) Hiking
+        else
+          option(value="hiking") Hiking
+        if activity == "mountain+biking"
+          option(value="mountain+biking" selected) Mountain Biking
+        else
+          option(value="mountain+biking") Mountain Biking
+        if activity == "camping"
+          option(value="camping" selected) Camping
+        else
+          option(value="camping") Camping
+        if activity == "snow+sports"
+          option(value="snow+sports" selected) Snow Sports
+        else
+          option(value="snow+sports") Snow Sports
+        if activity == "caving"
+          option(value="caving" selected) Caving
+        else
+          option(value="caving") Caving
+        if activity == "trail+running"
+          option(value="trail+running" selected) Trail Running
+        else
+          option(value="trail+running") Trail Running
+        if activity == "horseback+riding"
+          option(value="horseback+riding" selected) Horseback Riding
+        else
+          option(value="horseback+riding") Horseback Riding
+        if activity == "atv"
+          option(value="atv" selected) ATV
+        else
+          option(value="atv") ATV
+        if activity == "water+sports"
+          option(value="water+sports" selected) Water Sports
+        else
+          option(value="water+sports") Water Sports
+  else if activity
+    select(name="activity" required)
+      option(value="") Choose an Activity
+      if activity == "all"
+        option(value="all" selected) All
+      else
+        option(value="all") All
+      if activity == "hiking"
+        option(value="hiking" selected) Hiking
+      else
+        option(value="hiking") Hiking
+      if activity == "mountain+biking"
+        option(value="mountain+biking" selected) Mountain Biking
+      else
+        option(value="mountain+biking") Mountain Biking
+      if activity == "camping"
+        option(value="camping" selected) Camping
+      else
+        option(value="camping") Camping
+      if activity == "snow+sports"
+        option(value="snow+sports" selected) Snow Sports
+      else
+        option(value="snow+sports") Snow Sports
+      if activity == "caving"
+        option(value="caving" selected) Caving
+      else
+        option(value="caving") Caving
+      if activity == "trail+running"
+        option(value="trail+running" selected) Trail Running
+      else
+        option(value="trail+running") Trail Running
+      if activity == "horseback+riding"
+        option(value="horseback+riding" selected) Horseback Riding
+      else
+        option(value="horseback+riding") Horseback Riding
+      if activity == "atv"
+        option(value="atv" selected) ATV
+      else
+        option(value="atv") ATV
+      if activity == "water+sports"
+        option(value="water+sports" selected) Water Sports
+      else
+        option(value="water+sports") Water Sports
+  else
+    select(name="activity" required)
+      option(value="") Choose an Activity
+      option(value="all") All
+      option(value="hiking") Hiking
+      option(value="mountain+biking") Mountain Biking
+      option(value="camping") Camping
+      option(value="snow+sports") Snow Sports
+      option(value="caving") Caving
+      option(value="trail+running") Trail Running
+      option(value="horseback+riding") Horseback Riding
+      option(value="atv") ATV
+      option(value="water+sports") Water Sports

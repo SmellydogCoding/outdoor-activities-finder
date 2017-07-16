@@ -1,0 +1,20 @@
+div.row.m-t-1
+  div.large-2.columns
+    if place.activities[0].thumbnail
+      img(src=place.activities[0].thumbnail)
+    else
+      img(src="https:/placehold.it/50x50&text=[img]")
+  div.large-6.columns
+    p
+      strong #{place.name}
+      br 
+      | #{place.city}, #{place.state}
+  div.large-4.columns
+    include ./_place-favorites-ui.pug
+div.row
+  div.large-12.columns
+    each activity in place.activities
+        p 
+          strong #{activity.activity_type_name}:
+          br 
+          | #{activity.description}

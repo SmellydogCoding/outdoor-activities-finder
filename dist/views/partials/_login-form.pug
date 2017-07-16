@@ -1,0 +1,20 @@
+div.translucent-form-overlay
+  form(action="/login" method="post")
+    h3 Login
+    div.row.columns
+      label Username
+        if invalidPass
+          input(type="text" name="username" value=user required)
+        else
+          input(type="text" name="username" required)
+    div.row.columns
+      label Password
+        input(type="password" name="password" required)
+      input(type="hidden" name="referer" value=referer)
+    button.primary.button.expanded.search-button(type="submit") Login
+  if invalidUser || invalidPass
+    div.validation-error-message.text-center.errorMessage
+      if invalidUser
+        p That user name does not exist.
+      if invalidPass
+        p The password you entered for that user name is not correct.

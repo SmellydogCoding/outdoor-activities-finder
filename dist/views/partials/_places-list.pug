@@ -1,0 +1,45 @@
+each place,index in places
+  div.row
+    div.large-12.columns
+      div.row.place
+        div.large-12.columns
+          div.medium-2.medium-gutter-reducer.small-1.columns
+            div.marker-container
+              img.marker-icon(src="img/map-marker.svg" alt="map marker")
+              - let number = index + 1
+              if number > 9
+                span.marker-index.double-digit #{number}
+              else
+                span.marker-index #{number}
+          div.small-6.medium-10.small-offset-1.medium-offset-2.columns
+            a(href="/place?lat=" + place.lat + "&lng=" + place.lon)
+              p
+                strong #{place.name}
+                span &nbsp;(#{place.distance} miles)
+                br 
+                | #{place.city}, #{place.state}
+          div.medium-12.small-5.columns
+            ul.inline-list
+              each activity in place.activities
+                li
+                  if activity.activity_type_name == "hiking"
+                    img.activity-icon(src="img/hiking.svg" alt="hiking")
+                  else if activity.activity_type_name == "mountain biking"
+                    img.activity-icon(src="img/mountain-biking.svg" alt="mountain biking")
+                  else if activity.activity_type_name == "camping"
+                    img.activity-icon(src="img/camping.svg" alt="camping")
+                  else if activity.activity_type_name == "snow sports"
+                    img.activity-icon(src="img/snow-sports.svg" alt="snow-sports")
+                  else if activity.activity_type_name == "caving"
+                    img.activity-icon(src="img/caving.svg" alt="caving")
+                  else if activity.activity_type_name == "trail running"
+                    img.activity-icon(src="img/trail-running.svg" alt="trail running")
+                  else if activity.activity_type_name == "horseback riding"
+                    img.activity-icon(src="img/horseback-riding.svg" alt="horseback riding")
+                  else if activity.activity_type_name == "atv"
+                    img.activity-icon(src="img/atv.svg" alt="atv")
+                  else if activity.activity_type_name == "water sports"
+                    img.activity-icon(src="img/water-sports.svg" alt="water-sports")
+                  else
+                    h6.bold-text #{activity.activity_type_name}
+      hr

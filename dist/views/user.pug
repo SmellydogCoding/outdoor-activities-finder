@@ -1,0 +1,37 @@
+include ./partials/_head.pug
+body
+  div#app
+    include ./partials/_nav.pug
+    div.row.m-y-1
+      div.large-12.columns.text-center
+        div.small-12.large-8.columns
+          h4 User Info
+        div.small-12.large-3.show-for-large.columns
+          h4 User Options
+    div.row
+      div.large-12.columns
+        div.small-12.large-8.columns.callout.text-center
+          include ./partials/_user-info.pug
+        div.small-12.large-3.hide-for-large.columns.text-center
+          h4 User Options
+        div.small-12.large-3.columns.callout.menu-centered
+          include ./partials/_user-options.pug
+    div.row.m-y-1
+      div.small-12.large-6.columns.text-center
+        h4 User Favorites
+      div.small-12.large-6.columns.show-for-large.text-center
+        h4 User Reviews
+    div.row
+        div.small-12.large-6.columns.callout
+          if user.favorites
+            include ./partials/_user-favorites.pug
+          else
+            p No favorites yet
+        div.small-12.large-6.columns.hide-for-large.text-center
+          h4 User Reviews
+        div.small-12.large-6.columns.callout
+          if places
+            include ./partials/_user-reviews.pug
+          else
+            p No reviews yet
+  include ./partials/_footer.pug

@@ -1,0 +1,26 @@
+div.card
+  div.card-divider
+    h5.inline-item.m-b-0 Current Conditions:
+    img(src="http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png")
+    span #{weather.weather[0].description}
+  div.card-section.text-center
+    div.row
+      div.large-3.columns
+        p Temperature:
+          br
+          | #{weather.main.temp}&deg;F
+      div.large-3.columns
+        p Humidity:
+          br
+          | #{weather.main.humidity}%
+      div.large-3.columns
+        p Pressure:
+          br
+          | #{weather.main.pressure} mb
+      div.large-3.columns
+        p Wind:
+          br
+          | #{weather.wind.deg} #{weather.wind.speed} mph
+    div.row
+      div.large-12.columns
+        a(href="https://weather.com/weather/today/l/" + zipcode + ":4:US" target="new") Get a detailed forcast for this location at Weather.com

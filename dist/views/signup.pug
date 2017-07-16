@@ -1,0 +1,15 @@
+include ./partials/_head.pug
+body
+  div#app
+    include ./partials/_nav.pug
+    div.row
+      div.large-12.columns.login-page.m-t-1
+        if errorMessages
+          div.row
+            div.large-12.columns.text-center.validation-error-message
+              ul
+                each error in errorMessages
+                  li.errorMessage &bull; #{error}
+        div.large-6.column.large-centered.m-y-1
+          include ./partials/_signup-form.pug
+  include ./partials/_footer.pug

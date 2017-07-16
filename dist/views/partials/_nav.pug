@@ -1,0 +1,18 @@
+div.top-bar
+  div.row
+    div.large-12.columns.centered-text-at-small
+      div.top-bar-left
+        a(href="/")
+          h3.m-b-0.black-text Outdoor Activities Locator
+      div.top-bar-right
+        ul.menu
+          if currentUser
+            li.centered-list-at-small 
+              span Hello #[a(href="/user") #{currentUser}]
+            li.centered-list-at-small
+              a(href="/logout") Log Out
+          else
+            li.centered-list-at-small
+              a(href="/login") Sign In
+            li.centered-list-at-small
+              a(href="/signup") Sign Up
