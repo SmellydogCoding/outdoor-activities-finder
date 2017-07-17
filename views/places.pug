@@ -13,6 +13,7 @@ body
           div.medium-5.small-12.columns.place-list
             include ./partials/_places-list.pug
           div.medium-7.small-12.columns
-            include ./partials/_places-map.pug
+            div#map
   include ./partials/_footer.pug
 script(src="js/app.js")
+include ./partials/_places-map.pug

@@ -1,52 +1,51 @@
-div#map
-  script.
-    function initMap() {
-      
-      let map = new google.maps.Map(document.getElementById('map'), {});
+script.
+  function initMap() {
+    
+    let map = new google.maps.Map(document.getElementById('map'), {});
 
-      const locations = !{JSON.stringify(places)};
-      let bounds = new google.maps.LatLngBounds();
-      
-      for(p = 0; p < locations.length; p++) {
+    const locations = !{JSON.stringify(places)};
+    let bounds = new google.maps.LatLngBounds();
+    
+    for(p = 0; p < locations.length; p++) {
 
-        let lattitude = parseFloat(locations[p].lat);
-        let longitude = parseFloat(locations[p].lon)
+      let lattitude = parseFloat(locations[p].lat);
+      let longitude = parseFloat(locations[p].lon)
 
-        p > 8 ? xoffset = 12 : xoffset = 13;
-
-        let marker = new google.maps.Marker({
-        position: new google.maps.LatLng(lattitude,longitude),
-        label: (p + 1).toString(),
-        icon: {url: 'img/green-pin.png', labelOrigin: new google.maps.Point(xoffset,13), scaledSize: new google.maps.Size(25,40)},
-        map: map
-        });
-        
-        let name = locations[p].name;
-        name = name.replace(/ /g, '+');
-        name += ",+" + locations[p].state;
-        let info = "<h6>" + locations[p].name + '</h6><a href="https://www.google.com/maps/place/' + name + '" target="new">Open in Google Maps</a>';
-
-        let infowindow = new google.maps.InfoWindow({
-          content: info
-        });
-
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
-
-        bounds.extend({lat: lattitude, lng: longitude});
-
-      };
+      p > 8 ? xoffset = 12 : xoffset = 13;
 
       let marker = new google.maps.Marker({
-        position: new google.maps.LatLng(parseFloat(#{home.lat}),parseFloat(#{home.lon})),
-        icon: {url: 'img/home-icon.png', scaledSize: new google.maps.Size(24,34)},
-        map: map
+      position: new google.maps.LatLng(lattitude,longitude),
+      label: (p + 1).toString(),
+      icon: {url: 'img/green-pin.png', labelOrigin: new google.maps.Point(xoffset,13), scaledSize: new google.maps.Size(25,40)},
+      map: map
+      });
+      
+      let name = locations[p].name;
+      name = name.replace(/ /g, '+');
+      name += ",+" + locations[p].state;
+      let info = "<h6>" + locations[p].name + '</h6><a href="https://www.google.com/maps/place/' + name + '" target="new">Open in Google Maps</a>';
+
+      let infowindow = new google.maps.InfoWindow({
+        content: info
       });
 
-      bounds.extend({lat: parseFloat(#{home.lat}), lng: parseFloat(#{home.lon})});
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
 
-      map.fitBounds(bounds);
-      
-    }
-  script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=initMap")
+      bounds.extend({lat: lattitude, lng: longitude});
+
+    };
+
+    let marker = new google.maps.Marker({
+      position: new google.maps.LatLng(parseFloat(#{home.lat}),parseFloat(#{home.lon})),
+      icon: {url: 'img/home-icon.png', scaledSize: new google.maps.Size(24,34)},
+      map: map
+    });
+
+    bounds.extend({lat: parseFloat(#{home.lat}), lng: parseFloat(#{home.lon})});
+
+    map.fitBounds(bounds);
+    
+  }
+script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=initMap")
