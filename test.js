@@ -5,11 +5,13 @@ const expect = chai.expect;
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const httpMocks = require('node-mocks-http');
+const MongoClient = require('mongodb').MongoClient;
 
 const geospacial = require('./node/geospacial.js');
 const trailapi = require('./node/trailapi.js');
 const weatherapi = require('./node/weather.js');
 const mid = require('./node/middleware.js');
+require('./node/env.js');
 
 describe('testing test styles', () => {
   it('should say that an object with an array of objects has a property of name', () => {
@@ -131,16 +133,63 @@ describe('test functions in the middleware module', () => {
   it('should not return an error message when you do pass in a session user name', (done) => {
     mid.loginRequired(req2,res, function next(error) {
       if (error) { throw new Error('login is requried'); }
-      else { console.log('you are logged in'); }
       done();
     });
   });
   it('should return an error message when you do not pass in a session user name', (done) => {
-    expect(mid.loginRequired(req1,res, function next(error) {
-      // if (error) { throw new Error('login is requried'); }
-      // else { console.log('you are logged in'); }
-      // done();
-    })).to.throw(Error('login is requried'));
+    const noLogin = () => {
+      mid.loginRequired(req1,res, function next() {
+        done();
+      });
+    };
+    expect(noLogin()).to.throw(new Error('You must be logged in to perform that action.'));
   });
 
+});
+
+// database test suite
+
+describe('tests for the MongoDB database', () => {
+
+  let users;
+  let places;
+
+  before((done) => {
+    MongoClient.connect('mongodb://localhost:27017/outdoor-activity-finder', (error,db) => {
+      if (error) { throw new Error('Database Connection Error: ' + error); }
+      users = db.collection('users');
+      places = db.collection('places');
+      done();
+    });
+  });
+
+  it('should return users when using users.find({})', (done) => {
+    users.find({}).toArray((error,users) => {
+      if (error) { throw new Error ('Users collection error'); }
+      expect(users).to.be.an('array');
+      expect(users[0]).not.to.equal('undefined');
+      done();
+    });
+  });
+  it('should not allow you to insert a duplicate username', (done) => {
+    users.insert({username: 'smellydog', password: 'req.body.password', type: 'user', email: 'req.body.email@test.com', joined_on: new Date()}, (error,result) => {
+      expect(error.message).to.include('duplicate key error');
+      done();
+    });
+  });
+  it('should not allow you to insert a duplicate email', (done) => {
+    users.insert({username: 'testuser', password: 'req.body.password', type: 'user', email: 'smellydogcoding@gmail.com', joined_on: new Date()}, (error,result) => {
+      expect(error.message).to.include('duplicate key error');
+      done();
+    });
+  });
+
+  it('should return places when using places.find({})', (done) => {
+    places.find({}).toArray((error,places) => {
+      if (error) { throw new Error ('Users collection error'); }
+      expect(places).to.be.an('array');
+      expect(places[0]).not.to.equal('undefined');
+      done();
+    });
+  });
 });
