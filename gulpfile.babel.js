@@ -22,9 +22,12 @@ function loadConfig() {
   return yaml.load(ymlFile);
 }
 
+// load eslint
+const eslint = require('gulp-eslint');
+
 // Build the "dist" folder by running all of the below tasks
 gulp.task('build',
- gulp.series(clean, gulp.parallel(sass, javascript, images, copyBackend, copyViews,copyFonts))
+ gulp.series(clean, lint, gulp.parallel(sass, javascript, images, copyBackend, copyViews, copyFonts))
 );
 
 // Build the site, run the server, and watch for file changes
@@ -83,6 +86,14 @@ function javascript() {
     ))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(PATHS.dist + '/public/js'));
+}
+
+// es-lint
+function lint() {
+  return gulp.src(['**/*.js','!node_modules/**','!static/js/vue-resource.min.js','!static/js/vue.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 }
 
 // Copy images to the "dist" folder

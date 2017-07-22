@@ -1,6 +1,10 @@
-const http = require('http');
-// require('./env.js');  // comment out for production
+'use strict';
 
+try { require('./env.js'); } catch(error) {} // no env file in production environment
+
+const http = require('http');
+
+// get current weather for a place from the openweather api
 const getWeather = (lat,lon) => {
   let openWeatherErrorMessage = 'Open Weather API Error: ';
   return new Promise((resolve,reject) => {
@@ -10,6 +14,7 @@ const getWeather = (lat,lon) => {
         body += data;
       });
       res.on('end', () => {
+        // take openweather html error message and use it to make a json error message
         if (body.indexOf("<title>") !== -1) {
           let errorStart = body.indexOf("<title>") + 7;
           let errorEnd = body.indexOf("</title>");
@@ -18,6 +23,7 @@ const getWeather = (lat,lon) => {
           return reject(error);
         }
         let weather = JSON.parse(body);
+        // the json object will have a message key if there is an error
         if (weather.message) {
           openWeatherErrorMessage += weather.message;
           let error = new Error(openWeatherErrorMessage);
@@ -32,7 +38,7 @@ const getWeather = (lat,lon) => {
       openWeatherErrorMessage += err;
       let error = new Error(openWeatherErrorMessage)
       reject(error);
-      console.error('getCoords: ' + error);
+      console.error('Open Weather API Error: ' + error);
     });
 
   });

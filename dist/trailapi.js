@@ -1,6 +1,10 @@
-const https = require('https');
-// require('./env.js');  // comment out for production
+'use strict';
 
+try { require('./env.js'); } catch(error) {} // no env file in production environment
+
+const https = require('https');
+
+// get a list of places from the trail api
 const getPlaces = (placeData) => {
   return new Promise((resolve,reject) => {
     let body = '';
@@ -11,6 +15,7 @@ const getPlaces = (placeData) => {
       headers: {'X-Mashape-Key': process.env.trailAPIKey}
     };
 
+    // modify query string based on activity and radius
     if (placeData.radius === .1) {
       options.path = '/?lat=' + placeData.lat + '&lon=' + placeData.lng + '&radius=' + placeData.radius;
     } else if (placeData.activity === "all") {
@@ -26,6 +31,7 @@ const getPlaces = (placeData) => {
 
       res.on('end', function() {
         let result = JSON.parse(body);
+        // the json object will have a message key if there is an error
         if (result.message) {
           let error = new Error(result.message);
           reject(error);
@@ -37,12 +43,13 @@ const getPlaces = (placeData) => {
 
     req.on('error', function(error) {
       reject(error);
-      console.error('trailAPI: ' + error);
+      console.error('trailAPI Error: ' + error);
     });
   });
 };
-// getPlaces({lat: '39.80001161', lon: '-80.22746854', activity: 'hiking', radius: '19'});  // for testing
 
+// remove unwanted characters from place descriptions
+// add 2 spaces after a period at the end of a sentence
 const cleanDescription = (text) => {
   text = text.replace(/<br \/>{1,2}|br\s\/|&lt;|&gt;/g, ''); // \xa0 === &nbsp;
   text = text.replace(/\.\b|\.\s{1,2}\b/g, '.\xa0\xa0');
