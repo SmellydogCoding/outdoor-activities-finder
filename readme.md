@@ -1,6 +1,6 @@
 # Outdoor Activity Locator
 ---
-### Full Stack JavaScript Techdegree Capstone Project
+## Full Stack JavaScript Techdegree Capstone Project
 
 Web application designed to demonstrate my knowledge in the following areas:
 
@@ -17,32 +17,35 @@ Web application designed to demonstrate my knowledge in the following areas:
 - Authentication and Sessions
 - Unit Testing
 
-This project is deployed at: [https://outdoor-activities-locator.herokuapp.com/](https://outdoor-activities-locator.herokuapp.com/)
+This project is deployed at: [https://outdoor-activities-locator.herokuapp.com/](https://outdoor-activities-locator.herokuapp.com/ "Outdoor Activities Locator")
 
-For any questions or comments send email to [smellydogcoding@gmail.com](mailto:smellydogcoding@gmail.com)
-For bug reports please go to [https://github.com/SmellydogCoding/outdoor-activities-finder/issues](https://github.com/SmellydogCoding/outdoor-activities-finder/issues)
+For any questions or comments send email to [smellydogcoding@gmail.com](mailto:smellydogcoding@gmail.com "email me")  
+For bug reports please go to [https://github.com/SmellydogCoding/outdoor-activities-finder/issues](https://github.com/SmellydogCoding/outdoor-activities-finder/issues "bug reports")
 
-#### How to Contribute to this Project
+### How to Contribute to this Project
 
-##### Download this project
+#### Download this project
 
-```
+```PowerShell
 git clone "https://github.com/SmellydogCoding/outdoor-activities-finder.git"
 ```
 
-##### API Keys
+#### API Keys
 you will need to obtain your own api keys for the following:
 
-- [Google Geolocation API](https://developers.google.com/maps/documentation/geolocation/intro)
-- [Google Maps API](https://developers.google.com/maps/)
-- [TrailAPI](https://market.mashape.com/trailapi/trailapi)
-- [OpenWeather API](https://openweathermap.org/api)
+- [Google Geolocation API](https://developers.google.com/maps/documentation/geolocation/intro "Google Geolocation API")
+- [Google Maps API](https://developers.google.com/maps/ "Google Maps API")
+- [TrailAPI](https://market.mashape.com/trailapi/trailapi "Trail API")
+- [OpenWeather API](https://openweathermap.org/api "Open Weather API")
 
-##### create ENV file
+#### create ENV file
 
-You need to create a env.js file in the node directory of the project (this will be the same directory as the app.js file.)  The env.js file should contain the following:
+You need to create a **env.js** file in the **node** directory of the project (this will be the same directory as the app.js file.)  
+Don't add the **env.js** to the **dist** directory (it will be overwritten anyway).  
 
-```
+The **env.js** file should contain the following:
+
+```JavaScript
 process.env.googleAPIKey = 'your key';
 process.env.googleMapsAPIKey = 'your key';
 process.env.trailAPIKey = 'your key';
@@ -50,46 +53,50 @@ process.env.openWeatherAPIKey = 'your key';
 process.env.state = 'development';
 ```
 
-##### Set up Dev Environment
+#### Set up Dev Environment
 
-Download and install [Node.js](https://nodejs.org/) and [MongoDB](https://www.mongodb.com/).
-Make sure that the node and mongod commands are added to your PATH.
+If you don't already have them on your local machine, download and install [Node.js](https://nodejs.org/ "NodeJS") and [MongoDB](https://www.mongodb.com/ "MongoDB").  
+Make sure that the `node`, `npm` and `mongod` commands have been added to your `PATH` (you may have to do this manually, depending on your OS).
 
-Install Bower
-
-```
-npm install bower -g
-```
-
-Once you have the above prerequisites installed run:
-
-```
-bower install
-npm install
+Now open your terminal of choice and navigate to the folder where you cloned the project:  
+```PowerShell
+>c:\your\path\to\the\outdoor-activities-locator
 ```
 
-Open an new tab in your terminal/powershell and run:
+Install Bower by typing (you may need to put `sudo` in front of it depending on your OS):
 
-```
-mongod
-```
-
-next seed the local database:
-
-```
-node seed.js
+```PowerShell
+>npm install bower -g
 ```
 
-once the database seeding is finished (collections and indexes successfully created) press `CTRL+C` to exit
+Install project dependencies by typing:
 
-now you should be able to build the project and start the express server by running:
+```PowerShell
+>bower install
+```
+then
+```PowerShell
+>npm install
+```
 
-```
-gulp
+Open an new tab in your terminal and start the Mongo Daemon by typing:
+
+```PowerShell
+>mongod
 ```
 
-once the server starts and you have a database connection navigate to
+Now go back to your project directory and seed the local database by typing:
 
+```PowerShell
+>node seed.js
 ```
-localhost:3000
+
+once the database seeding is finished (you will see messages in the terminal saying that collections and indexes were successfully created), press `CTRL+C` to exit the process
+
+now you should be able to build the project and start the express server by typing:
+
+```PowerShell
+>npm start
 ```
+
+once the server starts and you have a database connection (you will see messages in the console), navigate to [localhost:3000]("http://localhost:3000")
