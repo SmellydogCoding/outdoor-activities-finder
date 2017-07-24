@@ -293,6 +293,9 @@ $translucent-form-overlay-max-width: 500px;
   min-height: 30.0em;
   background-image: url('../img/login-background.jpg');
   background-size: cover;
+  .login-form {
+    margin-top: 5.6em;
+  }
 }
 
 // reviews classes
@@ -584,6 +587,14 @@ $info-color: rgb(23,121,186);
   }
 }
 
+// medium up
+
+@media screen and (min-width: 640px) {
+  .user-submit-box {
+    padding-bottom: 0.3rem !important;
+  }
+}
+
 // small and medium
 @media screen and (max-width: 1024px) {
   p,a {
@@ -598,6 +609,22 @@ $info-color: rgb(23,121,186);
   .medium-gutter-reducer {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+  }
+
+  .activity-image {
+    width: 20%;
+  }
+}
+
+// medium only
+
+@media screen and (min-width: 641px) and (max-width: 1023px) {
+  .star-rating-container {
+    width: 45%;
+  }
+
+  .review-submit-button-container {
+    width: 55%;
   }
 }
 

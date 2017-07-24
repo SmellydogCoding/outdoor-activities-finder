@@ -31,7 +31,7 @@ git clone "https://github.com/SmellydogCoding/outdoor-activities-finder.git"
 ```
 
 ##### API Keys
-you will need to obtain your own api for the following:
+you will need to obtain your own api keys for the following:
 
 - [Google Geolocation API](https://developers.google.com/maps/documentation/geolocation/intro)
 - [Google Maps API](https://developers.google.com/maps/)
@@ -52,34 +52,37 @@ process.env.state = 'development';
 
 ##### Set up Dev Environment
 
-The project requires [Node.js](https://nodejs.org/) and [MongoDB](https://www.mongodb.com/).
+Download and install [Node.js](https://nodejs.org/) and [MongoDB](https://www.mongodb.com/).
+Make sure that the node and mongod commands are added to your PATH.
 
-This project also requires Bower
+Install Bower
 
 ```
 npm install bower -g
 ```
 
-Once you have the prerequisites installed run:
+Once you have the above prerequisites installed run:
 
 ```
 bower install
 npm install
 ```
 
-to set up the database first start a mongodb instance
+Open an new tab in your terminal/powershell and run:
 
 ```
 mongod
 ```
 
-and then to seed the database
+next seed the local database:
 
 ```
 node seed.js
 ```
 
-now you should be able to build the project and start the express server by typing
+once the database seeding is finished (collections and indexes successfully created) press `CTRL+C` to exit
+
+now you should be able to build the project and start the express server by running:
 
 ```
 gulp

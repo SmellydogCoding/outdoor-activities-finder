@@ -18,11 +18,11 @@ div.status-update-input-box
             if reviews.reviews[0].message
               input(type="hidden" name="noReviews" value="true")
         div.row.medium-collapse.user-action-container
-          div.small-12.medium-4.columns
+          div.small-12.medium-4.columns.star-rating-container
             div.user-action-box
               div.star-rating
                 include _star-rating.pug
-          div.small-12.medium-8.columns
+          div.small-12.medium-8.columns.review-submit-button-container
             div.user-submit-box
               input.button.small(type="submit" value="POST REVIEW")
   else

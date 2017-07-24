@@ -594,6 +594,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
 
   router.get('/admin', mid.loginRequired, (req,res,next) => {
     // the free tier of MongoDB Atlas doesn't include the file explorer so I guess I better make an admin page *lol*
+    // this is still a work in progress, but it is meant only for me
     if (req.session.usertype === "admin") {
       users.find({}).toArray((error,users) => {
         if (error) {
@@ -605,7 +606,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
             let mongoError = new Error('MongoDB Error: ' + error);
             return next(mongoError)
           }
-          res.render('admin', {title: "Admin Console", users, places});
+          res.render('admin', {title: "Admin Console", users, places, currentUser: req.session.username});
         });
       });
     } else {

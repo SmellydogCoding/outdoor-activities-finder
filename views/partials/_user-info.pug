@@ -1,11 +1,11 @@
 h5 #{user.username}
 div.row
   if currentType == 'admin'
-    div.small-12.large-4 #{user.email}
+    div.small-12.large-4.columns #{user.email}
     - user.joined_on = user.joined_on.toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'});
-    div.small-12.large-4 Member since: #{user.joined_on}
-    div.small-12.large-4 #[a(href="/admin") Admin Panel]
+    div.small-12.large-4.columns Member since: #{user.joined_on}
+    div.small-12.large-4.columns #[a(href="/admin") Admin Panel]
   else
-    div.small-12.large-6 #{user.email}
+    div.small-12.large-6.columns #{user.email}
     - user.joined_on = user.joined_on.toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'});
-    div.small-12.large-6 Member since: #{user.joined_on}
+    div.small-12.large-6.columns Member since: #{user.joined_on}
