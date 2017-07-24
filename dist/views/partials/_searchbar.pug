@@ -9,7 +9,7 @@ div.row.m-t-1
     div.callout.primary.p-b-0
       div.row
         div.large-7.columns
-          button.button.errorMessage.hidden.expanded(type="button" :class="{show: noGeolocation || geoLocationError}") Bummer! &nbsp;&nbsp; I couldn't get your loction. &nbsp;&nbsp; Please check your browser settings and try again.
+          button.button.errorMessage.hidden.expanded(type="button" :class="{show: noGeolocation || geoLocationError}") Bummer! &nbsp;&nbsp; I couldn't get your location. &nbsp;&nbsp; Please check your browser settings and try again.
       div.row
         form#searchbar-fields.text-center.expanded(action="/" method="POST")
             include ./_searchbar-zipcode.pug
