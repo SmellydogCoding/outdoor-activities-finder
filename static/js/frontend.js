@@ -20,6 +20,7 @@ new Vue({
       this.state = item;
     },
     getLocation() {
+      this.state = 'location';
       // reset error message if use changes browser settings and tries again
       this.noGeolocation = false;
       this.geoLocationError = false;
@@ -44,6 +45,11 @@ new Vue({
       if (this.password !== this.confirmPassword) {
         event.preventDefault();
         this.passwordsMatch = false;
+      }
+    },
+    locationObtained(event) {
+      if (this.state === 'location' && (this.noGeolocation || this.geoLocationError || !this.userCoordsObtained)) {
+        event.preventDefault();
       }
     }
   }

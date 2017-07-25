@@ -8,12 +8,12 @@ div.row.m-t-1
   div.large-12.columns
     div.callout.primary.p-b-0
       div.row
-        div.large-7.columns
-          button.button.errorMessage.hidden.expanded(type="button" :class="{show: noGeolocation || geoLocationError}") Bummer! &nbsp;&nbsp; I couldn't get your location. &nbsp;&nbsp; Please check your browser settings and try again.
+        div.small-12.columns
+          button.button.errorMessage.hidden.expanded(type="button" :class="{show: noGeolocation || geoLocationError}") Bummer! &nbsp;&nbsp; I couldn't get your location. &nbsp;&nbsp; Please check your browser settings and try again or search by zip code.
       div.row
         form#searchbar-fields.text-center.expanded(action="/" method="POST")
             include ./_searchbar-zipcode.pug
             include ./_searchbar-distance.pug
             include ./_searchbar-activity.pug
             div.large-2.columns
-              input.button.expanded(type="submit" value="search")
+              input.button.expanded(type="submit" value="search" @click="locationObtained($event)")

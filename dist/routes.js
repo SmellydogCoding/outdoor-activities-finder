@@ -80,8 +80,15 @@ MongoClient.connect(dbConnectionString, (error,db) => {
           }
         } else {
           // if user uses the location api of their browser, bypass the Google Geolocation api call
-          let coords = { lat: req.body.userLattitude, lng: req.body.userLongitude }
-          resolve(coords);
+          // make sure that location data was submitted
+          if (req.body.userLattitude !== "" && req.body.userLongitude !== "") {
+            let coords = { lat: req.body.userLattitude, lng: req.body.userLongitude }
+            resolve(coords);
+          } else {
+            errorFields.push("location")
+            errorMessages.push("Sorry, I didn't receive your location data, please try using your location again or search by zipcode.");
+            resolve();
+          }
         }
       });
     }
@@ -319,7 +326,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
   });
   
   router.get('/login', (req,res) => {
-    res.render('login', {title: 'login', referer: req.headers.referer});
+    res.render('login', {title: 'login', referer: req.headers.referer, currentUser: req.session.username});
   });
 
   router.post('/login', (req,res,next) => {
@@ -373,7 +380,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
   });
 
   router.get('/signup', (req,res) => {
-    res.render('signup', {title: 'Sign Up'});
+    res.render('signup', {title: 'Sign Up', currentUser: req.session.username});
   });
 
   router.post('/signup', (req,res,next) => {
@@ -419,7 +426,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
 
     // if validation errors
     if (errorFields[0] !== undefined) {
-      res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages});
+      res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages, currentUser: req.session.username});
     } else { // if no validation errors
       // see if submitted username is already in the database
       users.find({username: req.body.username}).toArray((error,user) => {
@@ -430,7 +437,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
         if (user[0] !== undefined) {
           errorFields.push("username");
           errorMessages.push("That username is already in use");
-          res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages});
+          res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages, currentUser: req.session.username});
         } else {
           // see if submitted email is already in the database
           users.find({email: req.body.email}).toArray((error,user) => {
@@ -441,7 +448,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
             if (user[0] !== undefined) {
               errorFields.push("email");
               errorMessages.push("That email address is already in use");
-              res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages});
+              res.status(400).render('signup', {title: "Sign Up", username, email, errorFields, errorMessages, currentUser: req.session.username});
             } else {
               // hash the users password
               bcrypt.hash(req.body.password, 10, (error, hash) => {
@@ -509,7 +516,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
 
     // if validation errors
     if (errorFields[0] !== undefined) {
-      res.status(400).render('changepassword', {title: "Change Your Password", errorFields, errorMessages});
+      res.status(400).render('changepassword', {title: "Change Your Password", errorFields, errorMessages, currentUser: req.session.username});
     } else { // if no validation errors
       users.find({username: req.session.username}).toArray((error,user) => {
         if (error) {
@@ -524,7 +531,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
           } else if (result === false) {
             errorFields.push("currentPassword");
             errorMessages.push("The password that you entered for your Current Password is not correct.");
-            return res.status(400).render('changepassword', {title: "Change Your Password", errorFields, errorMessages});
+            return res.status(400).render('changepassword', {title: "Change Your Password", errorFields, errorMessages, currentUser: req.session.username});
           } else {
             // hash new password
             bcrypt.hash(req.body.password, 10, (error, hash) => {
@@ -541,7 +548,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
                   } else if (result) {
                     console.log(result);
                     // send success message
-                    res.status(200).render('changepassword', {title: "Change Your Password", successMessage: "Password successfully changed"});
+                    res.status(200).render('changepassword', {title: "Change Your Password", successMessage: "Password successfully changed", currentUser: req.session.username});
                   }
                 });
               }
@@ -589,7 +596,7 @@ MongoClient.connect(dbConnectionString, (error,db) => {
   });
 
   router.get('/about', (req,res) => {
-    res.render('about',{title: "About This Project"});
+    res.render('about',{title: "About This Project", currentUser: req.session.username});
   });
 
   router.get('/admin', mid.loginRequired, (req,res,next) => {

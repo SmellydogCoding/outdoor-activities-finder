@@ -3,7 +3,7 @@ body
   div#app
     include ./partials/_nav.pug
     include ./partials/_searchbar.pug
-    if (!errorFields)
+    if !errorFields
       if places == 'no results'
         div.row
           div.large-12.columns.text-center
@@ -16,4 +16,5 @@ body
             div#map
   include ./partials/_footer.pug
 script(src="js/app.js")
-include ./partials/_places-map.pug
+if !errorFields
+  include ./partials/_places-map.pug
