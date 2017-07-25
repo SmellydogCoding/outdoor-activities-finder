@@ -3,9 +3,10 @@ script.
     let lattitude = parseFloat(#{place.lat});
     let longitude = parseFloat(#{place.lon});
     let name = "#{place.name}";
-    name = name.replace(/ /g, '+');
-    name += ',+' + "#{place.state}";
-    let info = '<h6>#{place.name}</h6><a href="https://www.google.com/maps/place/' + name + '" target="new">Open in Google Maps</a>';
+    let linkName = name.replace(/ /g, '+');
+    name = name.replace(/'/g, '&rsquo;');
+    linkName += ',+' + "#{place.state}";
+    let info = '<h6>' + name + '</h6><a href="https://www.google.com/maps/place/' + linkName + '" target="new">Open in Google Maps</a>';
     let map = new google.maps.Map(document.getElementById('map'), {
       zoom: 11,
       center: {lat: lattitude, lng: longitude}

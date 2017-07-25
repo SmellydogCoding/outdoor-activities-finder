@@ -236,6 +236,13 @@ $primary-blue: #286090;
 
 .activity-icon {
   height: 2.5em;
+  width: 2.5em; // fix passing issue in internet explorer
+}
+
+// fix mountain bike icon not displaying in internet explorer
+.activity-icon-ie {
+  max-height: 2.5em;
+  max-width: 2.5em; 
 }
 
 // Open Weather Widget Classes
