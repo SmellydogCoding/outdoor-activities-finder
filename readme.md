@@ -22,6 +22,9 @@ This project is deployed at: [https://outdoor-activities-locator.herokuapp.com/]
 For any questions or comments send email to [smellydogcoding@gmail.com](mailto:smellydogcoding@gmail.com "email me")  
 For bug reports please go to [https://github.com/SmellydogCoding/outdoor-activities-finder/issues](https://github.com/SmellydogCoding/outdoor-activities-finder/issues "bug reports")
 
+### License
+This project is provided as Free and Open Source Software (FOSS) under the terms of the [MIT License](https://opensource.org/licenses/MIT)
+
 ### How to Contribute to this Project
 
 #### Download this project
